@@ -58,16 +58,22 @@ export default new Vuex.Store({
         state.logueado = true;
         state.token = payload.token;
         state.usuario = payload.user;
+        if (state.usuario)
+          state.usuario.imagen =
+            !payload.perfil || !payload.perfil.imagen
+              ? "https://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
+              : `${URL_IMG}/${payload.perfil.imagen}`;
         state.perfil = payload.perfil;
         state.rol = payload.rol;
       }
     },
     set_usuario(state, payload) {
       state.usuario = payload.perfil;
-      state.usuario.correo = payload.usuario.correo;
-      state.usuario.imagen = !payload.perfil.imagen
-        ? "https://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
-        : `${URL_IMG}/${payload.perfil.imagen}`;
+      if (payload.usuario) state.usuario.correo = payload.usuario.correo;
+      state.usuario.imagen =
+        !payload.perfil.imagen || !payload.perfil
+          ? "https://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
+          : `${URL_IMG}/${payload.perfil.imagen}`;
     },
     set_seguir(state, payload) {
       state.seguir = payload;
@@ -81,12 +87,12 @@ export default new Vuex.Store({
     set_tarjetas(state, payload) {
       state.tarjetas = payload;
     },
-    add_tarjeta(state, payload) {
-      state.tarjetas.push(payload);
+    add_seguidores(state) {
+      state.seguidores.push(state.perfil);
     },
-    remove_tarjeta(state, id) {
-      let index = state.tarjetas.findIndex(index => index._id == id);
-      state.tarjetas.splice(index, 1);
+    remove_seguidores(state, id) {
+      let index = state.seguidores.findIndex(index => index._id == id);
+      state.seguidores.splice(index, 1);
     },
     set_dinero(state, payload) {
       state.dinero = payload;
@@ -104,12 +110,11 @@ export default new Vuex.Store({
   },
   actions: {
     async login_action({ commit }, payload) {
-      console.log(payload);
       const serviceResponse = await loginApi(payload);
       console.log(serviceResponse);
       if (serviceResponse.ok) {
         commit("obtener_usuario", serviceResponse);
-        commit("avatar", serviceResponse);
+        commit("set_usuario", serviceResponse);
         localStorage.setItem("token", serviceResponse.token);
         localStorage.setItem("rol", JSON.stringify(serviceResponse.rol));
         localStorage.setItem("perfil", JSON.stringify(serviceResponse.perfil));
@@ -139,6 +144,7 @@ export default new Vuex.Store({
           token: token
         };
         commit("obtener_usuario", payload);
+        // commit("set_usuario", payload);
       } else {
         commit("obtener_usuario", "");
         router.push({ name: "Login" });
@@ -186,6 +192,11 @@ export default new Vuex.Store({
       console.log(serviceResponse);
       if (serviceResponse) {
         commit("set_seguir", serviceResponse.seguir);
+        if (serviceResponse.seguir) {
+          commit("add_seguidores");
+        } else {
+          commit("remove_seguidores", payload);
+        }
         return serviceResponse;
       } else {
         const params = { text: serviceResponse.message };

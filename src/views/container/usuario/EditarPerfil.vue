@@ -272,23 +272,24 @@ export default {
             const resp = await this.agregarTarjeta(this.tarjeta);
             if (resp) {
               this.$swal({
-                title: "Tarjeta agreada con Éxito!",
-                icon: "success"
+                title: "¡Error al guardar la tarjeta!",
+                icon: "error"
               });
-            } else {
+            
                 this.$swal({
                   title: "¡Error al guardar la tarjeta!",
                   icon: "error"
                 });
-            }
+            
           }
-        });
-      } else {
+        }
+      });
+       } else {
         this.$swal({
-          title: "¡Debe completar los campos!",
-          icon: "error"
-        });
-      }
+         title: "¡Debe completar los campos!",
+         icon: "error"
+       });
+       }
     },
     async removeCard(tarjeta) {
       this.$swal({

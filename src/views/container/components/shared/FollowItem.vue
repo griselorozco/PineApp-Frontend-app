@@ -43,7 +43,7 @@ export default {
     IMG() {
       if (!this.follow.imagen)
         return "https://s3.amazonaws.com/37assets/svn/765-default-avatar.png";
-      else return "http://localhost:3004/public/upload" + this.follow.imagen;
+      else return "http://localhost:3004/public/upload/" + this.follow.imagen;
     },
     isFollowed() {
       let val = false;
