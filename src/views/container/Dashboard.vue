@@ -5,7 +5,7 @@
     tag="section"
   >
     <v-row>
-      <v-col cols="12">
+      <!-- <v-col cols="12">
         <base-material-card
           icon="mdi-earth"
           title="Global Sales by Top Locations"
@@ -50,279 +50,9 @@
             </v-col>
           </v-row>
         </base-material-card>
-      </v-col>
+      </v-col> -->
 
-      <v-col
-        cols="12"
-        lg="4"
-      >
-        <base-material-chart-card
-          :data="emailsSubscriptionChart.data"
-          :options="emailsSubscriptionChart.options"
-          :responsive-options="emailsSubscriptionChart.responsiveOptions"
-          color="primary"
-          hover-reveal
-          type="Bar"
-        >
-          <template v-slot:reveal-actions>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  v-bind="attrs"
-                  color="info"
-                  icon
-                  v-on="on"
-                >
-                  <v-icon
-                    color="info"
-                  >
-                    mdi-refresh
-                  </v-icon>
-                </v-btn>
-              </template>
-
-              <span>Refresh</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  v-bind="attrs"
-                  light
-                  icon
-                  v-on="on"
-                >
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-              </template>
-
-              <span>Change Date</span>
-            </v-tooltip>
-          </template>
-
-          <h4 class="card-title font-weight-light mt-2 ml-2">
-            Website Views
-          </h4>
-
-          <p class="d-inline-flex font-weight-light ml-2 mt-1">
-            Last Campaign Performance
-          </p>
-
-          <template v-slot:actions>
-            <v-icon
-              class="mr-1"
-              small
-            >
-              mdi-clock-outline
-            </v-icon>
-            <span class="caption grey--text font-weight-light">updated 10 minutes ago</span>
-          </template>
-        </base-material-chart-card>
-      </v-col>
-
-      <v-col
-        cols="12"
-        lg="4"
-      >
-        <base-material-chart-card
-          :data="dailySalesChart.data"
-          :options="dailySalesChart.options"
-          color="success"
-          hover-reveal
-          type="Line"
-        >
-          <template v-slot:reveal-actions>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  v-bind="attrs"
-                  color="info"
-                  icon
-                  v-on="on"
-                >
-                  <v-icon
-                    color="info"
-                  >
-                    mdi-refresh
-                  </v-icon>
-                </v-btn>
-              </template>
-
-              <span>Refresh</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  v-bind="attrs"
-                  light
-                  icon
-                  v-on="on"
-                >
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-              </template>
-
-              <span>Change Date</span>
-            </v-tooltip>
-          </template>
-
-          <h4 class="card-title font-weight-light mt-2 ml-2">
-            Daily Sales
-          </h4>
-
-          <p class="d-inline-flex font-weight-light ml-2 mt-1">
-            <v-icon
-              color="green"
-              small
-            >
-              mdi-arrow-up
-            </v-icon>
-            <span class="green--text">55%</span>&nbsp;
-            increase in today's sales
-          </p>
-
-          <template v-slot:actions>
-            <v-icon
-              class="mr-1"
-              small
-            >
-              mdi-clock-outline
-            </v-icon>
-            <span class="caption grey--text font-weight-light">updated 4 minutes ago</span>
-          </template>
-        </base-material-chart-card>
-      </v-col>
-
-      <v-col
-        cols="12"
-        lg="4"
-      >
-        <base-material-chart-card
-          :data="dataCompletedTasksChart.data"
-          :options="dataCompletedTasksChart.options"
-          hover-reveal
-          color="info"
-          type="Line"
-        >
-          <template v-slot:reveal-actions>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  v-bind="attrs"
-                  color="info"
-                  icon
-                  v-on="on"
-                >
-                  <v-icon
-                    color="info"
-                  >
-                    mdi-refresh
-                  </v-icon>
-                </v-btn>
-              </template>
-
-              <span>Refresh</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  v-bind="attrs"
-                  light
-                  icon
-                  v-on="on"
-                >
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-              </template>
-
-              <span>Change Date</span>
-            </v-tooltip>
-          </template>
-
-          <h3 class="card-title font-weight-light mt-2 ml-2">
-            Completed Tasks
-          </h3>
-
-          <p class="d-inline-flex font-weight-light ml-2 mt-1">
-            Last Last Campaign Performance
-          </p>
-
-          <template v-slot:actions>
-            <v-icon
-              class="mr-1"
-              small
-            >
-              mdi-clock-outline
-            </v-icon>
-            <span class="caption grey--text font-weight-light">campaign sent 26 minutes ago</span>
-          </template>
-        </base-material-chart-card>
-      </v-col>
-
-      <v-col
-        cols="12"
-        sm="6"
-        lg="3"
-      >
-        <base-material-stats-card
-          color="info"
-          icon="mdi-twitter"
-          title="Followers"
-          value="+245"
-          sub-icon="mdi-clock"
-          sub-text="Just Updated"
-        />
-      </v-col>
-
-      <v-col
-        cols="12"
-        sm="6"
-        lg="3"
-      >
-        <base-material-stats-card
-          color="primary"
-          icon="mdi-poll"
-          title="Website Visits"
-          value="75.521"
-          sub-icon="mdi-tag"
-          sub-text="Tracked from Google Analytics"
-        />
-      </v-col>
-
-      <v-col
-        cols="12"
-        sm="6"
-        lg="3"
-      >
-        <base-material-stats-card
-          color="success"
-          icon="mdi-store"
-          title="Revenue"
-          value="$ 34,245"
-          sub-icon="mdi-calendar"
-          sub-text="Last 24 Hours"
-        />
-      </v-col>
-
-      <v-col
-        cols="12"
-        sm="6"
-        lg="3"
-      >
-        <base-material-stats-card
-          color="orange"
-          icon="mdi-sofa"
-          title="Bookings"
-          value="184"
-          sub-icon="mdi-alert"
-          sub-icon-color="red"
-          sub-text="Get More Space..."
-        />
-      </v-col>
-
-      <v-col
+      <!--     <v-col
         cols="12"
       >
         <div
@@ -331,7 +61,7 @@
         >
           Manage Listings
         </div>
-      </v-col>
+      </v-col> -->
 
       <v-col
         sm="12"
@@ -352,16 +82,20 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ attrs, on }">
                 <v-btn
-                  class="mx-1"
                   v-bind="attrs"
+                  class="mx-1"
+                  color="primary"
+                  light
                   icon
                   v-on="on"
                 >
-                  <v-icon>mdi-view-split-vertical</v-icon>
+                  <v-icon class="primary--text">
+                    mdi-heart
+                  </v-icon>
                 </v-btn>
               </template>
 
-              <span>View</span>
+              <span>Remove</span>
             </v-tooltip>
 
             <v-tooltip bottom>
@@ -374,8 +108,8 @@
                   icon
                   v-on="on"
                 >
-                  <v-icon class="success--text">
-                    mdi-pencil
+                  <v-icon class="secondary--text">
+                    mdi-chat
                   </v-icon>
                 </v-btn>
               </template>
@@ -386,43 +120,74 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ attrs, on }">
                 <v-btn
-                  v-bind="attrs"
                   class="mx-1"
-                  color="error"
-                  light
+                  v-bind="attrs"
                   icon
                   v-on="on"
                 >
-                  <v-icon class="error--text">
-                    mdi-close
-                  </v-icon>
+                  <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
-
-              <span>Remove</span>
             </v-tooltip>
           </template>
 
           <v-card-title class="justify-center font-weight-light">
-            Cozy 5 Stars Apartment
+            ¿Te gusta la elegancia?
           </v-card-title>
 
           <v-card-text class="body-1 text-center mb-3 font-weight-light grey--text">
-            The place is close to Barceloneta Beach and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the life in Barcelona.
+            Me costo poner esta foto porque expreso mis sentimientos de manera vergonzosa 🤣🤢😢
           </v-card-text>
+          <span class="body-1 text-left mb-3 font-weight-light grey--text">
+            De silviobig96
+          </span>
+
+          <div class="text-right mt-n8">
+            <v-bottom-sheet
+              v-model="sheet"
+              inset
+            >
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  icon
+                  v-on="on"
+                >
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+              <v-sheet
+                class="text-center"
+                height="200px"
+              >
+                <v-btn
+                  class="mt-6"
+                  text
+                  color="error"
+                  @click="sheet = !sheet"
+                >
+                  close
+                </v-btn>
+                <div class="my-3">
+                  This is a bottom sheet using the inset prop
+                </div>
+              </v-sheet>
+            </v-bottom-sheet>
+          </div>
 
           <template v-slot:actions>
-            <div class="display-2 font-weight-light grey--text">
-              $899/night
-            </div>
+            <span class="body-1 text-center mb-3 font-weight-light grey--text">
+              <v-icon color="primary">mdi-heart</v-icon>
+              6000
+            </span>
 
             <v-spacer />
 
-            <span class="caption grey--text font-weight-light">
-              <v-icon small>mdi-map-marker</v-icon>
-
-              Barcelona, Spain
-            </span>
+            <div class="display-1 font-weight-light grey--text">
+              <v-icon color="secondary">
+                mdi-chat
+              </v-icon>
+              2600 Comentarios
+            </div>
           </template>
         </base-material-card>
       </v-col>
@@ -433,102 +198,8 @@
       >
         <base-material-card
           color="transparent"
-          hover-reveal
           image
-        >
-          <template v-slot:image>
-            <v-img
-              src="https://demos.creative-tim.com/vue-material-dashboard-pro/img/card-3.jpg"
-            />
-          </template>
-
-          <template v-slot:reveal-actions>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  class="mx-1"
-                  v-bind="attrs"
-                  icon
-                  v-on="on"
-                >
-                  <v-icon>mdi-view-split-vertical</v-icon>
-                </v-btn>
-              </template>
-
-              <span>View</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  v-bind="attrs"
-                  class="mx-1"
-                  color="success"
-                  light
-                  icon
-                  v-on="on"
-                >
-                  <v-icon class="success--text">
-                    mdi-pencil
-                  </v-icon>
-                </v-btn>
-              </template>
-
-              <span>Edit</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  v-bind="attrs"
-                  class="mx-1"
-                  color="error"
-                  light
-                  icon
-                  v-on="on"
-                >
-                  <v-icon class="error--text">
-                    mdi-close
-                  </v-icon>
-                </v-btn>
-              </template>
-
-              <span>Remove</span>
-            </v-tooltip>
-          </template>
-
-          <v-card-title class="justify-center font-weight-light">
-            Office Studio
-          </v-card-title>
-
-          <v-card-text class="body-1 text-center mb-3 font-weight-light grey--text">
-            The place is close to Metro Station and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the night life in London, UK.
-          </v-card-text>
-
-          <template v-slot:actions>
-            <div class="display-2 font-weight-light grey--text">
-              $1.119/night
-            </div>
-
-            <v-spacer />
-
-            <span class="caption grey--text font-weight-light">
-              <v-icon small>mdi-map-marker</v-icon>
-
-              London, UK
-            </span>
-          </template>
-        </base-material-card>
-      </v-col>
-
-      <v-col
-        sm="12"
-        md="4"
-      >
-        <base-material-card
-          color="transparent"
           hover-reveal
-          image
         >
           <template v-slot:image>
             <v-img
@@ -540,16 +211,20 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ attrs, on }">
                 <v-btn
-                  class="mx-1"
                   v-bind="attrs"
+                  class="mx-1"
+                  color="primary"
+                  light
                   icon
                   v-on="on"
                 >
-                  <v-icon>mdi-view-split-vertical</v-icon>
+                  <v-icon class="primary--text">
+                    mdi-heart
+                  </v-icon>
                 </v-btn>
               </template>
 
-              <span>View</span>
+              <span>Remove</span>
             </v-tooltip>
 
             <v-tooltip bottom>
@@ -562,8 +237,8 @@
                   icon
                   v-on="on"
                 >
-                  <v-icon class="success--text">
-                    mdi-pencil
+                  <v-icon class="secondary--text">
+                    mdi-chat
                   </v-icon>
                 </v-btn>
               </template>
@@ -574,43 +249,137 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ attrs, on }">
                 <v-btn
+                  class="mx-1"
+                  v-bind="attrs"
+                  icon
+                  v-on="on"
+                >
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+
+              <span>View</span>
+            </v-tooltip>
+          </template>
+
+          <v-card-title class="justify-center font-weight-light">
+            Arte como pintura
+          </v-card-title>
+
+          <v-card-text class="body-1 text-center mb-3 font-weight-light grey--text">
+            Realize esta imagen de manera digital les gusta?
+          </v-card-text>
+
+          <template v-slot:actions>
+            <span class="body-1 text-center mb-3 font-weight-light grey--text">
+              <v-icon color="primary">mdi-heart</v-icon>
+              12
+            </span>
+
+            <v-spacer />
+
+            <div class="display-1 font-weight-light grey--text">
+              <v-icon color="secondary">
+                mdi-chat
+              </v-icon>
+              2 Comentarios
+            </div>
+          </template>
+        </base-material-card>
+      </v-col>
+
+      <v-col
+        sm="12"
+        md="4"
+      >
+        <base-material-card
+          color="transparent"
+          image
+          hover-reveal
+        >
+          <template v-slot:image>
+            <v-img
+              src="https://demos.creative-tim.com/vue-material-dashboard-pro/img/card-3.jpg"
+            />
+          </template>
+
+          <template v-slot:reveal-actions>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ attrs, on }">
+                <v-btn
                   v-bind="attrs"
                   class="mx-1"
-                  color="error"
+                  color="primary"
                   light
                   icon
                   v-on="on"
                 >
-                  <v-icon class="error--text">
-                    mdi-close
+                  <v-icon class="primary--text">
+                    mdi-heart
                   </v-icon>
                 </v-btn>
               </template>
 
               <span>Remove</span>
             </v-tooltip>
+
+            <v-tooltip bottom>
+              <template v-slot:activator="{ attrs, on }">
+                <v-btn
+                  v-bind="attrs"
+                  class="mx-1"
+                  color="success"
+                  light
+                  icon
+                  v-on="on"
+                >
+                  <v-icon class="secondary--text">
+                    mdi-chat
+                  </v-icon>
+                </v-btn>
+              </template>
+
+              <span>Edit</span>
+            </v-tooltip>
+
+            <v-tooltip bottom>
+              <template v-slot:activator="{ attrs, on }">
+                <v-btn
+                  class="mx-1"
+                  v-bind="attrs"
+                  icon
+                  v-on="on"
+                >
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+
+              <span>View</span>
+            </v-tooltip>
           </template>
 
           <v-card-title class="justify-center font-weight-light">
-            Beautiful Castle
+            una foto genial!
           </v-card-title>
 
           <v-card-text class="body-1 text-center mb-3 font-weight-light grey--text">
-            The place is close to Metro Station and bus stop just 2 min by walk and near to "Naviglio" where you can enjoy the main night life in Milan.
+            Miren mi orden :3 #Ordenado #Cool #SoyGenial
           </v-card-text>
 
           <template v-slot:actions>
-            <div class="display-2 font-weight-light grey--text">
-              $459/night
-            </div>
+            <span class="body-1 text-center mb-3 font-weight-light grey--text">
+              <v-icon color="primary">mdi-heart</v-icon>
+              250
+            </span>
 
             <v-spacer />
 
-            <span class="caption grey--text font-weight-light">
-              <v-icon small>mdi-map-marker</v-icon>
-
-              Milan, Italy
-            </span>
+            <div class="display-1 font-weight-light grey--text">
+              <v-icon color="secondary">
+                mdi-chat
+              </v-icon>
+              30 Comentarios
+            </div>
           </template>
         </base-material-card>
       </v-col>
@@ -811,6 +580,7 @@
           1: false,
           2: false,
         },
+        sheet: false,
       }
     },
 

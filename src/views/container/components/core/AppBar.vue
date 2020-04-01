@@ -20,50 +20,13 @@
         mdi-dots-vertical
       </v-icon>
     </v-btn>
+    <v-spacer />
+    <v-img
+      src="../../../../assets/logoP.png"
+      max-width="150"
+    />
 
     <v-spacer />
-
-    <v-menu
-      bottom
-      left
-      offset-y
-      origin="top right"
-      transition="scale-transition"
-    >
-      <template v-slot:activator="{ attrs, on }">
-        <v-btn
-          min-width="0"
-          text
-          v-bind="attrs"
-          v-on="on"
-        >
-          <v-badge
-            color="red"
-            overlap
-          >
-            <template v-slot:badge>
-              <span class="caption">5</span>
-            </template>
-
-            <v-icon>mdi-bell</v-icon>
-          </v-badge>
-        </v-btn>
-      </template>
-
-      <v-list
-        :tile="false"
-        nav
-      >
-        <div>
-          <app-bar-item
-            v-for="(n, i) in notifications"
-            :key="`item-${i}`"
-          >
-            <v-list-item-title v-text="n" />
-          </app-bar-item>
-        </div>
-      </v-list>
-    </v-menu>
 
     <v-menu
       bottom
