@@ -16,6 +16,10 @@
             <v-btn color="success" rounded class="mr-0">
               <v-icon>mdi-pencil</v-icon>Edit Profile
             </v-btn>
+
+            <router-link color="secundary" small rounded class="ml-5" to="create_post">
+              <v-icon>mdi-camera</v-icon>
+            </router-link>
           </v-card-text>
         </base-material-card>
       </v-col>

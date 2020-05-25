@@ -4,7 +4,7 @@
       <v-col sm="12" md="4">
         <base-material-card color="transparent" image hover-reveal>
           <template v-slot:image>
-            <v-img :src="post.image" @click.stop="dialog = true" />
+            <v-img :src="post.image" />
           </template>
 
           <template v-slot:reveal-actions>
@@ -16,16 +16,6 @@
               </template>
 
               <span>Remove</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn v-bind="attrs" class="mx-1" color="success" light icon v-on="on">
-                  <v-icon class="primary--text">mdi-pencil</v-icon>
-                </v-btn>
-              </template>
-
-              <span>edit</span>
             </v-tooltip>
 
             <v-tooltip bottom>
@@ -84,24 +74,16 @@
         </base-material-card>
       </v-col>
     </v-row>
-    <v-dialog v-model="dialog" max-width="290">
-      <DialogPost v-bind:post="post" />
-    </v-dialog>
   </v-container>
 </template>
 
 <script>
-import DialogPost from "./DialogPost";
 export default {
   props: ["post"],
-  components: {
-    DialogPost
-  },
   data: () => ({
     menu: false,
-    sheet: null,
-    dialog: false
+    sheet: null
   }),
-  methods: {}
+  mounted() {}
 };
 </script>
