@@ -90,8 +90,9 @@ export default {
       "Another one"
     ],
     profile: [
-      { title: "Perfil", to: "app/pages/user" },
+      { title: "Perfil", to: "/app/pages/user" },
       { title: "Configuracion", to: "x" },
+      { title: "Acerca de", to: "/app/pages/about" },
       { divider: true },
       { title: "Cerrar Sesión", to: "/" }
     ]

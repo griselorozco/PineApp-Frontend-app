@@ -20,6 +20,24 @@
 
             <v-tooltip bottom>
               <template v-slot:activator="{ attrs, on }">
+                <v-btn
+                  v-bind="attrs"
+                  class="mx-1"
+                  :to="{path:'create_post'}"
+                  color="primary"
+                  light
+                  icon
+                  v-on="on"
+                >
+                  <v-icon class="primary--text">mdi-pencil</v-icon>
+                </v-btn>
+              </template>
+
+              <span>edit</span>
+            </v-tooltip>
+
+            <v-tooltip bottom>
+              <template v-slot:activator="{ attrs, on }">
                 <v-btn v-bind="attrs" class="mx-1" color="success" light icon v-on="on">
                   <v-icon class="secondary--text">mdi-chat</v-icon>
                 </v-btn>

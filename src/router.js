@@ -60,6 +60,13 @@ export default new Router({
           path: "pages/create_post",
           component: () => import("@/views/container/pages/CreatePost")
         },
+
+        {
+          name: "About",
+          path: "pages/about",
+          component: () => import("@/views/container/components/shared/About")
+        },
+
         {
           name: "Timeline",
           path: "pages/timeline",
