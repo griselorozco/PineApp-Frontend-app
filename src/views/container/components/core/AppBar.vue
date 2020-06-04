@@ -21,10 +21,14 @@
       </v-icon>
     </v-btn>
     <v-spacer />
-    <v-img
-      src="../../../../assets/logoP.png"
-      max-width="150"
-    />
+    <router-link
+      to="/app"
+    >
+      <v-img
+        src="../../../../assets/logoP.png"
+        max-width="150"
+      />
+    </router-link>
 
     <v-spacer />
 
@@ -119,13 +123,13 @@
       notifications: [
         'Mike John Responded to your email',
         'You have 5 new tasks',
-        `You're now friends with Andrew`,
+        'You\'re now friends with Andrew',
         'Another Notification',
         'Another one',
       ],
       profile: [
-        { title: 'Perfil', to: 'x' },
-        { title: 'Configuracion', to: 'x' },
+        { title: 'Perfil', to: '/app/user' },
+        { title: 'Ajustes', to: '/app/ajustes' },
         { divider: true },
         { title: 'Cerrar Sesión', to: '/' },
       ],

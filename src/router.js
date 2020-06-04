@@ -19,6 +19,17 @@ export default new Router({
       ],
     },
     {
+      path: '/coments',
+      component: () => import('@/views/coments/Index'),
+      children: [
+        {
+          name: 'Comentarios',
+          path: 'comentarios',
+          component: () => import('@/views/coments/Comentarios'),
+        },
+      ],
+    },
+    {
       path: '/pages',
       component: () => import('@/views/pages/Index'),
       children: [
@@ -51,14 +62,38 @@ export default new Router({
           component: () => import('@/views/container/pages/Rtl'),
         },
         {
-          name: 'User Profile',
-          path: 'pages/user',
-          component: () => import('@/views/container/pages/UserProfile'),
-        },
-        {
           name: 'Timeline',
           path: 'pages/timeline',
           component: () => import('@/views/container/pages/Timeline'),
+        },
+        // Usuario
+        {
+          name: 'User Profile',
+          path: 'user',
+          component: () => import('@/views/container/usuario/UserProfile'),
+        },
+        {
+          name: 'Editar Perfil',
+          path: 'user/edit',
+          component: () => import('@/views/container/usuario/EditarPerfil'),
+        },
+        // Ajustes
+        {
+          name: 'Ajustes',
+          path: 'ajustes',
+          component: () => import('@/views/container/ajustes/Ajustes'),
+        },
+        // Estadisticas
+        {
+          name: 'Estadisticas',
+          path: 'estadisticas',
+          component: () => import('@/views/container/estadisticas/Estadisticas'),
+        },
+        // Estadisticas
+        {
+          name: 'Retirar fondos',
+          path: 'retirarfondos',
+          component: () => import('@/views/container/retirar/RetirarFondos'),
         },
         // Components
         {

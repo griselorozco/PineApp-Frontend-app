@@ -23,6 +23,7 @@
         '/pages/404 error': 'login.jpg',
         '/pages/login': 'login.jpg',
         '/pages/register': 'login.jpg',
+        '/pages/comentarios': 'fondo_blanco.png',
       },
     }),
 

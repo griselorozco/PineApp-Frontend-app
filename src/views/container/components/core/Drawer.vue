@@ -88,26 +88,11 @@
     data: () => ({
       items: [
         {
-          icon: 'mdi-view-dashboard',
-          title: 'Ejemplo de boton',
-          to: '/',
+          icon: 'mdi-home',
+          title: 'Inicio',
+          to: '/app/',
         },
-        {
-          group: '/pages',
-          icon: 'mdi-image',
-          title: 'Ejemplo para ir a otros lados',
-          children: [
-            {
-              title: 'login',
-              to: 'login',
-            },
-            {
-              title: 'register',
-              to: 'pricing',
-            },
-          ],
-        },
-        {
+        /* {
           group: '/app/components',
           icon: 'mdi-view-comfy',
           title: 'ejemplo multiple',
@@ -123,8 +108,8 @@
               ],
             },
           ],
-        },
-        {
+        }, */
+        /* {
           group: '/app/forms',
           icon: 'mdi-clipboard-outline',
           title: 'ejemplos forms (borrar)',
@@ -146,6 +131,26 @@
               to: 'wizard',
             },
           ],
+        }, */
+        {
+          icon: 'mdi-poll',
+          title: 'Estadísticas',
+          to: '/app/estadisticas',
+        },
+        {
+          icon: 'mdi-cash',
+          title: 'Retirar fondos',
+          to: '/app/retirarfondos',
+        },
+        {
+          icon: 'mdi-cog',
+          title: 'Ajustes',
+          to: '/app/ajustes',
+        },
+        {
+          icon: 'mdi-exit-to-app',
+          title: 'Cerrar Sesion',
+          to: '/',
         },
       ],
     }),
@@ -170,7 +175,7 @@
           title: 'Grisel Orozco',
           children: [
             {
-              to: 'x',
+              to: 'app/user',
               title: 'Editar Perfil',
             },
             {

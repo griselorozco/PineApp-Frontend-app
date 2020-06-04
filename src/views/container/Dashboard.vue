@@ -107,6 +107,7 @@
                   light
                   icon
                   v-on="on"
+                  @click="$router.push('/coments/comentarios')"
                 >
                   <v-icon class="secondary--text">
                     mdi-chat
@@ -115,19 +116,6 @@
               </template>
 
               <span>Edit</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  class="mx-1"
-                  v-bind="attrs"
-                  icon
-                  v-on="on"
-                >
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </template>
             </v-tooltip>
           </template>
 
@@ -165,10 +153,25 @@
                   color="error"
                   @click="sheet = !sheet"
                 >
-                  close
+                  Cerrar
                 </v-btn>
                 <div class="my-3">
-                  This is a bottom sheet using the inset prop
+                  <v-list>
+                    <v-list-item
+                      v-for="tile in tiles"
+                      :key="tile.title"
+                      @click="sheet = false"
+                    >
+                      <v-list-item-avatar>
+                        <v-avatar
+                          tile
+                        >
+                          <v-icon>{{ tile.icon }}</v-icon>
+                        </v-avatar>
+                      </v-list-item-avatar>
+                      <v-list-item-title>{{ tile.title }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
                 </div>
               </v-sheet>
             </v-bottom-sheet>
@@ -182,12 +185,16 @@
 
             <v-spacer />
 
-            <div class="display-1 font-weight-light grey--text">
-              <v-icon color="secondary">
-                mdi-chat
-              </v-icon>
-              2600 Comentarios
-            </div>
+            <router-link
+              to="/comentarios"
+            >
+              <div class="display-1 font-weight-light grey--text">
+                <v-icon color="secondary">
+                  mdi-chat
+                </v-icon>
+                2600 Comentarios
+              </div>
+            </router-link>
           </template>
         </base-material-card>
       </v-col>
@@ -393,6 +400,10 @@
 
     data () {
       return {
+        tiles: [
+          { icon: 'mdi-alert-octagon', title: 'Denunciar Post' },
+          { icon: 'mdi-account-minus', title: 'Dejar de seguir' },
+        ],
         countryData: {
           US: 2920,
           DE: 1390,
@@ -597,3 +608,7 @@
     },
   }
 </script>
+
+<style>
+a {  text-decoration: none;}
+</style>
