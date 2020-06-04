@@ -128,16 +128,24 @@
         </base-material-card>
       </v-col>
     </v-row>
+    <v-dialog v-model="dialog" max-width="290">
+      <DialogPost v-bind:post="post" />
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
-  export default {
-    props: ['post'],
-    data: () => ({
-      menu: false,
-      sheet: null,
-    }),
-    mounted () {},
-  }
+import DialogPost from "./DialogPost";
+export default {
+  props: ["post"],
+  components: {
+    DialogPost
+  },
+  data: () => ({
+    menu: false,
+    sheet: null,
+    dialog: false
+  }),
+  methods: {}
+};
 </script>
