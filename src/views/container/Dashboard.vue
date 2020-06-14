@@ -117,6 +117,25 @@
 
               <span>Edit</span>
             </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ attrs, on }">
+                <v-btn
+                  v-bind="attrs"
+                  class="mx-1"
+                  color="primary"
+                  light
+                  icon
+                  v-on="on"
+                  @click="$router.push('/app/pages/create_post')"
+                >
+                  <v-icon class="primary--text">
+                    mdi-pencil
+                  </v-icon>
+                </v-btn>
+              </template>
+
+              <span>edit</span>
+            </v-tooltip>
           </template>
 
           <v-card-title class="justify-center font-weight-light">
@@ -127,7 +146,7 @@
             Me costo poner esta foto porque expreso mis sentimientos de manera vergonzosa 🤣🤢😢
           </v-card-text>
           <span class="body-1 text-left mb-3 font-weight-light grey--text">
-            De silviobig96
+            De griselorozco
           </span>
 
           <div class="text-right mt-n8">
@@ -186,7 +205,7 @@
             <v-spacer />
 
             <router-link
-              to="/comentarios"
+              to="/coments/comentarios"
             >
               <div class="display-1 font-weight-light grey--text">
                 <v-icon color="secondary">
@@ -276,6 +295,57 @@
           <v-card-text class="body-1 text-center mb-3 font-weight-light grey--text">
             Realize esta imagen de manera digital les gusta?
           </v-card-text>
+
+          <span class="body-1 text-left mb-3 font-weight-light grey--text">
+            De michiCrespo96
+          </span>
+
+          <div class="text-right mt-n8">
+            <v-bottom-sheet
+              v-model="sheet"
+              inset
+            >
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  icon
+                  v-on="on"
+                >
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+              <v-sheet
+                class="text-center"
+                height="200px"
+              >
+                <v-btn
+                  class="mt-6"
+                  text
+                  color="error"
+                  @click="sheet = !sheet"
+                >
+                  Cerrar
+                </v-btn>
+                <div class="my-3">
+                  <v-list>
+                    <v-list-item
+                      v-for="tile in tiles"
+                      :key="tile.title"
+                      @click="sheet = false"
+                    >
+                      <v-list-item-avatar>
+                        <v-avatar
+                          tile
+                        >
+                          <v-icon>{{ tile.icon }}</v-icon>
+                        </v-avatar>
+                      </v-list-item-avatar>
+                      <v-list-item-title>{{ tile.title }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </div>
+              </v-sheet>
+            </v-bottom-sheet>
+          </div>
 
           <template v-slot:actions>
             <span class="body-1 text-center mb-3 font-weight-light grey--text">
@@ -373,6 +443,57 @@
             Miren mi orden :3 #Ordenado #Cool #SoyGenial
           </v-card-text>
 
+          <span class="body-1 text-left mb-3 font-weight-light grey--text">
+            De jhon_el_alto
+          </span>
+
+          <div class="text-right mt-n8">
+            <v-bottom-sheet
+              v-model="sheet"
+              inset
+            >
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  icon
+                  v-on="on"
+                >
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+              <v-sheet
+                class="text-center"
+                height="200px"
+              >
+                <v-btn
+                  class="mt-6"
+                  text
+                  color="error"
+                  @click="sheet = !sheet"
+                >
+                  Cerrar
+                </v-btn>
+                <div class="my-3">
+                  <v-list>
+                    <v-list-item
+                      v-for="tile in tiles"
+                      :key="tile.title"
+                      @click="sheet = false"
+                    >
+                      <v-list-item-avatar>
+                        <v-avatar
+                          tile
+                        >
+                          <v-icon>{{ tile.icon }}</v-icon>
+                        </v-avatar>
+                      </v-list-item-avatar>
+                      <v-list-item-title>{{ tile.title }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </div>
+              </v-sheet>
+            </v-bottom-sheet>
+          </div>
+
           <template v-slot:actions>
             <span class="body-1 text-center mb-3 font-weight-light grey--text">
               <v-icon color="primary">mdi-heart</v-icon>
@@ -390,6 +511,20 @@
           </template>
         </base-material-card>
       </v-col>
+      <v-fab-transition>
+        <v-btn
+          fab
+          dark
+          fixed
+          color="secondary"
+          bottom
+          right
+          large
+          @click="crearPublicacion()"
+        >
+          <v-icon>mdi-camera</v-icon>
+        </v-btn>
+      </v-fab-transition>
     </v-row>
   </v-container>
 </template>
@@ -404,206 +539,18 @@
           { icon: 'mdi-alert-octagon', title: 'Denunciar Post' },
           { icon: 'mdi-account-minus', title: 'Dejar de seguir' },
         ],
-        countryData: {
-          US: 2920,
-          DE: 1390,
-          AU: 760,
-          GB: 690,
-          RO: 600,
-          BR: 550,
-        },
-        dailySalesChart: {
-          data: {
-            labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-            series: [
-              [12, 17, 7, 17, 23, 18, 38],
-            ],
-          },
-          options: {
-            lineSmooth: this.$chartist.Interpolation.cardinal({
-              tension: 0,
-            }),
-            low: 0,
-            high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-            chartPadding: {
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0,
-            },
-          },
-        },
-        dataCompletedTasksChart: {
-          data: {
-            labels: ['12am', '3pm', '6pm', '9pm', '12pm', '3am', '6am', '9am'],
-            series: [
-              [230, 750, 450, 300, 280, 240, 200, 190],
-            ],
-          },
-          options: {
-            lineSmooth: this.$chartist.Interpolation.cardinal({
-              tension: 0,
-            }),
-            low: 0,
-            high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-            chartPadding: {
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0,
-            },
-          },
-        },
-        emailsSubscriptionChart: {
-          data: {
-            labels: ['Ja', 'Fe', 'Ma', 'Ap', 'Mai', 'Ju', 'Jul', 'Au', 'Se', 'Oc', 'No', 'De'],
-            series: [
-              [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
-
-            ],
-          },
-          options: {
-            axisX: {
-              showGrid: false,
-            },
-            low: 0,
-            high: 1000,
-            chartPadding: {
-              top: 0,
-              right: 5,
-              bottom: 0,
-              left: 0,
-            },
-          },
-          responsiveOptions: [
-            ['screen and (max-width: 640px)', {
-              seriesBarDistance: 5,
-              axisX: {
-                labelInterpolationFnc: function (value) {
-                  return value[0]
-                },
-              },
-            }],
-          ],
-        },
-        headers: [
-          {
-            sortable: false,
-            text: 'ID',
-            value: 'id',
-          },
-          {
-            sortable: false,
-            text: 'Name',
-            value: 'name',
-          },
-          {
-            sortable: false,
-            text: 'Salary',
-            value: 'salary',
-            align: 'right',
-          },
-          {
-            sortable: false,
-            text: 'Country',
-            value: 'country',
-            align: 'right',
-          },
-          {
-            sortable: false,
-            text: 'City',
-            value: 'city',
-            align: 'right',
-          },
-        ],
-        items: [
-          {
-            id: 1,
-            name: 'Dakota Rice',
-            country: 'Niger',
-            city: 'Oud-Tunrhout',
-            salary: '$35,738',
-          },
-          {
-            id: 2,
-            name: 'Minerva Hooper',
-            country: 'Curaçao',
-            city: 'Sinaai-Waas',
-            salary: '$23,738',
-          },
-          {
-            id: 3,
-            name: 'Sage Rodriguez',
-            country: 'Netherlands',
-            city: 'Overland Park',
-            salary: '$56,142',
-          },
-          {
-            id: 4,
-            name: 'Philip Chanley',
-            country: 'Korea, South',
-            city: 'Gloucester',
-            salary: '$38,735',
-          },
-          {
-            id: 5,
-            name: 'Doris Greene',
-            country: 'Malawi',
-            city: 'Feldkirchen in Kārnten',
-            salary: '$63,542',
-          },
-        ],
-        sales: [
-          {
-            country: 'USA',
-            flag: 'https://demos.creative-tim.com/vue-material-dashboard-pro/img/flags/US.png',
-            salesInM: 2920,
-          },
-          {
-            country: 'Germany',
-            flag: 'https://demos.creative-tim.com/vue-material-dashboard-pro/img/flags/DE.png',
-            salesInM: 1300,
-          },
-          {
-            country: 'Australia',
-            flag: 'https://demos.creative-tim.com/vue-material-dashboard-pro/img/flags/AU.png',
-            salesInM: 760,
-          },
-          {
-            country: 'United Kingdom',
-            flag: 'https://demos.creative-tim.com/vue-material-dashboard-pro/img/flags/GB.png',
-            salesInM: 690,
-          },
-          {
-            country: 'Romania',
-            flag: 'https://demos.creative-tim.com/vue-material-dashboard-pro/img/flags/RO.png',
-            salesInM: 600,
-          },
-          {
-            country: 'Brasil',
-            flag: 'https://demos.creative-tim.com/vue-material-dashboard-pro/img/flags/BR.png',
-            salesInM: 550,
-          },
-        ],
-        tabs: 0,
-        list: {
-          0: false,
-          1: false,
-          2: false,
-        },
         sheet: false,
       }
     },
 
-    computed: {
-      totalSales () {
-        return this.sales.reduce((acc, val) => acc + val.salesInM, 0)
-      },
-    },
-
     methods: {
-      complete (index) {
-        this.list[index] = !this.list[index]
+      crearPublicacion () {
+        this.$router.push({
+          name: 'Create Post',
+          params: {
+            opcion: 1, // opcion 1 para crear
+          },
+        })
       },
     },
   }

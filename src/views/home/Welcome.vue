@@ -100,17 +100,17 @@
         {
           icon: 'mdi-camera',
           title: 'Comparte Fotos',
-          text: 'Postea tus increibles ideas y transformalas en algo genial',
+          text: 'Postea tus increíbles ideas y transfórmalas en algo genial',
         },
         {
           icon: 'mdi-account-heart',
           title: 'Mira Lo Que Otros Usuarios Comparten',
-          text: 'Ve lo que los demas usuarios postean y reacciona a ello',
+          text: 'Ve lo que los demás usuarios postean y reacciona a ello',
         },
         {
           icon: 'mdi-cash-usd',
           title: 'Gana dinero',
-          text: 'Si a las personas les gusta lo que posteas, ¡ganaras dinero!',
+          text: 'Si a las personas les gusta lo que posteas, ¡ganarás dinero!',
         },
       ],
     }),

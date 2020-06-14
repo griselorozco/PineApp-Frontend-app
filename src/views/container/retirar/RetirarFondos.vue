@@ -71,10 +71,10 @@
 
     }),
     methods: {
-      procesarPago: function (item) {
+      procesarPago: function () {
         this.$swal({
           title: '¿Estás seguro que quieres procesar tu pago?',
-          text: 'Esta acción no tiene vuelta atras',
+          text: 'Esta acción no tiene vuelta atrás',
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
@@ -84,7 +84,7 @@
           if (result.value) {
             this.$swal(
               '¡Pago procesado con Éxito!',
-              'El pago llegara a su cuenta dentro las proximas 48 horas',
+              'El pago llegará a su cuenta dentro las próximas 48 horas',
               'success',
             )
           }

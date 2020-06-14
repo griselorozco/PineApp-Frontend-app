@@ -16,16 +16,6 @@
           <v-list-item-group
             color="#1DE9B6s"
           >
-            <v-list-item :to="{name: 'Editar Perfil'}">
-              <v-list-item-icon>
-                <v-icon>
-                  mdi-pencil
-                </v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title> Editar perfil</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
             <v-list-item
               v-for="(item, i) in items"
               :key="i"
@@ -74,8 +64,8 @@
   export default {
     data: () => ({
       items: [
-        // { title: "Editar perfil", icon: "create", name: "Ver_perfil" },
-        { title: 'Acerca de', icon: 'mdi-alert', name: 'Acerca de' },
+        { title: 'Preguntas frecuentes', icon: 'mdi-help-circle', name: '/app/pages/faqs' },
+        { title: 'Acerca de', icon: 'mdi-alert', name: '/app/pages/about' },
       ],
     }),
   }

@@ -61,6 +61,25 @@ export default new Router({
           path: 'pages/rtl',
           component: () => import('@/views/container/pages/Rtl'),
         },
+        // Crear post
+        {
+          name: 'Create Post',
+          path: 'pages/create_post',
+          component: () => import('@/views/container/pages/CreatePost'),
+        },
+        // Acerca de
+        {
+          name: 'About',
+          path: 'pages/about',
+          component: () => import('@/views/container/components/shared/About'),
+        },
+        // FAQs
+        {
+          name: 'Faqs',
+          path: 'pages/faqs',
+          component: () => import('@/views/container/faqs/Faqs'),
+        },
+
         {
           name: 'Timeline',
           path: 'pages/timeline',

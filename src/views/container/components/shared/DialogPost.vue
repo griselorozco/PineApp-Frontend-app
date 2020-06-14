@@ -11,10 +11,7 @@
           hover-reveal
         >
           <template v-slot:image>
-            <v-img
-              :src="post.image"
-              @click.stop="dialog = true"
-            />
+            <v-img :src="post.image" />
           </template>
 
           <template v-slot:reveal-actions>
@@ -42,6 +39,26 @@
                 <v-btn
                   v-bind="attrs"
                   class="mx-1"
+                  :to="{path:'create_post'}"
+                  color="primary"
+                  light
+                  icon
+                  v-on="on"
+                >
+                  <v-icon class="primary--text">
+                    mdi-pencil
+                  </v-icon>
+                </v-btn>
+              </template>
+
+              <span>edit</span>
+            </v-tooltip>
+
+            <v-tooltip bottom>
+              <template v-slot:activator="{ attrs, on }">
+                <v-btn
+                  v-bind="attrs"
+                  class="mx-1"
                   color="success"
                   light
                   icon
@@ -59,20 +76,14 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ attrs, on }">
                 <v-btn
-                  v-bind="attrs"
                   class="mx-1"
-                  color="primary"
-                  light
+                  v-bind="attrs"
                   icon
                   v-on="on"
                 >
-                  <v-icon class="primary--text">
-                    mdi-pencil
-                  </v-icon>
+                  <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
-
-              <span>edit</span>
             </v-tooltip>
           </template>
 
@@ -110,25 +121,10 @@
                   color="error"
                   @click="sheet = !sheet"
                 >
-                  Cerrar
+                  close
                 </v-btn>
                 <div class="my-3">
-                  <v-list>
-                    <v-list-item
-                      v-for="tile in tiles"
-                      :key="tile.title"
-                      @click="sheet = false"
-                    >
-                      <v-list-item-avatar>
-                        <v-avatar
-                          tile
-                        >
-                          <v-icon>{{ tile.icon }}</v-icon>
-                        </v-avatar>
-                      </v-list-item-avatar>
-                      <v-list-item-title>{{ tile.title }}</v-list-item-title>
-                    </v-list-item>
-                  </v-list>
+                  This is a bottom sheet using the inset prop
                 </div>
               </v-sheet>
             </v-bottom-sheet>
@@ -157,17 +153,11 @@
 
 <script>
   export default {
-    // eslint-disable-next-line vue/require-prop-types
     props: ['post'],
     data: () => ({
-      tiles: [
-        { icon: 'mdi-alert-octagon', title: 'Denunciar Post' },
-        { icon: 'mdi-account-minus', title: 'Dejar de seguir' },
-      ],
       menu: false,
       sheet: null,
-      dialog: false,
     }),
-    methods: {},
+    mounted () {},
   }
 </script>

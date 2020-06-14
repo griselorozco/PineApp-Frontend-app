@@ -38,6 +38,34 @@
           </v-card-text>
         </base-material-card>
       </v-col>
+      <v-col
+        cols="12"
+        md="8"
+        class="mt-n12"
+      >
+        <v-card>
+          <v-card-text class="text-center">
+            <h4 class="display-2 font-weight-light mb-3 black--text">
+              Nivel de la cuenta
+            </h4>
+            <p
+              class="font-weight-light grey--text"
+            >
+              1
+            </p>
+
+            <h4 class="display-1 font-weight-light mb-3 black--text">
+              Saldo de la cuenta
+            </h4>
+
+            <p
+              class="font-weight-light grey--text"
+            >
+              234 $
+            </p>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
     <v-tabs
       v-model="tab"

@@ -77,7 +77,7 @@
 </template>
 
 <script>
-  // Components
+// Components
   import { VHover, VListItem } from 'vuetify/lib'
 
   // Utilities
@@ -92,19 +92,23 @@
           return h(VHover, {
             scopedSlots: {
               default: ({ hover }) => {
-                return h(VListItem, {
-                  attrs: this.$attrs,
-                  class: {
-                    'black--text': !hover,
-                    'white--text secondary elevation-12': hover,
+                return h(
+                  VListItem,
+                  {
+                    attrs: this.$attrs,
+                    class: {
+                      'black--text': !hover,
+                      'white--text secondary elevation-12': hover,
+                    },
+                    props: {
+                      activeClass: '',
+                      dark: hover,
+                      link: true,
+                      ...this.$attrs,
+                    },
                   },
-                  props: {
-                    activeClass: '',
-                    dark: hover,
-                    link: true,
-                    ...this.$attrs,
-                  },
-                }, this.$slots.default)
+                  this.$slots.default
+                )
               },
             },
           })
@@ -130,6 +134,8 @@
       profile: [
         { title: 'Perfil', to: '/app/user' },
         { title: 'Ajustes', to: '/app/ajustes' },
+        { divider: true },
+        { title: 'Saldo: 235 $' },
         { divider: true },
         { title: 'Cerrar Sesión', to: '/' },
       ],
