@@ -11,7 +11,10 @@
           hover-reveal
         >
           <template v-slot:image>
-            <v-img :src="post.image" />
+            <v-img
+              :src="post.image"
+              @click.stop="dialog = true"
+            />
           </template>
 
           <template v-slot:reveal-actions>
@@ -56,14 +59,20 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ attrs, on }">
                 <v-btn
-                  class="mx-1"
                   v-bind="attrs"
+                  class="mx-1"
+                  color="primary"
+                  light
                   icon
                   v-on="on"
                 >
-                  <v-icon>mdi-dots-vertical</v-icon>
+                  <v-icon class="primary--text">
+                    mdi-pencil
+                  </v-icon>
                 </v-btn>
               </template>
+
+              <span>edit</span>
             </v-tooltip>
           </template>
 
@@ -101,10 +110,25 @@
                   color="error"
                   @click="sheet = !sheet"
                 >
-                  close
+                  Cerrar
                 </v-btn>
                 <div class="my-3">
-                  This is a bottom sheet using the inset prop
+                  <v-list>
+                    <v-list-item
+                      v-for="tile in tiles"
+                      :key="tile.title"
+                      @click="sheet = false"
+                    >
+                      <v-list-item-avatar>
+                        <v-avatar
+                          tile
+                        >
+                          <v-icon>{{ tile.icon }}</v-icon>
+                        </v-avatar>
+                      </v-list-item-avatar>
+                      <v-list-item-title>{{ tile.title }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
                 </div>
               </v-sheet>
             </v-bottom-sheet>
@@ -128,24 +152,22 @@
         </base-material-card>
       </v-col>
     </v-row>
-    <v-dialog v-model="dialog" max-width="290">
-      <DialogPost v-bind:post="post" />
-    </v-dialog>
   </v-container>
 </template>
 
 <script>
-import DialogPost from "./DialogPost";
-export default {
-  props: ["post"],
-  components: {
-    DialogPost
-  },
-  data: () => ({
-    menu: false,
-    sheet: null,
-    dialog: false
-  }),
-  methods: {}
-};
+  export default {
+    // eslint-disable-next-line vue/require-prop-types
+    props: ['post'],
+    data: () => ({
+      tiles: [
+        { icon: 'mdi-alert-octagon', title: 'Denunciar Post' },
+        { icon: 'mdi-account-minus', title: 'Dejar de seguir' },
+      ],
+      menu: false,
+      sheet: null,
+      dialog: false,
+    }),
+    methods: {},
+  }
 </script>

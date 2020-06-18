@@ -21,6 +21,8 @@ import './plugins/vee-validate'
 import './plugins/vue-world-map'
 import vuetify from './plugins/vuetify'
 import i18n from './i18n'
+import VueLoading from 'vuejs-loading-plugin'
+import VAvatarUploader from 'vuetify-avatar-uploader'
 import '../src/assets/global.scss'
 
 import VueSweetalert2 from 'vue-sweetalert2'
@@ -28,7 +30,13 @@ import VueSweetalert2 from 'vue-sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 
 Vue.config.productionTip = false
+Vue.use(VueLoading)
+Vue.use(VAvatarUploader)
 Vue.use(VueSweetalert2)
+
+console.log(process.env.VUE_APP_API_URL_BACKEND)
+
+export const EventBus = new Vue()
 
 new Vue({
   router,

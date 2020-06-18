@@ -14,7 +14,7 @@
         class="mt-10"
       >
         <base-material-card
-          title="Países con mas me gusta"
+          title="Países con más me gusta"
         >
           <v-simple-table
             class="ml-2"

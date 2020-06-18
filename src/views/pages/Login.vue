@@ -36,11 +36,11 @@
           class="px- py-3"
         >
           <v-form class="mt-5">
-            <v-text-field label="Email Address" />
+            <v-text-field label="Usuario" />
 
             <v-text-field
               type="password"
-              label="Password"
+              label="Contraseña"
               class="pt-0"
             />
           </v-form>

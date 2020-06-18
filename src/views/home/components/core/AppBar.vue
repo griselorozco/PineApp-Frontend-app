@@ -15,7 +15,10 @@
 
         <v-spacer />
 
-        <v-btn @click="$router.push('/pages/login')">
+        <v-btn
+          text
+          @click="$router.push('/pages/login')"
+        >
           <v-icon
             left
             size="20"

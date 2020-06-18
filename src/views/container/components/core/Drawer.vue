@@ -21,8 +21,11 @@
     <v-list-item two-line>
       <v-list-item-content>
         <v-list-item-title class="text-uppercase font-weight-regular display-2">
-          <span class="logo-mini">PA</span>
-          <span class="logo-normal">PineApp</span>
+          <img
+            src="../../../../assets/logoP.png"
+            width="150"
+            max-width="150"
+          >
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
@@ -149,7 +152,7 @@
         },
         {
           icon: 'mdi-exit-to-app',
-          title: 'Cerrar Sesion',
+          title: 'Cerrar Sesión',
           to: '/',
         },
       ],
@@ -176,11 +179,7 @@
           children: [
             {
               to: 'app/user',
-              title: 'Editar Perfil',
-            },
-            {
-              to: 'x',
-              title: 'Configuración',
+              title: 'Perfil',
             },
           ],
         }
