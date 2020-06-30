@@ -5,15 +5,15 @@ import {
 
 } from '../config/apiRoute.js'
 
-export const createUsers = (body) =>
+export const createUser = (body) =>
   apiHttp('POST', `${userSave}`, body)
 
-export const editUsers = (userId, body) =>
+export const editUser = (userId, body) =>
   apiHttp('PUT', `${userSave}/${userId}`, body)
 
 export const getUsers = () =>
   apiHttp('GET', `${userPath}`)
 
-export const loginApi = ({ user, password }) => {
-    return apiHttp('POST', `${loginPath}`, { user, password })
+export const loginApi = (body) => {
+    return apiHttp('POST', `${loginPath}`, body)
   }

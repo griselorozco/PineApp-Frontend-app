@@ -21,11 +21,13 @@
     <v-list-item two-line>
       <v-list-item-content>
         <v-list-item-title class="text-uppercase font-weight-regular display-2">
-          <img
-            src="../../../../assets/logoP.png"
-            width="150"
-            max-width="150"
-          >
+          <p class="logo-normal  text-center">
+            <img
+              src="../../../../assets/logoP.png"
+              width="150"
+              max-width="150"
+            >
+          </p>
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>

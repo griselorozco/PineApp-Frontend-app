@@ -38,6 +38,16 @@ console.log(process.env.VUE_APP_API_URL_BACKEND)
 
 export const EventBus = new Vue()
 
+router.beforeEach(async (to, from, next) => {
+  const rutaProtegida = await to.matched.some(record => record.meta.requiere_auth)
+
+  if (rutaProtegida && store.state.token === '') {
+    next({ name: 'Login' })
+  } else {
+    next()
+  }
+})
+
 new Vue({
   router,
   store,

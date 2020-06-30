@@ -68,7 +68,10 @@
             :key="`item-${i}`"
             :to="p.to"
           >
-            <v-list-item-title v-text="p.title" />
+            <v-list-item-title
+              @click="onHandler(p.value)"
+              v-text="p.title"
+            />
           </app-bar-item>
         </template>
       </v-list>
@@ -81,7 +84,7 @@
   import { VHover, VListItem } from 'vuetify/lib'
 
   // Utilities
-  import { mapState, mapMutations } from 'vuex'
+  import { mapState, mapMutations, mapActions } from 'vuex'
 
   export default {
     name: 'DashboardCoreAppBar',
@@ -137,7 +140,7 @@
         { divider: true },
         { title: 'Saldo: 235 $' },
         { divider: true },
-        { title: 'Cerrar Sesión', to: '/' },
+        { title: 'Cerrar Sesión', value: 'logout' },
       ],
     }),
 
@@ -149,6 +152,48 @@
       ...mapMutations({
         setDrawer: 'SET_DRAWER',
       }),
+      ...mapActions(['logout_action']),
+      onHandler: function (name) {
+        switch (name) {
+          case 'logout':
+            this.logout()
+
+            break
+
+          default:
+            break
+        }
+      },
+      logout: function () {
+        // configurar aqui todo el cierre de session
+        this.$swal({
+          title: '¿Estás seguro de que deseas cerrar sesión?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Confirmar',
+          cancelButtonText: 'Cancelar',
+        }).then(async (result) => {
+          if (result.value) {
+            const resp = this.logout_action()
+            if (resp) {
+              const Toast = this.$swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: false,
+              })
+
+              Toast.fire({
+                icon: 'success',
+                title: '¡Sesión cerrada con éxito!',
+              })
+            }
+          }
+        })
+      },
     },
   }
 </script>
