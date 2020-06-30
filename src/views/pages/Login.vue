@@ -12,7 +12,7 @@
       absolute
       left
       top
-      @click="$router.go(-1)"
+      @click="$router.push('/')"
     >
       <v-icon>mdi-arrow-left</v-icon>
     </v-btn>
@@ -35,13 +35,27 @@
           title="Inicia Sesión"
           class="px- py-3"
         >
-          <v-form class="mt-5">
-            <v-text-field label="Usuario" />
+          <v-form
+            ref="form"
+            v-model="valid"
+            class="mt-5"
+            lazy-validation
+          >
+            <v-text-field
+              v-model="usuario.correo"
+              label="Correo"
+              :rules="[rules2.emailRules]"
+            />
 
             <v-text-field
-              type="password"
+              v-model="usuario.password"
+              :type="show1 ? 'text' : 'password'"
               label="Contraseña"
-              class="pt-0"
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              :rules="[rules.required, rules.min]"
+              counter
+              required
+              @click:append="show1 = !show1"
             />
           </v-form>
 
@@ -49,7 +63,7 @@
             <v-btn
               color="secondary"
               min-width="100"
-              @click="$router.push('/app')"
+              @click="login()"
             >
               Iniciar Sesión
             </v-btn>
@@ -69,10 +83,58 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
   export default {
     name: 'PagesLogin',
 
     data: () => ({
+      valid: false,
+      show1: false,
+      rules: {
+        required: value => !!value || 'Cotraseña requerida',
+        min: v => (v || '').length >= 8 || 'Min 8 caracteres',
+      },
+      rules2: {
+        emailRules: v => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(v) || 'Correo inválido.'
+        },
+      },
+      usuario: {},
     }),
+    methods: {
+      ...mapActions(['login_action']),
+      async login () {
+        if (this.$refs.form.validate()) {
+          const resp = await this.login_action(this.usuario)
+          if (resp.ok) {
+            const Toast = this.$swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 5000,
+              timerProgressBar: false,
+            })
+
+            Toast.fire({
+              icon: 'success',
+              title: 'Sesión iniciada',
+            })
+          } else {
+            this.$swal(
+              '¡ERROR!',
+              resp.mensaje.text,
+              'error',
+            )
+          }
+        } else {
+          this.$swal(
+            '¡ERROR!',
+            'Faltan campos por llenar',
+            'error',
+          )
+        }
+      },
+    },
   }
 </script>

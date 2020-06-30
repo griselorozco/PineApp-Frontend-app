@@ -40,15 +40,15 @@ function buildErrorMessage (error) {
   console.error(error.response)
   const errorResponse = {
     ok: 0,
-    message: {
+    mensaje: {
       code: String,
       text: String,
     },
     data: '',
   }
-  if (typeof error.response === 'undefined') { errorResponse.message.text = i18n.t('message.apiErrorUndefined') } else if (error.response.status === 401) { errorResponse.message.text = i18n.t('message.apiError401') } else if (error.response.status === 404) { errorResponse.message.text = i18n.t('message.apiError404') } else if (error.response.status === 500) { errorResponse.message.text = i18n.t('message.apiError500') } else if (error.response.status === 405 || error.response.status === 406) { errorResponse.message.text = i18n.t('message.apiError405_406') } else errorResponse.message.text = error.response.data.message.text
-  errorResponse.ok = 0
-  errorResponse.message.text = error.response.data.message
+  if (typeof error.response === 'undefined') { errorResponse.mensaje.text = i18n.t('message.apiErrorUndefined') } else if (error.response.status === 401) { errorResponse.mensaje.text = i18n.t('message.apiError401') } else if (error.response.status === 404) { errorResponse.mensaje.text = i18n.t('message.apiError404') } else if (error.response.status === 500) { errorResponse.mensaje.text = i18n.t('message.apiError500') } else if (error.response.status === 405 || error.response.status === 406) { errorResponse.mensaje.text = i18n.t('message.apiError405_406') } else errorResponse.mensaje.text = error.response.data.mensaje.text
+  errorResponse.ok = error.response.data.ok
+  errorResponse.mensaje.text = error.response.data.mensaje
   errorResponse.data = error.response.data
   return errorResponse
 }
