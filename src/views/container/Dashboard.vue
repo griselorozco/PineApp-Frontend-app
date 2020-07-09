@@ -1,9 +1,5 @@
 <template>
-  <v-container
-    id="dashboard"
-    fluid
-    tag="section"
-  >
+  <v-container id="dashboard" fluid tag="section">
     <v-row>
       <!-- <v-col cols="12">
         <base-material-card
@@ -50,7 +46,7 @@
             </v-col>
           </v-row>
         </base-material-card>
-      </v-col> -->
+      </v-col>-->
 
       <!--     <v-col
         cols="12"
@@ -61,41 +57,23 @@
         >
           Manage Listings
         </div>
-      </v-col> -->
+      </v-col>-->
 
-      <v-col
-        sm="12"
-        md="4"
-      >
-        <base-material-card
-          color="transparent"
-          image
-          hover-reveal
-        >
+      <v-col sm="12" md="4" v-for="(publicacion, index) in publicaciones.publicaciones" :key="index" >
+        <base-material-card color="transparent" image hover-reveal>
           <template v-slot:image>
-            <v-img
-              src="https://demos.creative-tim.com/vue-material-dashboard-pro/img/card-2.jpg"
-            />
+            <v-img  v-bind:src="imagenUrl+publicacion.imagen"> </v-img>
           </template>
 
           <template v-slot:reveal-actions>
             <v-tooltip bottom>
               <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  v-bind="attrs"
-                  class="mx-1"
-                  color="primary"
-                  light
-                  icon
-                  v-on="on"
-                >
-                  <v-icon class="primary--text">
-                    mdi-heart
-                  </v-icon>
+                <v-btn v-bind="attrs" class="mx-1" color="primary" @click.prevent="darLike(publicacion._id)" light icon v-on="on">
+                  <v-icon class="primary--text">mdi-heart</v-icon>
                 </v-btn>
               </template>
 
-              <span>Remove</span>
+              <span>Me gusta</span>
             </v-tooltip>
 
             <v-tooltip bottom>
@@ -107,15 +85,13 @@
                   light
                   icon
                   v-on="on"
-                  @click="$router.push('/coments/comentarios')"
+                  @click="$router.push('/coments/comentarios/'+publicacion._id)"
                 >
-                  <v-icon class="secondary--text">
-                    mdi-chat
-                  </v-icon>
+                  <v-icon class="secondary--text">mdi-chat</v-icon>
                 </v-btn>
               </template>
 
-              <span>Edit</span>
+              <span>Comentarios</span>
             </v-tooltip>
             <v-tooltip bottom>
               <template v-slot:activator="{ attrs, on }">
@@ -126,65 +102,37 @@
                   light
                   icon
                   v-on="on"
-                  @click="$router.push('/app/pages/create_post')"
+                  @click="$router.push('/app/pages/create_post/'+publicacion._id)"
                 >
-                  <v-icon class="primary--text">
-                    mdi-pencil
-                  </v-icon>
+                  <v-icon class="primary--text">mdi-pencil</v-icon>
                 </v-btn>
               </template>
 
-              <span>edit</span>
+              <span>Editar</span>
             </v-tooltip>
           </template>
 
-          <v-card-title class="justify-center font-weight-light">
-            ¿Te gusta la elegancia?
-          </v-card-title>
+          <v-card-title class="justify-center font-weight-light">{{publicacion.titulo}}</v-card-title>
 
-          <v-card-text class="body-1 text-center mb-3 font-weight-light grey--text">
-            Me costo poner esta foto porque expreso mis sentimientos de manera vergonzosa 🤣🤢😢
-          </v-card-text>
-          <span class="body-1 text-left mb-3 font-weight-light grey--text">
-            De griselorozco
-          </span>
+          <v-card-text
+            class="body-1 text-center mb-3 font-weight-light grey--text"
+          >{{publicacion.descripcion}}</v-card-text>
+          <span class="body-1 text-left mb-3 font-weight-light grey--text">De {{publicacion.perfil_id.nick}}</span>
 
           <div class="text-right mt-n8">
-            <v-bottom-sheet
-              v-model="sheet"
-              inset
-            >
+            <v-bottom-sheet v-model="sheet" inset>
               <template v-slot:activator="{ on }">
-                <v-btn
-                  icon
-                  v-on="on"
-                >
+                <v-btn icon v-on="on">
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </template>
-              <v-sheet
-                class="text-center"
-                height="200px"
-              >
-                <v-btn
-                  class="mt-6"
-                  text
-                  color="error"
-                  @click="sheet = !sheet"
-                >
-                  Cerrar
-                </v-btn>
+              <v-sheet class="text-center" height="200px">
+                <v-btn class="mt-6" text color="error" @click="sheet = !sheet">Cerrar</v-btn>
                 <div class="my-3">
                   <v-list>
-                    <v-list-item
-                      v-for="tile in tiles"
-                      :key="tile.title"
-                      @click="sheet = false"
-                    >
+                    <v-list-item v-for="tile in tiles" :key="tile.title" @click="sheet = false">
                       <v-list-item-avatar>
-                        <v-avatar
-                          tile
-                        >
+                        <v-avatar tile>
                           <v-icon>{{ tile.icon }}</v-icon>
                         </v-avatar>
                       </v-list-item-avatar>
@@ -198,330 +146,24 @@
 
           <template v-slot:actions>
             <span class="body-1 text-center mb-3 font-weight-light grey--text">
-              <v-icon color="primary">mdi-heart</v-icon>
-              6000
+              <v-icon color="primary">mdi-heart</v-icon>{{publicacion.cantidadLike}}
             </span>
 
             <v-spacer />
 
-            <router-link
-              to="/coments/comentarios"
-            >
+            <router-link :to="'/coments/comentarios/'+publicacion._id">
               <div class="display-1 font-weight-light grey--text">
-                <v-icon color="secondary">
-                  mdi-chat
-                </v-icon>
-                2600 Comentarios
+                <v-icon color="secondary">mdi-chat</v-icon>{{publicacion.comentarios.length}} Comentarios
               </div>
             </router-link>
           </template>
         </base-material-card>
       </v-col>
 
-      <v-col
-        sm="12"
-        md="4"
-      >
-        <base-material-card
-          color="transparent"
-          image
-          hover-reveal
-        >
-          <template v-slot:image>
-            <v-img
-              src="https://demos.creative-tim.com/vue-material-dashboard-pro/img/card-1.jpg"
-            />
-          </template>
-
-          <template v-slot:reveal-actions>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  v-bind="attrs"
-                  class="mx-1"
-                  color="primary"
-                  light
-                  icon
-                  v-on="on"
-                >
-                  <v-icon class="primary--text">
-                    mdi-heart
-                  </v-icon>
-                </v-btn>
-              </template>
-
-              <span>Remove</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  v-bind="attrs"
-                  class="mx-1"
-                  color="success"
-                  light
-                  icon
-                  v-on="on"
-                >
-                  <v-icon class="secondary--text">
-                    mdi-chat
-                  </v-icon>
-                </v-btn>
-              </template>
-
-              <span>Edit</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  class="mx-1"
-                  v-bind="attrs"
-                  icon
-                  v-on="on"
-                >
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </template>
-
-              <span>View</span>
-            </v-tooltip>
-          </template>
-
-          <v-card-title class="justify-center font-weight-light">
-            Arte como pintura
-          </v-card-title>
-
-          <v-card-text class="body-1 text-center mb-3 font-weight-light grey--text">
-            Realize esta imagen de manera digital les gusta?
-          </v-card-text>
-
-          <span class="body-1 text-left mb-3 font-weight-light grey--text">
-            De michiCrespo96
-          </span>
-
-          <div class="text-right mt-n8">
-            <v-bottom-sheet
-              v-model="sheet"
-              inset
-            >
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  icon
-                  v-on="on"
-                >
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </template>
-              <v-sheet
-                class="text-center"
-                height="200px"
-              >
-                <v-btn
-                  class="mt-6"
-                  text
-                  color="error"
-                  @click="sheet = !sheet"
-                >
-                  Cerrar
-                </v-btn>
-                <div class="my-3">
-                  <v-list>
-                    <v-list-item
-                      v-for="tile in tiles"
-                      :key="tile.title"
-                      @click="sheet = false"
-                    >
-                      <v-list-item-avatar>
-                        <v-avatar
-                          tile
-                        >
-                          <v-icon>{{ tile.icon }}</v-icon>
-                        </v-avatar>
-                      </v-list-item-avatar>
-                      <v-list-item-title>{{ tile.title }}</v-list-item-title>
-                    </v-list-item>
-                  </v-list>
-                </div>
-              </v-sheet>
-            </v-bottom-sheet>
-          </div>
-
-          <template v-slot:actions>
-            <span class="body-1 text-center mb-3 font-weight-light grey--text">
-              <v-icon color="primary">mdi-heart</v-icon>
-              12
-            </span>
-
-            <v-spacer />
-
-            <div class="display-1 font-weight-light grey--text">
-              <v-icon color="secondary">
-                mdi-chat
-              </v-icon>
-              2 Comentarios
-            </div>
-          </template>
-        </base-material-card>
-      </v-col>
-
-      <v-col
-        sm="12"
-        md="4"
-      >
-        <base-material-card
-          color="transparent"
-          image
-          hover-reveal
-        >
-          <template v-slot:image>
-            <v-img
-              src="https://demos.creative-tim.com/vue-material-dashboard-pro/img/card-3.jpg"
-            />
-          </template>
-
-          <template v-slot:reveal-actions>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  v-bind="attrs"
-                  class="mx-1"
-                  color="primary"
-                  light
-                  icon
-                  v-on="on"
-                >
-                  <v-icon class="primary--text">
-                    mdi-heart
-                  </v-icon>
-                </v-btn>
-              </template>
-
-              <span>Remove</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  v-bind="attrs"
-                  class="mx-1"
-                  color="success"
-                  light
-                  icon
-                  v-on="on"
-                >
-                  <v-icon class="secondary--text">
-                    mdi-chat
-                  </v-icon>
-                </v-btn>
-              </template>
-
-              <span>Edit</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ attrs, on }">
-                <v-btn
-                  class="mx-1"
-                  v-bind="attrs"
-                  icon
-                  v-on="on"
-                >
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </template>
-
-              <span>View</span>
-            </v-tooltip>
-          </template>
-
-          <v-card-title class="justify-center font-weight-light">
-            una foto genial!
-          </v-card-title>
-
-          <v-card-text class="body-1 text-center mb-3 font-weight-light grey--text">
-            Miren mi orden :3 #Ordenado #Cool #SoyGenial
-          </v-card-text>
-
-          <span class="body-1 text-left mb-3 font-weight-light grey--text">
-            De jhon_el_alto
-          </span>
-
-          <div class="text-right mt-n8">
-            <v-bottom-sheet
-              v-model="sheet"
-              inset
-            >
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  icon
-                  v-on="on"
-                >
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </template>
-              <v-sheet
-                class="text-center"
-                height="200px"
-              >
-                <v-btn
-                  class="mt-6"
-                  text
-                  color="error"
-                  @click="sheet = !sheet"
-                >
-                  Cerrar
-                </v-btn>
-                <div class="my-3">
-                  <v-list>
-                    <v-list-item
-                      v-for="tile in tiles"
-                      :key="tile.title"
-                      @click="sheet = false"
-                    >
-                      <v-list-item-avatar>
-                        <v-avatar
-                          tile
-                        >
-                          <v-icon>{{ tile.icon }}</v-icon>
-                        </v-avatar>
-                      </v-list-item-avatar>
-                      <v-list-item-title>{{ tile.title }}</v-list-item-title>
-                    </v-list-item>
-                  </v-list>
-                </div>
-              </v-sheet>
-            </v-bottom-sheet>
-          </div>
-
-          <template v-slot:actions>
-            <span class="body-1 text-center mb-3 font-weight-light grey--text">
-              <v-icon color="primary">mdi-heart</v-icon>
-              250
-            </span>
-
-            <v-spacer />
-
-            <div class="display-1 font-weight-light grey--text">
-              <v-icon color="secondary">
-                mdi-chat
-              </v-icon>
-              30 Comentarios
-            </div>
-          </template>
-        </base-material-card>
-      </v-col>
+      
+      
       <v-fab-transition>
-        <v-btn
-          fab
-          dark
-          fixed
-          color="secondary"
-          bottom
-          right
-          large
-          @click="crearPublicacion()"
-        >
+        <v-btn fab dark fixed color="secondary" bottom right large @click="crearPublicacion()">
           <v-icon>mdi-camera</v-icon>
         </v-btn>
       </v-fab-transition>
@@ -530,32 +172,96 @@
 </template>
 
 <script>
-  export default {
-    name: 'DashboardDashboard',
+import {getPublicaciones,like } from '@/api/modules'
 
-    data () {
-      return {
-        tiles: [
-          { icon: 'mdi-alert-octagon', title: 'Denunciar Post' },
-          { icon: 'mdi-account-minus', title: 'Dejar de seguir' },
-        ],
-        sheet: false,
-      }
-    },
+export default {
+  name: "DashboardDashboard",
 
-    methods: {
-      crearPublicacion () {
-        this.$router.push({
-          name: 'Create Post',
-          params: {
-            opcion: 1, // opcion 1 para crear
-          },
-        })
+  data() {
+    return {
+      tiles: [
+        { icon: "mdi-alert-octagon", title: "Denunciar Post" },
+        { icon: "mdi-account-minus", title: "Dejar de seguir" }
+      ],
+      sheet: false,
+      publicacion:{
+        ok:false,
+        mensaje:'',
+        publicaciones:[],
+        like:false
       },
+      publicaciones:[],
+      imagenUrl:'http://localhost:3004/public/upload/'
+    };
+  },
+
+  async created() {
+    
+    const serviceResponse = await getPublicaciones()
+    if ( serviceResponse.ok === true) {
+      console.log(serviceResponse)
+      this.publicaciones=serviceResponse
+      const publicacion=this.publicaciones.publicaciones
+      console.log(this.publicaciones)
+
+        }else{
+          console.log(serviceResponse)
+          this.$swal({
+            title: '¡ERROR!',
+            html:  serviceResponse.mensaje.text,
+            icon: 'error',
+          })
+        }
+    
+   
+
+  },
+
+  methods: {
+    crearPublicacion() {
+      this.$router.push({
+        name: "Create Post",
+        params: {
+          opcion: 1 // opcion 1 para crear
+        }
+      });
     },
+
+
+   async darLike(publicacionId){
+  
+      const publicacion = await like(publicacionId)
+      
+        if (publicacion.ok === true) {
+         
+
+          const publi =  this.publicaciones.publicaciones
+          for (let i = 0; i < publi.length; i++) {
+           
+            if(JSON.stringify(publi[i]['_id'])==JSON.stringify(publicacion.publicacion._id)){
+                 publi[i]['cantidadLike']=publicacion.publicacion.cantidadLike
+                 if(publicacion.like==true){
+                   publicacion.publicacion.cantidadLike
+                 }
+            }
+
+          }
+
+        }else{
+          console.log(publicacion)
+          this.$swal({
+            title: '¡ERROR!',
+            html: publicacion.mensaje.text,
+            icon: 'error',
+          })
+        }
+    }
   }
+};
 </script>
 
 <style>
-a {  text-decoration: none;}
+a {
+  text-decoration: none;
+}
 </style>

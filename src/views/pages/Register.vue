@@ -177,7 +177,7 @@
           }).then(async (result) => {
             if (result.value) {
               const serviceResponse = await createUser(this.usuario)
-              if (serviceResponse.ok === true) {
+              if (serviceResponse.ok === true) {  
                 this.$swal(
                   '¡Cuenta creada exitosamente!',
                   'Ahora inicia sesión, ¡Bienvenido a PineApp!',

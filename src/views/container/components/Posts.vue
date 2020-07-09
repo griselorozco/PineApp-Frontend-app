@@ -8,33 +8,16 @@
   </v-container>
 </template>
 <script>
+import {getPublicacionesUser} from '@/api/modules'
   import Post from './shared/Post'
   export default {
     components: {
       Post,
     },
     data: () => ({
-      posts: [
-        {
-          image:
-            'https://demos.creative-tim.com/vue-material-dashboard-pro/img/card-2.jpg',
-          title: '¿Te gusta la elegancia?',
-          description:
-            'Me costo poner esta foto porque expreso mis sentimientos de manera vergonzosa 🤣🤢😢',
-          user: 'De Mike_tyson62',
-          likes: 6000,
-          comments: 2600,
-        },
-        {
-          image:
-            'https://thumbs.dreamstime.com/z/hombre-en-un-yate-hermosa-vista-de-arco-seaward-navegaci%C3%B3n-filas-yates-lujo-el-muelle-del-puerto-deportivo-vacaciones-verano-y-110311869.jpg',
-          title: 'Bendecido y afortunado',
-          description: 'Amo la vida',
-          user: 'De Mike_tyson62',
-          likes: 7000,
-          comments: 10000,
-        },
-      ],
-    }),
+      posts: [],
+    })
+
+
   }
 </script>

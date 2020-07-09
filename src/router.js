@@ -24,7 +24,7 @@ export default new Router({
       children: [
         {
           name: 'Comentarios',
-          path: 'comentarios',
+          path: 'comentarios/:id',
           meta: { requiere_auth: true },
           component: () => import('@/views/coments/Comentarios'),
         },
@@ -67,7 +67,7 @@ export default new Router({
         // Crear post
         {
           name: 'Create Post',
-          path: 'pages/create_post',
+          path: 'pages/create_post/:id',
           meta: { requiere_auth: true },
           component: () => import('@/views/container/pages/CreatePost'),
         },
