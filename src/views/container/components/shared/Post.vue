@@ -11,10 +11,8 @@
           hover-reveal
         >
           <template v-slot:image>
-            <v-img
-              :src="post.image"
-              @click.stop="dialog = true"
-            />
+             <v-img  v-bind:src="imagenUrl+post.imagen"  @click.stop="dialog = true" > </v-img>
+           
           </template>
 
           <template v-slot:reveal-actions>
@@ -25,6 +23,7 @@
                   class="mx-1"
                   color="primary"
                   light
+                  @click.prevent="darLike(post._id)" 
                   icon
                   v-on="on"
                 >
@@ -34,7 +33,7 @@
                 </v-btn>
               </template>
 
-              <span>Remove</span>
+              <span>Me gusta</span>
             </v-tooltip>
 
             <v-tooltip bottom>
@@ -46,6 +45,7 @@
                   light
                   icon
                   v-on="on"
+                  @click="$router.push('/coments/comentarios/'+post._id)"
                 >
                   <v-icon class="secondary--text">
                     mdi-chat
@@ -53,7 +53,7 @@
                 </v-btn>
               </template>
 
-              <span>Edit</span>
+              <span>Comentarios</span>
             </v-tooltip>
 
             <v-tooltip bottom>
@@ -65,6 +65,7 @@
                   light
                   icon
                   v-on="on"
+                    @click="$router.push('/app/pages/create_post/'+post._id)"
                 >
                   <v-icon class="primary--text">
                     mdi-pencil
@@ -72,20 +73,20 @@
                 </v-btn>
               </template>
 
-              <span>edit</span>
+              <span>Editar</span>
             </v-tooltip>
           </template>
 
           <v-card-title class="justify-center font-weight-light">
-            {{ post.title }}
+            {{ post.titulo }}
           </v-card-title>
 
           <v-card-text
             class="body-1 text-center mb-3 font-weight-light grey--text"
           >
-            {{ post.description }}
+            {{ post.descripcion }}
           </v-card-text>
-          <span class="body-1 text-left mb-3 font-weight-light grey--text">{{ post.user }}</span>
+          <span class="body-1 text-left mb-3 font-weight-light grey--text">{{ post.perfil_id.nike }}</span>
 
           <div class="text-right mt-n8">
             <v-bottom-sheet
@@ -137,7 +138,7 @@
           <template v-slot:actions>
             <span class="body-1 text-center mb-3 font-weight-light grey--text">
               <v-icon color="primary">mdi-heart</v-icon>
-              {{ post.likes }}
+              {{ post.cantidadLike}}
             </span>
 
             <v-spacer />
@@ -146,7 +147,7 @@
               <v-icon color="secondary">
                 mdi-chat
               </v-icon>
-              {{ post.comments }}
+              {{ post.comentarios.length }}
             </div>
           </template>
         </base-material-card>
@@ -156,18 +157,51 @@
 </template>
 
 <script>
+import {like } from '@/api/modules'
+import {getPublicacionesUser } from '@/api/modules'
   export default {
     // eslint-disable-next-line vue/require-prop-types
     props: ['post'],
     data: () => ({
+        imagenUrl:'http://localhost:3004/public/upload/',
       tiles: [
         { icon: 'mdi-alert-octagon', title: 'Denunciar Post' },
         { icon: 'mdi-account-minus', title: 'Dejar de seguir' },
       ],
       menu: false,
       sheet: null,
-      dialog: false,
+      dialog: false
     }),
-    methods: {},
+    methods: {
+       async darLike(publicacionId){
+
+     
+  
+      const publicacion = await like(publicacionId)
+      
+        if (publicacion.ok === true) {
+                 const post =this.post
+
+                 post['cantidadLike']=publicacion.publicacion.cantidadLike
+                 
+
+          
+
+        }else{
+          console.log(publicacion)
+          this.$swal({
+            title: '¡ERROR!',
+            html: publicacion.mensaje.text,
+            icon: 'error',
+          })
+        }
+    },
+
+  
+
+  }
+  
+ 
+    
   }
 </script>

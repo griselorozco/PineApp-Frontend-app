@@ -37,6 +37,7 @@
           </v-list-item-content>
 
           <v-btn
+          v-if="perfil._id==item.perfil_id._id"
             icon
             @click.prevent="eliminarComentario(item._id)"
           >
@@ -62,12 +63,14 @@ import {mapState} from "vuex"
     
 
     data: () => ({
-    
+       perfil:'',
       comentarios: [],
       publicacion:''
 
     }),
     async created() {
+        this.perfil= JSON.parse(localStorage.getItem('perfil'))
+
       const  serviceResponse= await getPublicacion(this.$route.params.id)
       if ( serviceResponse.ok === true) {
         this.comentarios=serviceResponse.publicacion.comentarios

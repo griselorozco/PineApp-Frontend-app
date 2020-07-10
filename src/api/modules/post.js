@@ -2,7 +2,7 @@ import { apiHttp } from '../axiosApi.js'
 import {
 
     publicacionSave,mostrarPublicaciones,darLike,obtenerPublicacion,comentar,elimarComentario,editarPublicacion,
-    obtenerPublicaciones
+    obtenerPublicacionesUsuario
 
 } from '../config/apiRoute.js'
 
@@ -19,7 +19,7 @@ export const destroyComentario= (publicacionId,comentarioId) =>
   apiHttp('GET', `${mostrarPublicaciones}`)
   
   export const getPublicacionesUser = () =>
-  apiHttp('GET', `${obtenerPublicaciones}`)
+  apiHttp('GET', `${ obtenerPublicacionesUsuario}`)
 
   export const like = (publicacionId) =>
   apiHttp('PUT', `${darLike}/${publicacionId}`)

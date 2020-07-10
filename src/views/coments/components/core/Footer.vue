@@ -49,13 +49,12 @@ import {realizarComentario} from '@/api/modules'
         
        if ( serviceResponse.ok === true) {
 
-
          this.$router.push('/coments/comentarios/'+this.$route.params.id)
         this.comentario=''
         this.$swal(
           '¡Comentario creado!',
           'success',
-        )  
+        ) 
 
         }else{
           console.log(serviceResponse)

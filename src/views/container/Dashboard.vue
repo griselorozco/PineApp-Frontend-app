@@ -65,6 +65,7 @@
             <v-img  v-bind:src="imagenUrl+publicacion.imagen"> </v-img>
           </template>
 
+              {{user}}
           <template v-slot:reveal-actions>
             <v-tooltip bottom>
               <template v-slot:activator="{ attrs, on }">
@@ -75,7 +76,6 @@
 
               <span>Me gusta</span>
             </v-tooltip>
-
             <v-tooltip bottom>
               <template v-slot:activator="{ attrs, on }">
                 <v-btn
@@ -93,7 +93,7 @@
 
               <span>Comentarios</span>
             </v-tooltip>
-            <v-tooltip bottom>
+            <v-tooltip bottom v-if="perfil._id==publicacion.perfil_id._id">
               <template v-slot:activator="{ attrs, on }">
                 <v-btn
                   v-bind="attrs"
@@ -149,7 +149,7 @@
               <v-icon color="primary">mdi-heart</v-icon>{{publicacion.cantidadLike}}
             </span>
 
-            <v-spacer />
+            <v-spacer/>
 
             <router-link :to="'/coments/comentarios/'+publicacion._id">
               <div class="display-1 font-weight-light grey--text">
@@ -172,13 +172,19 @@
 </template>
 
 <script>
-import {getPublicaciones,like } from '@/api/modules'
 
+import {getPublicaciones,like } from '@/api/modules'
+ import { mapState } from 'vuex'
 export default {
   name: "DashboardDashboard",
+  computed: {
+    
+    ...mapState(['user'])
+  },
 
   data() {
     return {
+      perfil:'',
       tiles: [
         { icon: "mdi-alert-octagon", title: "Denunciar Post" },
         { icon: "mdi-account-minus", title: "Dejar de seguir" }
@@ -196,7 +202,10 @@ export default {
   },
 
   async created() {
+
+    this.perfil = JSON.parse(localStorage.getItem('perfil'))
     
+
     const serviceResponse = await getPublicaciones()
     if ( serviceResponse.ok === true) {
       console.log(serviceResponse)
