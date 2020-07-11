@@ -11,8 +11,10 @@
           hover-reveal
         >
           <template v-slot:image>
-             <v-img  v-bind:src="imagenUrl+post.imagen"  @click.stop="dialog = true" > </v-img>
-           
+            <v-img
+              :src="imagenUrl+post.imagen"
+              @click.stop="dialog = true"
+            />
           </template>
 
           <template v-slot:reveal-actions>
@@ -23,8 +25,8 @@
                   class="mx-1"
                   color="primary"
                   light
-                  @click.prevent="darLike(post._id)" 
                   icon
+                  @click.prevent="darLike(post._id)"
                   v-on="on"
                 >
                   <v-icon class="primary--text">
@@ -65,7 +67,7 @@
                   light
                   icon
                   v-on="on"
-                    @click="$router.push('/app/pages/create_post/'+post._id)"
+                  @click="$router.push('/app/pages/create_post/'+post._id)"
                 >
                   <v-icon class="primary--text">
                     mdi-pencil
@@ -138,7 +140,7 @@
           <template v-slot:actions>
             <span class="body-1 text-center mb-3 font-weight-light grey--text">
               <v-icon color="primary">mdi-heart</v-icon>
-              {{ post.cantidadLike}}
+              {{ post.cantidadLike }}
             </span>
 
             <v-spacer />
@@ -157,37 +159,31 @@
 </template>
 
 <script>
-import {like } from '@/api/modules'
-import {getPublicacionesUser } from '@/api/modules'
+  // eslint-disable-next-line no-unused-vars
+  import { like, getPublicacionesUser } from '@/api/modules'
+
   export default {
     // eslint-disable-next-line vue/require-prop-types
     props: ['post'],
     data: () => ({
-        imagenUrl:'http://localhost:3004/public/upload/',
+      imagenUrl: 'http://localhost:3004/public/upload/',
       tiles: [
         { icon: 'mdi-alert-octagon', title: 'Denunciar Post' },
         { icon: 'mdi-account-minus', title: 'Dejar de seguir' },
       ],
       menu: false,
       sheet: null,
-      dialog: false
+      dialog: false,
     }),
     methods: {
-       async darLike(publicacionId){
+      async darLike (publicacionId) {
+        const publicacion = await like(publicacionId)
 
-     
-  
-      const publicacion = await like(publicacionId)
-      
         if (publicacion.ok === true) {
-                 const post =this.post
+          const post = this.post
 
-                 post['cantidadLike']=publicacion.publicacion.cantidadLike
-                 
-
-          
-
-        }else{
+          post.cantidadLike = publicacion.publicacion.cantidadLike
+        } else {
           console.log(publicacion)
           this.$swal({
             title: '¡ERROR!',
@@ -195,13 +191,9 @@ import {getPublicacionesUser } from '@/api/modules'
             icon: 'error',
           })
         }
+      },
+
     },
 
-  
-
-  }
-  
- 
-    
   }
 </script>

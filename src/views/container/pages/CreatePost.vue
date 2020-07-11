@@ -13,10 +13,10 @@
           class="px-5 py-3"
         >
           <v-form
-         
-            enctype="multipart/form-data"
+
             ref="form"
             v-model="valid"
+            enctype="multipart/form-data"
             lazy-validation
           >
             <v-col
@@ -27,7 +27,7 @@
               <input
                 ref="file"
                 type="file"
-               
+
                 accept="image/*"
                 class="d-none"
                 @change="onChange"
@@ -43,7 +43,7 @@
                 <v-img
                   v-if="image"
                   :src="image"
-                  
+
                   height="100%"
                   width="100%"
                 />
@@ -76,24 +76,24 @@
             />
 
             <v-btn
+              v-if="opcion==1"
               :disabled="!valid"
-              v-if="this.opcion==1"
               color="secondary"
               class="mr-4"
-             type="submit"
+              type="submit"
               small
-                @click.prevent="crearPublicacion()"
+              @click.prevent="crearPublicacion()"
             >
               Cargar
             </v-btn>
             <v-btn
-              :disabled="!valid"
               v-else
+              :disabled="!valid"
               color="secondary"
               class="mr-4"
-             type="submit"
+              type="submit"
               small
-                @click.prevent="actualizarPublicacion()"
+              @click.prevent="actualizarPublicacion()"
             >
               Editar
             </v-btn>
@@ -103,7 +103,6 @@
               class="mr-4"
               small
               @click="reset"
-              
             >
               Limpiar
             </v-btn>
@@ -137,9 +136,8 @@
 </template>
 
 <script>
- import { createPublicacion } from '@/api/modules'
- import { editPublicacion } from '@/api/modules'
- import { updatePublicacion } from '@/api/modules'
+  import { createPublicacion, editPublicacion, updatePublicacion } from '@/api/modules'
+
   export default {
     name: 'PagesPublicacion',
     data: () => ({
@@ -148,17 +146,14 @@
       titulo: '',
       opcion: 0,
       image: null,
-      }),
+    }),
 
     mounted () {
       this.inicializar()
     },
 
- 
-
     methods: {
-     async crearPublicacion(){
-      
+      async crearPublicacion () {
         if (this.$refs.form.validate()) {
           this.$swal({
             title: '¿Estás seguro de que deseas crear esta publicación?',
@@ -172,12 +167,12 @@
           }).then(async (result) => {
             if (result.value) {
               console.log(this.publicacion.image)
-               let formData = new FormData();
-                formData.append('image', this.publicacion.image);
-                formData.append('titulo', this.publicacion.titulo);
-                formData.append('descripcion', this.publicacion.descripcion);
-              const serviceResponse = await  createPublicacion(formData)
-              if (serviceResponse.ok === true) {  
+              const formData = new FormData()
+              formData.append('image', this.publicacion.image)
+              formData.append('titulo', this.publicacion.titulo)
+              formData.append('descripcion', this.publicacion.descripcion)
+              const serviceResponse = await createPublicacion(formData)
+              if (serviceResponse.ok === true) {
                 this.$swal(
                   '¡Publicación creada con éxito!',
                   'success',
@@ -201,7 +196,7 @@
           )
         }
       },
-     async inicializar () {
+      async inicializar () {
         this.opcion = this.$route.params.opcion
         if (this.opcion === 1) {
           this.titulo = 'Crea tu publicación'
@@ -210,44 +205,38 @@
 
           const serviceResponse = await editPublicacion(this.$route.params.id)
 
-            if (serviceResponse.ok === true) {  
+          if (serviceResponse.ok === true) {
             console.log(serviceResponse.publicacion)
 
-          this.publicacion={titulo:serviceResponse.publicacion.titulo,descripcion:serviceResponse.publicacion.descripcion}
-            } else {
-                console.log(serviceResponse)
-                this.$swal({
-                  title: '¡ERROR!',
-                  html: serviceResponse.mensaje.text,
-                  icon: 'error',
-                })
-              }
-
-        }
-      },
-
-      async actualizarPublicacion(){
-
-        
-
-        const serviceResponse= await updatePublicacion(this.$route.params.id,this.publicacion)
-
-         if (serviceResponse.ok === true) {  
-          console.log(serviceResponse.publicacion)
-           this.$swal(
-                  '¡Publicación actualizada con éxito!',
-                  'success',
-                )
-        } else {
+            this.publicacion = { titulo: serviceResponse.publicacion.titulo, descripcion: serviceResponse.publicacion.descripcion }
+          } else {
             console.log(serviceResponse)
             this.$swal({
               title: '¡ERROR!',
               html: serviceResponse.mensaje.text,
               icon: 'error',
             })
+          }
         }
+      },
 
-        
+      async actualizarPublicacion () {
+        const serviceResponse = await updatePublicacion(this.$route.params.id, this.publicacion)
+
+        if (serviceResponse.ok === true) {
+          console.log(serviceResponse.publicacion)
+          this.$swal(
+            '¡Publicación actualizada con éxito!',
+            'success',
+          )
+        } else {
+          console.log(serviceResponse)
+          this.$swal({
+            title: '¡ERROR!',
+            html: serviceResponse.mensaje.text,
+            icon: 'error',
+          })
+        }
       },
 
       onChange (val) {
@@ -256,8 +245,6 @@
         if (!value) return (this.image = null)
         this.publicacion.image = value
         this.image = URL.createObjectURL(value)
-       
-     
       },
       validate () {
         this.$refs.form.validate()
