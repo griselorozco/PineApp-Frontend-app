@@ -1,32 +1,22 @@
 <template>
   <v-container fluid>
     <v-list>
-      <follow-item
-        v-for="(follower, index) in followers"
-        :key="index"
-        :follow="follower"
-      />
+      <follow-item v-for="(follower, index) in perfil.seguidores" :key="index" :follow="follower" />
     </v-list>
   </v-container>
 </template>
 
 <script>
-  import FollowItem from './shared/FollowItem'
-  export default {
-    components: {
-      FollowItem,
-    },
-    data: () => ({
-      followers: [
-        {
-          image:
-            'https://demos.creative-tim.com/vue-material-dashboard/img/marc.aba54d65.jpg',
-          firstname: 'Karla',
-          lastname: 'Perez',
-          username: 'Karlap@gmail.com',
-          followed: false,
-        },
-      ],
-    }),
+import FollowItem from "./shared/FollowItem";
+export default {
+  components: {
+    FollowItem
+  },
+  data: () => ({}),
+  computed: {
+    perfil() {
+      return this.$store.state.perfil;
+    }
   }
+};
 </script>

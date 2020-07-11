@@ -1,78 +1,44 @@
 <template>
-  <v-container
-    id="user-profile"
-    fluid
-    tag="section"
-  >
+  <v-container id="user-profile" fluid tag="section">
     <v-row justify="center">
-      <v-col
-        cols="12"
-        md="8"
-      >
-        <base-material-card
-          class="v-card-profile"
-          avatar="https://demos.creative-tim.com/vue-material-dashboard/img/marc.aba54d65.jpg"
-        >
+      <v-col cols="12" md="8">
+        <base-material-card class="v-card-profile" :avatar="perfil.imagen">
           <v-card-text class="text-center">
-            <h6 class="display-1 mb-1 grey--text">
-              Miembro desde 27/01/2020
-            </h6>
+            <h6 class="display-1 mb-1 grey--text">{{perfil.nick}}</h6>
 
-            <h4 class="display-2 font-weight-light mb-3 black--text">
-              Mike tyson
-            </h4>
-            <p
-              class="font-weight-light grey--text"
-            >
-              Programador en jefe / experto en mercadeo
-            </p>
+            <h4
+              class="display-2 font-weight-light mb-3 black--text"
+            >{{perfil.nombre}} {{perfil.apellido}}</h4>
+            <p class="font-weight-light grey--text">{{ perfil.acerca_de_ti}}</p>
             <v-btn
+              v-if="URL_ID === perfil_id"
               color="success"
               rounded
               class="mr-0"
-              @click="$router.push('/app/user/edit')"
+              @click="$router.push('/app/user/'+perfil_id+'/edit')"
             >
-              <v-icon>mdi-pencil</v-icon>
-              Editar Perfil
+              <v-icon>mdi-pencil</v-icon>Editar Perfil
+            </v-btn>
+            <v-btn v-else color="success" rounded class="mr-0" @click="seguir(perfil._id)">
+              <v-icon>mdi-pencil</v-icon>Seguir
             </v-btn>
           </v-card-text>
         </base-material-card>
       </v-col>
-      <v-col
-        cols="12"
-        md="8"
-        class="mt-n12"
-      >
+      <v-col cols="12" md="8" class="mt-n12">
         <v-card>
           <v-card-text class="text-center">
-            <h4 class="display-2 font-weight-light mb-3 black--text">
-              Nivel de la cuenta
-            </h4>
-            <p
-              class="font-weight-light grey--text"
-            >
-              1
-            </p>
+            <h4 class="display-2 font-weight-light mb-3 black--text">Nivel de la cuenta</h4>
+            <p class="font-weight-light grey--text">1</p>
 
-            <h4 class="display-1 font-weight-light mb-3 black--text">
-              Saldo de la cuenta
-            </h4>
+            <h4 class="display-1 font-weight-light mb-3 black--text">Saldo de la cuenta</h4>
 
-            <p
-              class="font-weight-light grey--text"
-            >
-              234 $
-            </p>
+            <p class="font-weight-light grey--text">234 $</p>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
-    <v-tabs
-      v-model="tab"
-      background-color="white"
-      color="success"
-      centered
-    >
+    <v-tabs v-model="tab" background-color="white" color="success" centered>
       <v-tab
         v-for="item in items"
         :key="item"
@@ -82,10 +48,7 @@
     </v-tabs>
 
     <v-tabs-items v-model="tab">
-      <v-tab-item
-        v-for="component in components"
-        :key="component"
-      >
+      <v-tab-item v-for="component in components" :key="component">
         <component :is="component" />
       </v-tab-item>
     </v-tabs-items>
@@ -93,19 +56,44 @@
 </template>
 
 <script>
-  import Posts from '../components/Posts'
-  import Followers from '../components/Followers'
-  import Followeds from '../components/Followeds'
-  export default {
-    components: {
-      Posts,
-      Followers,
-      Followeds,
+import Posts from "../components/Posts";
+import Followers from "../components/Followers";
+import Followeds from "../components/Followeds";
+import { mapActions, mapGetters } from "vuex";
+
+export default {
+  components: {
+    Posts,
+    Followers,
+    Followeds
+  },
+  data: () => ({
+    tab: null,
+    items: ["Publicaciones", "Seguidores", "Seguidos"],
+    components: ["Posts", "Followers", "Followeds"]
+  }),
+  methods: {
+    ...mapActions(["getUserByIdAction", "seguirPerfil"]),
+    ...mapGetters(["usuarioGetter"]),
+    seguir(id) {
+      console.log(id);
+      const resp = this.seguirPerfil(id);
+      console.log(resp);
+    }
+  },
+  computed: {
+    perfil() {
+      return this.usuarioGetter();
     },
-    data: () => ({
-      tab: null,
-      items: ['Publicaciones', 'Seguidores', 'Seguidos'],
-      components: ['Posts', 'Followers', 'Followeds'],
-    }),
+    URL_ID() {
+      return this.$route.params.id;
+    },
+    perfil_id() {
+      return this.$store.state.perfil._id;
+    }
+  },
+  created() {
+    this.getUserByIdAction(this.$route.params.id);
   }
+};
 </script>
