@@ -7,10 +7,12 @@
           <v-card-text class="text-center">
             <h6 class="display-1 mb-1 grey--text">{{ perfil.nick }}</h6>
 
-            <h4
-              class="display-2 font-weight-light mb-3 black--text"
-            >{{ perfil.nombre }} {{ perfil.apellido }}</h4>
-            <p class="font-weight-light grey--text">{{ perfil.acerca_de_ti }}</p>
+            <h4 class="display-2 font-weight-light mb-3 black--text">
+              {{ perfil.nombre }} {{ perfil.apellido }}
+            </h4>
+            <p class="font-weight-light grey--text">
+              {{ perfil.acerca_de_ti }}
+            </p>
             <v-btn
               v-if="URL_ID === auth._id"
               color="success"
@@ -28,9 +30,7 @@
               @click="onSeguir(perfil._id)"
             >
               <v-icon>
-                {{
-                seguir ? "mdi-account-multiple-plus" : "mdi-account-minus"
-                }}
+                {{ seguir ? "mdi-account-multiple-plus" : "mdi-account-minus" }}
               </v-icon>
               {{ seguir ? " Seguir" : " Dejar de seguir" }}
             </v-btn>
@@ -43,9 +43,11 @@
             <!-- <h4 class="display-2 font-weight-light mb-3 black--text">Nivel de la cuenta</h4>
             <p class="font-weight-light grey--text">1</p>-->
 
-            <h4 class="display-1 font-weight-light mb-3 black--text">Saldo de la cuenta</h4>
+            <h4 class="display-1 font-weight-light mb-3 black--text">
+              Saldo de la cuenta
+            </h4>
 
-            <p class="font-weight-light grey--text">{{dinero}} $</p>
+            <p class="font-weight-light grey--text">{{ dinero }} $</p>
           </v-card-text>
         </v-card>
       </v-col>
@@ -91,10 +93,14 @@ export default {
       "usuarioGetter",
       "perfilGetter",
       "seguirGetter",
-      "dineroGetter"
+      "dineroGetter",
+      "seguidosGetter"
     ]),
     onSeguir(id) {
+      console.log("1", this.seguirGetter());
       const resp = this.seguirPerfil(id);
+      console.log(resp);
+      console.log("2", this.seguirGetter());
     }
   },
   computed: {
@@ -108,6 +114,7 @@ export default {
       return this.perfilGetter();
     },
     seguir() {
+      console.log("c", this.seguirGetter());
       return this.seguirGetter();
     },
     dinero() {

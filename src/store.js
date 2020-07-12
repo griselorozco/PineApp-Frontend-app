@@ -63,7 +63,9 @@ export default new Vuex.Store({
     },
     set_usuario(state, payload) {
       state.usuario = payload.perfil;
-      state.usuario.imagen = `${URL_IMG}/${payload.perfil.imagen}`;
+      state.usuario.imagen = !payload.perfil.imagen
+        ? "https://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
+        : `${URL_IMG}/${payload.perfil.imagen}`;
     },
     set_seguir(state, payload) {
       state.seguir = payload;
@@ -144,7 +146,7 @@ export default new Vuex.Store({
       console.log(serviceResponse);
       if (serviceResponse.ok) {
         commit("set_usuario", serviceResponse);
-        commit("set_seguidos", serviceResponse.perfil.seguidos);
+        commit("set_seguidos", serviceResponse.perfil.siguiendo);
         commit("set_seguidores", serviceResponse.perfil.seguidores);
         commit("set_tarjetas", serviceResponse.perfil.tarjetas);
       } else {
@@ -178,9 +180,9 @@ export default new Vuex.Store({
     },
     async seguirPerfil({ commit }, payload) {
       const serviceResponse = await seguirPerfil(payload);
-      if (serviceResponse) {
-        if (serviceResponse.seguir) commit("set_seguir", true);
-        else commit("set_seguir", false);
+      console.log(serviceResponse);
+      if (serviceResponse.ok) {
+        commit("set_seguir", serviceResponse.seguir);
         return serviceResponse;
       } else {
         const params = { text: serviceResponse.message };
@@ -202,10 +204,12 @@ export default new Vuex.Store({
       }
     },
     async eliminarTarjeta({ commit }, payload) {
+      console.log(payload);
       const serviceResponse = await removeCard(payload);
       console.log(serviceResponse);
       if (serviceResponse.ok) {
-        commit("remove_tarjeta", serviceResponse.tarjeta._id);
+        commit("set_usuario", serviceResponse);
+        commit("set_tarjetas", serviceResponse.perfil.tarjetas);
         return serviceResponse;
       } else {
         const params = { text: serviceResponse.message };

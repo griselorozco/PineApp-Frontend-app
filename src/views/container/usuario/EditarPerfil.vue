@@ -19,7 +19,7 @@
               width="106"
               @click="$refs.file.click()"
             >
-              <v-img :src="perfil.imagen" height="100%" width="100%" />
+              <img :src="perfil.imagen" height="100%" width="100%" />
               <!-- <v-icon v-else class="mx-auto" size="96">mdi-account</v-icon> -->
             </v-card>
 
@@ -162,8 +162,13 @@ export default {
     ]
   }),
   methods: {
-    ...mapActions(["updatePerfil", "updateImagenPerfil", "agregarTarjeta"]),
-    ...mapGetters(["usuarioGetter", "tarjetasGetter", "eliminarTarjeta"]),
+    ...mapActions([
+      "updatePerfil",
+      "updateImagenPerfil",
+      "agregarTarjeta",
+      "eliminarTarjeta"
+    ]),
+    ...mapGetters(["usuarioGetter", "tarjetasGetter"]),
     async onChange(val) {
       this.imagenValue = val.target.files[0];
       console.log(this.imagenValue);
