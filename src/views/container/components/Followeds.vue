@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-list>
       <follow-item
-        v-for="(followed, index) in followeds"
+        v-for="(followed, index) in siguiendo"
         :key="index"
         :follow="followed"
       />
@@ -11,22 +11,20 @@
 </template>
 
 <script>
-  import FollowItem from './shared/FollowItem'
-  export default {
-    components: {
-      FollowItem,
-    },
-    data: () => ({
-      followeds: [
-        {
-          image:
-            'https://demos.creative-tim.com/vue-material-dashboard/img/marc.aba54d65.jpg',
-          firstname: 'Karla',
-          lastname: 'Perez',
-          username: 'Karlap@gmail.com',
-          followed: true,
-        },
-      ],
-    }),
+import FollowItem from "./shared/FollowItem";
+import { mapGetters } from "vuex";
+export default {
+  components: {
+    FollowItem
+  },
+  data: () => ({}),
+  methods: {
+    ...mapGetters(["seguidosGetter"])
+  },
+  computed: {
+    siguiendo() {
+      return this.seguidosGetter();
+    }
   }
+};
 </script>
