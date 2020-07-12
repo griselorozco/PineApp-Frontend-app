@@ -36,7 +36,7 @@
       <v-tab-item :kei="0">
         <v-row>
           <v-col
-            v-for="(publicacion, index) in publicaciones.publicaciones"
+            v-for="(publi, index) in publicaciones.publicaciones"
             :key="index"
             sm="12"
             md="4"
@@ -47,10 +47,8 @@
               hover-reveal
             >
               <template v-slot:image>
-                <v-img :src="imagenUrl+publicacion.imagen" />
+                <v-img :src="imagenUrl+publi.imagen" />
               </template>
-
-              {{ user }}
               <template v-slot:reveal-actions>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ attrs, on }">
@@ -60,7 +58,7 @@
                       color="primary"
                       light
                       icon
-                      @click.prevent="darLike(publicacion._id)"
+                      @click.prevent="darLike(publi._id)"
                       v-on="on"
                     >
                       <v-icon class="primary--text">
@@ -80,7 +78,7 @@
                       light
                       icon
                       v-on="on"
-                      @click="$router.push('/coments/comentarios/'+publicacion._id)"
+                      @click="$router.push('/coments/comentarios/'+publi._id)"
                     >
                       <v-icon class="secondary--text">
                         mdi-chat
@@ -91,7 +89,7 @@
                   <span>Comentarios</span>
                 </v-tooltip>
                 <v-tooltip
-                  v-if="perfil._id==publicacion.perfil_id._id"
+                  v-if="perfil._id === publi.perfil_id._id"
                   bottom
                 >
                   <template v-slot:activator="{ attrs, on }">
@@ -102,7 +100,7 @@
                       light
                       icon
                       v-on="on"
-                      @click="$router.push('/app/pages/create_post/'+publicacion._id)"
+                      @click="$router.push('/app/pages/create_post/'+publi._id)"
                     >
                       <v-icon class="primary--text">
                         mdi-pencil
@@ -115,73 +113,59 @@
               </template>
 
               <v-card-title class="justify-center font-weight-light">
-                {{ publicacion.titulo }}
+                {{ publi.titulo }}
               </v-card-title>
 
               <v-card-text
                 class="body-1 text-center mb-3 font-weight-light grey--text"
               >
-                {{ publicacion.descripcion }}
+                {{ publi.descripcion }}
               </v-card-text>
-              <span class="body-1 text-left mb-3 font-weight-light grey--text">De {{ publicacion.perfil_id.nick }}</span>
+              <span class="body-1 text-left mb-3 font-weight-light grey--text">De {{ publi.perfil_id.nick }}</span>
 
-              <div class="text-right mt-n8">
-                <v-bottom-sheet
-                  v-model="sheet"
-                  inset
+              <div
+                v-if="perfil._id !== publi.perfil_id._id"
+                class="text-right mt-n8"
+              >
+                <v-btn
+                  class="mt-n3"
+                  color="primary"
+                  large
+                  icon
+                  fab
+                  @click.prevent="seguirPerfil(publi.perfil_id._id)"
                 >
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      icon
-                      v-on="on"
-                    >
-                      <v-icon>mdi-dots-vertical</v-icon>
-                    </v-btn>
-                  </template>
-                  <v-sheet
-                    class="text-center"
-                    height="200px"
-                  >
-                    <v-btn
-                      class="mt-6"
-                      text
-                      color="error"
-                      @click="sheet = !sheet"
-                    >
-                      Cerrar
-                    </v-btn>
-                    <div class="my-3">
-                      <v-list>
-                        <v-list-item
-                          v-for="tile in tiles"
-                          :key="tile.title"
-                          @click="sheet = false"
-                        >
-                          <v-list-item-avatar>
-                            <v-avatar tile>
-                              <v-icon>{{ tile.icon }}</v-icon>
-                            </v-avatar>
-                          </v-list-item-avatar>
-                          <v-list-item-title>{{ tile.title }}</v-list-item-title>
-                        </v-list-item>
-                      </v-list>
-                    </div>
-                  </v-sheet>
-                </v-bottom-sheet>
+                  <v-icon>mdi-account-plus</v-icon>
+                </v-btn>
+              </div>
+              <div
+                v-else
+                class="text-right mt-n8"
+              >
+                <v-btn
+                  class="mt-n3"
+                  color="primary"
+                  large
+                  icon
+                  fab
+                  @click.prevent="dejarSeguirPerfil(publi.perfil_id._id)"
+                >
+                  <v-icon>mdi-account-minus</v-icon>
+                </v-btn>
               </div>
 
               <template v-slot:actions>
                 <span class="body-1 text-center mb-3 font-weight-light grey--text">
-                  <v-icon color="primary">mdi-heart</v-icon>{{ publicacion.cantidadLike }}
+                  <v-icon color="primary">mdi-heart</v-icon>{{ publi.cantidadLike }}
                 </span>
 
                 <v-spacer />
 
-                <router-link :to="'/coments/comentarios/'+publicacion._id">
+                <router-link :to="'/coments/comentarios/'+publi._id">
                   <div class="display-1 font-weight-light grey--text">
                     <v-icon color="secondary">
                       mdi-chat
-                    </v-icon>{{ publicacion.comentarios.length }} Comentarios
+                    </v-icon>{{ publi.comentarios.length }} Comentarios
                   </div>
                 </router-link>
               </template>
@@ -204,8 +188,145 @@
           </v-fab-transition>
         </v-row>
       </v-tab-item>
+      <!-- publicaciones de seguidores -->
       <v-tab-item :kei="1">
-        <p>hola</p>
+        <v-row>
+          <v-col
+            v-for="(publi, index) in publicacionesSeguidores.publicacion"
+            :key="index"
+            sm="12"
+            md="4"
+          >
+            <base-material-card
+              color="transparent"
+              image
+              hover-reveal
+            >
+              <template v-slot:image>
+                <v-img :src="imagenUrl+publi.imagen" />
+              </template>
+              <template v-slot:reveal-actions>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ attrs, on }">
+                    <v-btn
+                      v-bind="attrs"
+                      class="mx-1"
+                      color="primary"
+                      light
+                      icon
+                      @click.prevent="darLike(publi._id)"
+                      v-on="on"
+                    >
+                      <v-icon class="primary--text">
+                        mdi-heart
+                      </v-icon>
+                    </v-btn>
+                  </template>
+
+                  <span>Me gusta</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ attrs, on }">
+                    <v-btn
+                      v-bind="attrs"
+                      class="mx-1"
+                      color="success"
+                      light
+                      icon
+                      v-on="on"
+                      @click="$router.push('/coments/comentarios/'+publi._id)"
+                    >
+                      <v-icon class="secondary--text">
+                        mdi-chat
+                      </v-icon>
+                    </v-btn>
+                  </template>
+
+                  <span>Comentarios</span>
+                </v-tooltip>
+                <v-tooltip
+                  v-if="perfil._id==publi.perfil_id._id"
+                  bottom
+                >
+                  <template v-slot:activator="{ attrs, on }">
+                    <v-btn
+                      v-bind="attrs"
+                      class="mx-1"
+                      color="primary"
+                      light
+                      icon
+                      v-on="on"
+                      @click="$router.push('/app/pages/create_post/'+publi._id)"
+                    >
+                      <v-icon class="primary--text">
+                        mdi-pencil
+                      </v-icon>
+                    </v-btn>
+                  </template>
+
+                  <span>Editar</span>
+                </v-tooltip>
+              </template>
+
+              <v-card-title class="justify-center font-weight-light">
+                {{ publi.titulo }}
+              </v-card-title>
+
+              <v-card-text
+                class="body-1 text-center mb-3 font-weight-light grey--text"
+              >
+                {{ publi.descripcion }}
+              </v-card-text>
+              <span class="body-1 text-left mb-3 font-weight-light grey--text">De {{ publi.perfil_id.nick }}</span>
+              <div
+                v-if="perfil._id !== publi.perfil_id._id"
+                class="text-right mt-n8"
+              >
+                <v-btn
+                  class="mt-n3"
+                  color="primary"
+                  large
+                  icon
+                  fab
+                  @click.prevent="dejarSeguirPerfil(publi.perfil_id._id)"
+                >
+                  <v-icon>mdi-account-minus</v-icon>
+                </v-btn>
+              </div>
+
+              <template v-slot:actions>
+                <span class="body-1 text-center mb-3 font-weight-light grey--text">
+                  <v-icon color="primary">mdi-heart</v-icon>{{ publi.cantidadLike }}
+                </span>
+
+                <v-spacer />
+
+                <router-link :to="'/coments/comentarios/'+publi._id">
+                  <div class="display-1 font-weight-light grey--text">
+                    <v-icon color="secondary">
+                      mdi-chat
+                    </v-icon>{{ publi.comentarios.length }} Comentarios
+                  </div>
+                </router-link>
+              </template>
+            </base-material-card>
+          </v-col>
+
+          <v-fab-transition>
+            <v-btn
+              fab
+              dark
+              fixed
+              color="secondary"
+              bottom
+              right
+              large
+              @click="crearPublicacion()"
+            >
+              <v-icon>mdi-camera</v-icon>
+            </v-btn>
+          </v-fab-transition>
+        </v-row>
       </v-tab-item>
     </v-tabs-items>
   </v-container>
@@ -213,8 +334,8 @@
 
 <script>
   /* eslint-disable */
-  import { getPublicaciones, like } from '@/api/modules'
-  import { mapState } from 'vuex'
+  import { getPublicaciones, like, getPublicacionesSeguidores, seguir, getPublicacionesNoSeguidores } from '@/api/modules'
+
   export default {
     name: 'DashboardDashboard',
     data () {
@@ -232,33 +353,24 @@
           like: false,
         },
         publicaciones: [],
+        publicacionesSeguidores: [],
         imagenUrl: 'http://localhost:3004/public/upload/',
         tabs: 0,
       }
     },
     computed: {
 
-      ...mapState(['user']),
+     
+ 
     },
     /* eslint-disable vue/no-template-shadow */
     async created () {
       this.perfil = JSON.parse(localStorage.getItem('perfil'))
 
-      const serviceResponse = await getPublicaciones()
-      if (serviceResponse.ok === true) {
-        console.log(serviceResponse)
-        this.publicaciones = serviceResponse
-        // eslint-disable-next-line no-unused-vars
-        const publicacion = this.publicaciones.publicaciones
-        console.log(this.publicaciones)
-      } else {
-        console.log(serviceResponse)
-        this.$swal({
-          title: '¡ERROR!',
-          html: serviceResponse.mensaje.text,
-          icon: 'error',
-        })
-      }
+      this.publicacionesAll()
+      
+      this.publicacionSeguidores()
+
     },
 
     methods: {
@@ -294,8 +406,104 @@
           })
         }
       },
+
+      async publicacionesAll(){
+        const serviceResponse = await  getPublicaciones()
+        if (serviceResponse.ok === true) {
+         
+          this.publicaciones = serviceResponse
+          // eslint-disable-next-line no-unused-vars
+          const publicacion = this.publicaciones.publicaciones
+         console.log(this.publicaciones)
+        } else {
+          console.log(serviceResponse)
+          this.$swal({
+            title: '¡ERROR!',
+            html: serviceResponse.mensaje.text,
+            icon: 'error',
+          })
+        }
+      },
+      async publicacionSeguidores(){
+        const serviceResponse = await getPublicacionesSeguidores()
+        if (serviceResponse.ok === true) {
+          this.publicacionesSeguidores = serviceResponse
+         
+        } else {
+          console.log(serviceResponse)
+          this.$swal({
+            title: '¡ERROR!',
+            html: serviceResponse.mensaje.text,
+            icon: 'error',
+          })
+        }
+      },
+      async seguirPerfil(perfilId){
+           this.$swal({
+            title: '¿Estás seguro de que deseas seguir este usuario?',
+            text: 'Las publicaciones de este usuario ahora podrás visualizarlas en la sección seguidores',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+          }).then(async (result) => {
+            if (result.value) {
+              const serviceResponse = await seguir(perfilId)
+              if (serviceResponse.ok === true) {
+                  console.log(serviceResponse)
+                this.$swal({
+                  text: '¡Ahora sigues al usuario ' +serviceResponse.perfilSiguiendo.nick+ ' !',
+                  icon: 'success'
+                })
+       
+              } else {
+                console.log(serviceResponse)
+                this.$swal({
+                  title: '¡ERROR!',
+                  html: serviceResponse.mensaje.text,
+                  icon: 'error',
+                })
+              }
+            }
+          })
+    },
+      async dejarSeguirPerfil(perfilId){
+           this.$swal({
+            title: '¿Estás seguro de que desea dejar de seguir a este usuario?',
+            text: 'Las publicaciones de este usuario se dejarán de visualizar en la sección de seguidores',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+          }).then(async (result) => {
+            if (result.value) {
+              const serviceResponse = await seguir(perfilId)
+              if (serviceResponse.ok === true) {
+                 console.log(serviceResponse)
+                this.$swal({
+                   text: '¡Dejaste de seguir a ' +serviceResponse.perfilSiguiendo.nick+ ' !',
+                   icon: 'success'
+                 
+              })
+             
+              } else {
+                console.log(serviceResponse)
+                this.$swal({
+                  title: '¡ERROR!',
+                  html: serviceResponse.mensaje.text,
+                  icon: 'error',
+                })
+              }
+            }
+          })
     },
   }
+}
+
 </script>
 
 <style>

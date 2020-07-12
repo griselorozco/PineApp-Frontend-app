@@ -2,7 +2,7 @@ import { apiHttp } from '../axiosApi.js'
 import {
 
     publicacionSave, mostrarPublicaciones, darLike, obtenerPublicacion, comentar, elimarComentario, editarPublicacion,
-    obtenerPublicacionesUsuario,
+    obtenerPublicacionesUsuario, mostrarPublicacionesSeguidores, seguirPerfil, mostrarPublicacionesNoSeguidores,
 
 } from '../config/apiRoute.js'
 
@@ -18,6 +18,12 @@ export const destroyComentario = (publicacionId, comentarioId) =>
   export const getPublicaciones = () =>
   apiHttp('GET', `${mostrarPublicaciones}`)
 
+  export const getPublicacionesSeguidores = () =>
+  apiHttp('GET', `${mostrarPublicacionesSeguidores}`)
+
+  export const getPublicacionesNoSeguidores = () =>
+  apiHttp('GET', `${mostrarPublicacionesNoSeguidores}`)
+
   export const getPublicacionesUser = () =>
   apiHttp('GET', `${obtenerPublicacionesUsuario}`)
 
@@ -32,3 +38,6 @@ export const destroyComentario = (publicacionId, comentarioId) =>
 
   export const getPublicacion = (publicacionId) =>
   apiHttp('GET', `${obtenerPublicacion}/${publicacionId}`)
+
+  export const seguir = (perfilId) =>
+  apiHttp('GET', `${seguirPerfil}/${perfilId}`)
