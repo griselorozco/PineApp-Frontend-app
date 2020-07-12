@@ -19,13 +19,8 @@
               width="106"
               @click="$refs.file.click()"
             >
-              <v-img
-                v-if="perfil.imagen"
-                :src="perfil.imagen"
-                height="100%"
-                width="100%"
-              />
-              <v-icon v-else class="mx-auto" size="96">mdi-account</v-icon>
+              <v-img :src="perfil.imagen" height="100%" width="100%" />
+              <!-- <v-icon v-else class="mx-auto" size="96">mdi-account</v-icon> -->
             </v-card>
 
             <div class="font-weight-bold grey--text">
@@ -144,30 +139,36 @@ export default {
     perfil: {},
     headers: [
       {
-        text: "ID",
-        value: "id",
+        text: "Codigo",
+        value: "codigo"
       },
       {
-        text: "Numero de tarjeta",
-        value: "number",
+        text: "Nombre",
+        value: "nombre"
+      },
+      {
+        text: "Tipo",
+        value: "tipo"
       },
       {
         sortable: false,
         text: "Acciones",
-        value: "actions",
-      },
+        value: "actions"
+      }
     ],
     items: [
       { id: 1, number: "4360-4869-4207-9986" },
-      { id: 2, number: "4801-5987-9541-1830" },
-    ],
+      { id: 2, number: "4801-5987-9541-1830" }
+    ]
   }),
   methods: {
     ...mapActions(["updatePerfil", "updateImagenPerfil", "agregarTarjeta"]),
     ...mapGetters(["usuarioGetter", "tarjetasGetter", "eliminarTarjeta"]),
     async onChange(val) {
       this.imagenValue = val.target.files[0];
+      console.log(this.imagenValue);
       this.perfil.imagen = URL.createObjectURL(this.imagenValue);
+      console.log(this.perfil.imagen);
     },
     async editarPerfil() {
       this.$swal({
@@ -177,8 +178,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Confirmar",
-      }).then(async (result) => {
+        confirmButtonText: "Confirmar"
+      }).then(async result => {
         if (result.value) {
           const resp = await this.updatePerfil(this.perfil);
           if (resp.ok && this.imagenValue) {
@@ -186,14 +187,14 @@ export default {
             if (imagen_resp.ok) {
               this.$swal({
                 title: "¡Perfil actualizado con Éxito!",
-                icon: "success",
+                icon: "success"
               });
             }
           } else {
             if (resp.ok)
               this.$swal({
                 title: "¡Perfil actualizado con Éxito!",
-                icon: "success",
+                icon: "success"
               });
           }
         }
@@ -206,20 +207,20 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Confirmar",
-      }).then(async (result) => {
+        confirmButtonText: "Confirmar"
+      }).then(async result => {
         if (result.value) {
           const resp = await this.agregarTarjeta(this.tarjeta);
           if (resp) {
             this.$swal({
               title: "Tarjeta agreada con Éxito!",
-              icon: "success",
+              icon: "success"
             });
           } else {
             if (resp.ok)
               this.$swal({
                 title: "¡Error al guardar la tarjeta!",
-                icon: "error",
+                icon: "error"
               });
           }
         }
@@ -233,20 +234,20 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Confirmar",
-      }).then(async (result) => {
+        confirmButtonText: "Confirmar"
+      }).then(async result => {
         if (result.value) {
           const resp = await this.eliminarTarjeta(tarjeta._id);
           if (resp) {
             this.$swal({
               title: "Tarjeta eliminada con Éxito!",
-              icon: "success",
+              icon: "success"
             });
           } else {
             if (resp.ok)
               this.$swal({
                 title: "¡Error al eliminar la tarjeta!",
-                icon: "error",
+                icon: "error"
               });
           }
         }
@@ -260,15 +261,15 @@ export default {
     },
     validateForm(scope) {
       return this.$validator.validateAll(scope);
-    },
+    }
   },
   computed: {
-    targetas() {
-      return this.targetasGetter();
-    },
+    tarjetas() {
+      return this.tarjetasGetter();
+    }
   },
   created() {
     this.perfil = this.usuarioGetter();
-  },
+  }
 };
 </script>
