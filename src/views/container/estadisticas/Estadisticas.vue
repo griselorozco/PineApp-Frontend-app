@@ -8,6 +8,35 @@
       Estadísticas
     </h1>
     <v-row justify="center">
+      <!-- Personas con mas dinero -->
+      <v-col
+        cols="12"
+        md="6"
+        class="mt-10"
+      >
+        <base-material-card
+          title="Usuarios con más ingresos"
+        >
+          <v-simple-table
+            class="ml-2"
+          >
+            <tbody>
+              <tr
+                v-for="(usuario, i) in usuarios"
+                :key="i"
+              >
+                <td v-text="i+1" />
+                <td v-text="usuario.nombre_usuario" />
+                <td v-text="usuario.dinero" />
+              </tr>
+            </tbody>
+          </v-simple-table>
+        </base-material-card>
+      </v-col>
+      <img
+        src="@/assets/cara-gato.png"
+        height="100"
+      >
       <v-col
         cols="12"
         md="6"
@@ -32,37 +61,6 @@
                 </td>
                 <td v-text="sale.country" />
                 <td v-text="sale.salesInM" />
-              </tr>
-            </tbody>
-          </v-simple-table>
-        </base-material-card>
-      </v-col>
-
-      <img
-        src="@/assets/cara-gato.png"
-        height="100"
-      >
-
-      <!-- Personas con mas dinero -->
-      <v-col
-        cols="12"
-        md="6"
-        class="mt-10"
-      >
-        <base-material-card
-          title="Usuarios con más ingresos"
-        >
-          <v-simple-table
-            class="ml-2"
-          >
-            <tbody>
-              <tr
-                v-for="(usuario, i) in usuarios"
-                :key="i"
-              >
-                <td v-text="i+1" />
-                <td v-text="usuario.nombre_usuario" />
-                <td v-text="usuario.dinero" />
               </tr>
             </tbody>
           </v-simple-table>
@@ -127,6 +125,26 @@
         {
           nombre_usuario: 'JhonElAlto96',
           dinero: '523 $',
+        },
+        {
+          nombre_usuario: '3ñ2ksa32',
+          dinero: '223 $',
+        },
+        {
+          nombre_usuario: 'sd1f5',
+          dinero: '213 $',
+        },
+        {
+          nombre_usuario: 'ds5f1',
+          dinero: '103 $',
+        },
+        {
+          nombre_usuario: 'dsfsgsgs62',
+          dinero: '53 $',
+        },
+        {
+          nombre_usuario: 'asdf16',
+          dinero: '23 $',
         },
       ],
     }),
