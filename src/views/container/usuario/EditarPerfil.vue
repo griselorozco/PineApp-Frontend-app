@@ -19,13 +19,8 @@
               width="106"
               @click="$refs.file.click()"
             >
-              <v-img
-                v-if="perfil.imagen"
-                :src="perfil.imagen"
-                height="100%"
-                width="100%"
-              />
-              <v-icon v-else class="mx-auto" size="96">mdi-account</v-icon>
+              <v-img :src="perfil.imagen" height="100%" width="100%" />
+              <!-- <v-icon v-else class="mx-auto" size="96">mdi-account</v-icon> -->
             </v-card>
 
             <div class="font-weight-bold grey--text">
@@ -144,12 +139,16 @@ export default {
     perfil: {},
     headers: [
       {
-        text: "ID",
-        value: "id"
+        text: "Codigo",
+        value: "codigo"
       },
       {
-        text: "Numero de tarjeta",
-        value: "number"
+        text: "Nombre",
+        value: "nombre"
+      },
+      {
+        text: "Tipo",
+        value: "tipo"
       },
       {
         sortable: false,
@@ -167,7 +166,9 @@ export default {
     ...mapGetters(["usuarioGetter", "tarjetasGetter", "eliminarTarjeta"]),
     async onChange(val) {
       this.imagenValue = val.target.files[0];
+      console.log(this.imagenValue);
       this.perfil.imagen = URL.createObjectURL(this.imagenValue);
+      console.log(this.perfil.imagen);
     },
     async editarPerfil() {
       this.$swal({

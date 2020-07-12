@@ -63,7 +63,7 @@ export default new Vuex.Store({
     },
     set_usuario(state, payload) {
       state.usuario = payload.perfil;
-      // state.usuario.imagen = `${URL_IMG}/${payload.perfil.imagen}`;
+      state.usuario.imagen = `${URL_IMG}/${payload.perfil.imagen}`;
     },
     set_seguir(state, payload) {
       state.seguir = payload;
@@ -168,7 +168,7 @@ export default new Vuex.Store({
       const serviceResponse = await changeImage(payload);
       console.log(serviceResponse);
       if (serviceResponse.ok) {
-        // commit("set_usuario", serviceResponse);
+        commit("set_usuario", serviceResponse);
         return serviceResponse;
       } else {
         const params = { text: serviceResponse.message };
@@ -190,8 +190,10 @@ export default new Vuex.Store({
     },
     async agregarTarjeta({ commit }, payload) {
       const serviceResponse = await saveCard(payload);
+      console.log(serviceResponse);
       if (serviceResponse.ok) {
-        commit("add_tarjeta", serviceResponse.tarjeta);
+        commit("set_usuario", serviceResponse);
+        commit("set_tarjetas", serviceResponse.perfil.tarjetas);
         return serviceResponse;
       } else {
         const params = { text: serviceResponse.message };
@@ -201,6 +203,7 @@ export default new Vuex.Store({
     },
     async eliminarTarjeta({ commit }, payload) {
       const serviceResponse = await removeCard(payload);
+      console.log(serviceResponse);
       if (serviceResponse.ok) {
         commit("remove_tarjeta", serviceResponse.tarjeta._id);
         return serviceResponse;
@@ -215,7 +218,7 @@ export default new Vuex.Store({
       console.log(serviceResponse);
       if (serviceResponse.ok) {
         if (!serviceResponse.dinero) commit("set_dinero", 0);
-        else commit("set_dinero", serviceResponse.dinero);
+        else commit("set_dinero", serviceResponse.dinero.monto);
         return serviceResponse;
       } else {
         const params = { text: serviceResponse.message };
