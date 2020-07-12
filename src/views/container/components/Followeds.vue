@@ -1,7 +1,11 @@
 <template>
   <v-container fluid>
     <v-list>
-      <follow-item v-for="(followed, index) in perfil.siguiendo" :key="index" :follow="followed" />
+      <follow-item
+        v-for="(followed, index) in siguiendo"
+        :key="index"
+        :follow="followed"
+      />
     </v-list>
   </v-container>
 </template>
@@ -15,11 +19,11 @@ export default {
   },
   data: () => ({}),
   methods: {
-    ...mapGetters(["usuarioGetter"])
+    ...mapGetters(["seguidosGetter"])
   },
   computed: {
-    perfil() {
-      return this.usuarioGetter();
+    siguiendo() {
+      return this.seguidosGetter();
     }
   }
 };

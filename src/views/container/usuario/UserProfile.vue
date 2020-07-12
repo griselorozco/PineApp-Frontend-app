@@ -1,26 +1,38 @@
+<!-- eslint-disable -->
 <template>
   <v-container id="user-profile" fluid tag="section">
     <v-row justify="center">
       <v-col cols="12" md="8">
         <base-material-card class="v-card-profile" :avatar="perfil.imagen">
           <v-card-text class="text-center">
-            <h6 class="display-1 mb-1 grey--text">{{perfil.nick}}</h6>
+            <h6 class="display-1 mb-1 grey--text">{{ perfil.nick }}</h6>
 
-            <h4
-              class="display-2 font-weight-light mb-3 black--text"
-            >{{perfil.nombre}} {{perfil.apellido}}</h4>
-            <p class="font-weight-light grey--text">{{ perfil.acerca_de_ti}}</p>
+            <h4 class="display-2 font-weight-light mb-3 black--text">
+              {{ perfil.nombre }} {{ perfil.apellido }}
+            </h4>
+            <p class="font-weight-light grey--text">
+              {{ perfil.acerca_de_ti }}
+            </p>
             <v-btn
-              v-if="URL_ID === perfil_id"
+              v-if="URL_ID === auth._id"
               color="success"
               rounded
               class="mr-0"
-              @click="$router.push('/app/user/'+perfil_id+'/edit')"
+              @click="$router.push('/app/user/' + perfil._id + '/edit')"
             >
               <v-icon>mdi-pencil</v-icon>Editar Perfil
             </v-btn>
-            <v-btn v-else color="success" rounded class="mr-0" @click="seguir(perfil._id)">
-              <v-icon>mdi-pencil</v-icon>Seguir
+            <v-btn
+              v-else
+              :color="seguir ? 'warning' : 'error'"
+              rounded
+              class="mr-0"
+              @click="onSeguir(perfil._id)"
+            >
+              <v-icon>{{
+                seguir ? "mdi-account-multiple-plus" : "mdi-account-minus"
+              }}</v-icon>
+              {{ seguir ? " Seguir" : " Dejar de seguir" }}
             </v-btn>
           </v-card-text>
         </base-material-card>
@@ -28,10 +40,14 @@
       <v-col cols="12" md="8" class="mt-n12">
         <v-card>
           <v-card-text class="text-center">
-            <h4 class="display-2 font-weight-light mb-3 black--text">Nivel de la cuenta</h4>
+            <h4 class="display-2 font-weight-light mb-3 black--text">
+              Nivel de la cuenta
+            </h4>
             <p class="font-weight-light grey--text">1</p>
 
-            <h4 class="display-1 font-weight-light mb-3 black--text">Saldo de la cuenta</h4>
+            <h4 class="display-1 font-weight-light mb-3 black--text">
+              Saldo de la cuenta
+            </h4>
 
             <p class="font-weight-light grey--text">234 $</p>
           </v-card-text>
@@ -42,7 +58,7 @@
       <v-tab
         v-for="item in items"
         :key="item"
-        style="color: black; font-size:x-small"
+        style="color: black; font-size: x-small;"
         v-text="item"
       />
     </v-tabs>
@@ -56,6 +72,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import Posts from "../components/Posts";
 import Followers from "../components/Followers";
 import Followeds from "../components/Followeds";
@@ -65,21 +82,19 @@ export default {
   components: {
     Posts,
     Followers,
-    Followeds
+    Followeds,
   },
   data: () => ({
     tab: null,
     items: ["Publicaciones", "Seguidores", "Seguidos"],
-    components: ["Posts", "Followers", "Followeds"]
+    components: ["Posts", "Followers", "Followeds"],
   }),
   methods: {
     ...mapActions(["getUserByIdAction", "seguirPerfil"]),
-    ...mapGetters(["usuarioGetter"]),
-    seguir(id) {
-      console.log(id);
+    ...mapGetters(["usuarioGetter", "perfilGetter", "seguirGetter"]),
+    onSeguir(id) {
       const resp = this.seguirPerfil(id);
-      console.log(resp);
-    }
+    },
   },
   computed: {
     perfil() {
@@ -88,12 +103,15 @@ export default {
     URL_ID() {
       return this.$route.params.id;
     },
-    perfil_id() {
-      return this.$store.state.perfil._id;
-    }
+    auth() {
+      return this.perfilGetter();
+    },
+    seguir() {
+      return this.seguirGetter();
+    },
   },
   created() {
     this.getUserByIdAction(this.$route.params.id);
-  }
+  },
 };
 </script>

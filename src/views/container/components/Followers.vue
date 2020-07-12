@@ -1,21 +1,29 @@
 <template>
   <v-container fluid>
     <v-list>
-      <follow-item v-for="(follower, index) in perfil.seguidores" :key="index" :follow="follower" />
+      <follow-item
+        v-for="(follower, index) in seguidores"
+        :key="index"
+        :follow="follower"
+      />
     </v-list>
   </v-container>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import FollowItem from "./shared/FollowItem";
 export default {
   components: {
     FollowItem
   },
   data: () => ({}),
+  methods: {
+    ...mapGetters(["seguidoresGetter"])
+  },
   computed: {
-    perfil() {
-      return this.$store.state.perfil;
+    seguidores() {
+      return this.seguidoresGetter();
     }
   }
 };

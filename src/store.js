@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Vue from "vue";
 import Vuex from "vuex";
 import router from "@/router";
@@ -7,7 +8,9 @@ import {
   getUserById,
   editUser,
   changeImage,
-  seguirPerfil
+  seguirPerfil,
+  saveCard,
+  removeCard
 } from "@/api/modules";
 
 const URL_IMG = "http://localhost:3004/public/upload";
@@ -24,10 +27,19 @@ export default new Vuex.Store({
     usuario: "",
     perfil: "",
     rol: "",
-    logueado: false
+    logueado: false,
+    seguir: false,
+    seguidos: [],
+    seguidores: [],
+    tarjetas: []
   },
   getters: {
-    usuarioGetter: state => state.usuario
+    usuarioGetter: state => state.usuario,
+    perfilGetter: state => state.perfil,
+    seguirGetter: state => state.seguir,
+    seguidosGetter: state => state.seguidos,
+    seguidoresGetter: state => state.seguidores,
+    tarjetasGetter: state => state.tarjetas
   },
   mutations: {
     obtener_usuario(state, payload) {
@@ -43,17 +55,31 @@ export default new Vuex.Store({
         state.token = payload.token;
         state.usuario = payload.user;
         state.perfil = payload.perfil;
-        state.perfil.imagen = payload.perfil.imagen
-          ? `${URL_IMG}/${payload.perfil.imagen}`
-          : null;
         state.rol = payload.rol;
       }
     },
     set_usuario(state, payload) {
       state.usuario = payload.perfil;
-      state.usuario.imagen = payload.perfil.imagen
-        ? `${URL_IMG}/${payload.perfil.imagen}`
-        : null;
+      // state.usuario.imagen = `${URL_IMG}/${payload.perfil.imagen}`;
+    },
+    set_seguir(state, payload) {
+      state.seguir = payload;
+    },
+    set_seguidos(state, payload) {
+      state.seguidos = payload;
+    },
+    set_seguidores(state, payload) {
+      state.seguidores = payload;
+    },
+    set_tarjetas(state, payload) {
+      state.tarjetas = payload;
+    },
+    add_tarjeta(state, payload) {
+      state.tarjetas.push(payload);
+    },
+    remove_tarjeta(state, id) {
+      let index = state.tarjetas.findIndex(index => index._id == id);
+      state.tarjetas.splice(index, 1);
     },
 
     SET_BAR_IMAGE(state, payload) {
@@ -112,6 +138,9 @@ export default new Vuex.Store({
       console.log(serviceResponse);
       if (serviceResponse.ok) {
         commit("set_usuario", serviceResponse);
+        commit("set_seguidos", serviceResponse.perfil.seguidos);
+        commit("set_seguidores", serviceResponse.perfil.seguidores);
+        commit("set_tarjetas", serviceResponse.perfil.tarjetas);
       } else {
         const params = { text: serviceResponse.message };
         window.getApp.$emit("SHOW_ERROR", params);
@@ -121,7 +150,7 @@ export default new Vuex.Store({
       const serviceResponse = await editUser(payload.usuario_id, payload);
       console.log(serviceResponse);
       if (serviceResponse.ok) {
-        //commit("set_usuario", serviceResponse);
+        commit("set_usuario", serviceResponse);
         return serviceResponse;
       } else {
         const params = { text: serviceResponse.message };
@@ -133,7 +162,7 @@ export default new Vuex.Store({
       const serviceResponse = await changeImage(payload);
       console.log(serviceResponse);
       if (serviceResponse.ok) {
-        //commit("set_usuario", serviceResponse);
+        // commit("set_usuario", serviceResponse);
         return serviceResponse;
       } else {
         const params = { text: serviceResponse.message };
@@ -143,9 +172,31 @@ export default new Vuex.Store({
     },
     async seguirPerfil({ commit }, payload) {
       const serviceResponse = await seguirPerfil(payload);
-      console.log(serviceResponse);
+      if (serviceResponse) {
+        if (serviceResponse.seguir) commit("set_seguir", true);
+        else commit("set_seguir", false);
+        return serviceResponse;
+      } else {
+        const params = { text: serviceResponse.message };
+        window.getApp.$emit("SHOW_ERROR", params);
+        return serviceResponse;
+      }
+    },
+    async agregarTarjeta({ commit }, payload) {
+      const serviceResponse = await saveCard(payload);
       if (serviceResponse.ok) {
-        //commit("set_usuario", serviceResponse);
+        commit("add_tarjeta", serviceResponse.tarjeta);
+        return serviceResponse;
+      } else {
+        const params = { text: serviceResponse.message };
+        window.getApp.$emit("SHOW_ERROR", params);
+        return serviceResponse;
+      }
+    },
+    async eliminarTarjeta({ commit }, payload) {
+      const serviceResponse = await removeCard(payload);
+      if (serviceResponse.ok) {
+        commit("remove_tarjeta", serviceResponse.tarjeta._id);
         return serviceResponse;
       } else {
         const params = { text: serviceResponse.message };
