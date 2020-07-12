@@ -6,6 +6,8 @@ export const loginPath = '/api/login'
 export const file = '/file/'
 
 export const mostrarPublicaciones = `/api/publicacion/all`
+export const mostrarPublicacionesSeguidores = `/api/publicacion`
+export const mostrarPublicacionesNoSeguidores = `/api/publicacion-ns`
 export const publicacionSave = `/api/user/publicacion`
 export const obtenerPublicacion = `/api/user/publicacion`
 export const editarPublicacion = `/api/user/publicacion`
@@ -13,3 +15,4 @@ export const obtenerPublicacionesUsuario = `/api/user/buscar/publicaciones`
 export const darLike = `/api/user/publicacion/like`
 export const comentar = `/api/user/publicacion/comentario`
 export const elimarComentario = `/api/user/publicacion/comentario`
+export const seguirPerfil = `/api/seguir`

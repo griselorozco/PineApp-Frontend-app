@@ -28,7 +28,9 @@ import '../src/assets/global.scss'
 import VueSweetalert2 from 'vue-sweetalert2'
 // If you don't need the styles, do not connect
 import 'sweetalert2/dist/sweetalert2.min.css'
+import moment from 'moment'
 
+Vue.prototype.moment = moment
 Vue.config.productionTip = false
 Vue.use(VueLoading)
 Vue.use(VAvatarUploader)

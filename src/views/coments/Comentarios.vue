@@ -7,7 +7,6 @@
       justify="center"
       class="mt-n12"
     >
-      {{ user }}
       <v-col
         v-for="(item, index) in comentarios"
         :key="index"
@@ -30,7 +29,7 @@
             </router-link>
 
             <v-list-item-subtitle>
-              {{ item.fecha }}
+              {{ moment(item.fecha).locale('es').fromNow() }}
             </v-list-item-subtitle>
             <span>{{ item.comentario }}</span>
           </v-list-item-content>
@@ -124,6 +123,8 @@
           /* this.$router.push('/coments/comentarios/' + this.$route.params.id) */
           /* this.comentarios.push(this.comentario) */
           this.comentario = ''
+          const comentario = serviceResponse.publicacion.comentarios.pop()
+          this.comentarios.push(comentario)
           this.$swal({
             title: '¡Comentario creado!',
             icon: 'success',
