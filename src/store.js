@@ -10,7 +10,8 @@ import {
   changeImage,
   seguirPerfil,
   saveCard,
-  removeCard
+  removeCard,
+  getDinero
 } from "@/api/modules";
 
 const URL_IMG = "http://localhost:3004/public/upload";
@@ -31,7 +32,8 @@ export default new Vuex.Store({
     seguir: false,
     seguidos: [],
     seguidores: [],
-    tarjetas: []
+    tarjetas: [],
+    dinero: ""
   },
   getters: {
     usuarioGetter: state => state.usuario,
@@ -39,7 +41,8 @@ export default new Vuex.Store({
     seguirGetter: state => state.seguir,
     seguidosGetter: state => state.seguidos,
     seguidoresGetter: state => state.seguidores,
-    tarjetasGetter: state => state.tarjetas
+    tarjetasGetter: state => state.tarjetas,
+    dineroGetter: state => state.dinero
   },
   mutations: {
     obtener_usuario(state, payload) {
@@ -80,6 +83,9 @@ export default new Vuex.Store({
     remove_tarjeta(state, id) {
       let index = state.tarjetas.findIndex(index => index._id == id);
       state.tarjetas.splice(index, 1);
+    },
+    set_dinero(state, payload) {
+      state.dinero = payload;
     },
 
     SET_BAR_IMAGE(state, payload) {
@@ -197,6 +203,19 @@ export default new Vuex.Store({
       const serviceResponse = await removeCard(payload);
       if (serviceResponse.ok) {
         commit("remove_tarjeta", serviceResponse.tarjeta._id);
+        return serviceResponse;
+      } else {
+        const params = { text: serviceResponse.message };
+        window.getApp.$emit("SHOW_ERROR", params);
+        return serviceResponse;
+      }
+    },
+    async obtenerDinero({ commit }) {
+      const serviceResponse = await getDinero();
+      console.log(serviceResponse);
+      if (serviceResponse.ok) {
+        if (!serviceResponse.dinero) commit("set_dinero", 0);
+        else commit("set_dinero", serviceResponse.dinero);
         return serviceResponse;
       } else {
         const params = { text: serviceResponse.message };

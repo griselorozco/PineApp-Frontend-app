@@ -8,6 +8,7 @@ export const file = "/file/";
 export const seguir = "/api/seguir";
 export const agregarTarjeta = "/api/agregar-tarjeta";
 export const eliminarTarjeta = "/api/eliminar-tarjeta";
+export const dinero = "/api/dinero";
 
 export const mostrarPublicaciones = `/api/publicacion/all`;
 export const publicacionSave = `/api/user/publicacion`;

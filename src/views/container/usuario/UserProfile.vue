@@ -7,12 +7,10 @@
           <v-card-text class="text-center">
             <h6 class="display-1 mb-1 grey--text">{{ perfil.nick }}</h6>
 
-            <h4 class="display-2 font-weight-light mb-3 black--text">
-              {{ perfil.nombre }} {{ perfil.apellido }}
-            </h4>
-            <p class="font-weight-light grey--text">
-              {{ perfil.acerca_de_ti }}
-            </p>
+            <h4
+              class="display-2 font-weight-light mb-3 black--text"
+            >{{ perfil.nombre }} {{ perfil.apellido }}</h4>
+            <p class="font-weight-light grey--text">{{ perfil.acerca_de_ti }}</p>
             <v-btn
               v-if="URL_ID === auth._id"
               color="success"
@@ -29,27 +27,25 @@
               class="mr-0"
               @click="onSeguir(perfil._id)"
             >
-              <v-icon>{{
+              <v-icon>
+                {{
                 seguir ? "mdi-account-multiple-plus" : "mdi-account-minus"
-              }}</v-icon>
+                }}
+              </v-icon>
               {{ seguir ? " Seguir" : " Dejar de seguir" }}
             </v-btn>
           </v-card-text>
         </base-material-card>
       </v-col>
-      <v-col cols="12" md="8" class="mt-n12">
+      <v-col cols="12" md="8" class="mt-n12" v-if="URL_ID === auth._id">
         <v-card>
           <v-card-text class="text-center">
-            <h4 class="display-2 font-weight-light mb-3 black--text">
-              Nivel de la cuenta
-            </h4>
-            <p class="font-weight-light grey--text">1</p>
+            <!-- <h4 class="display-2 font-weight-light mb-3 black--text">Nivel de la cuenta</h4>
+            <p class="font-weight-light grey--text">1</p>-->
 
-            <h4 class="display-1 font-weight-light mb-3 black--text">
-              Saldo de la cuenta
-            </h4>
+            <h4 class="display-1 font-weight-light mb-3 black--text">Saldo de la cuenta</h4>
 
-            <p class="font-weight-light grey--text">234 $</p>
+            <p class="font-weight-light grey--text">{{dinero}} $</p>
           </v-card-text>
         </v-card>
       </v-col>
@@ -82,19 +78,24 @@ export default {
   components: {
     Posts,
     Followers,
-    Followeds,
+    Followeds
   },
   data: () => ({
     tab: null,
     items: ["Publicaciones", "Seguidores", "Seguidos"],
-    components: ["Posts", "Followers", "Followeds"],
+    components: ["Posts", "Followers", "Followeds"]
   }),
   methods: {
-    ...mapActions(["getUserByIdAction", "seguirPerfil"]),
-    ...mapGetters(["usuarioGetter", "perfilGetter", "seguirGetter"]),
+    ...mapActions(["getUserByIdAction", "seguirPerfil", "obtenerDinero"]),
+    ...mapGetters([
+      "usuarioGetter",
+      "perfilGetter",
+      "seguirGetter",
+      "dineroGetter"
+    ]),
     onSeguir(id) {
       const resp = this.seguirPerfil(id);
-    },
+    }
   },
   computed: {
     perfil() {
@@ -109,9 +110,13 @@ export default {
     seguir() {
       return this.seguirGetter();
     },
+    dinero() {
+      return this.dineroGetter();
+    }
   },
   created() {
     this.getUserByIdAction(this.$route.params.id);
-  },
+    this.obtenerDinero();
+  }
 };
 </script>
