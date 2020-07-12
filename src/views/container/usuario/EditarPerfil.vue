@@ -145,22 +145,22 @@ export default {
     headers: [
       {
         text: "ID",
-        value: "id",
+        value: "id"
       },
       {
         text: "Numero de tarjeta",
-        value: "number",
+        value: "number"
       },
       {
         sortable: false,
         text: "Acciones",
-        value: "actions",
-      },
+        value: "actions"
+      }
     ],
     items: [
       { id: 1, number: "4360-4869-4207-9986" },
-      { id: 2, number: "4801-5987-9541-1830" },
-    ],
+      { id: 2, number: "4801-5987-9541-1830" }
+    ]
   }),
   methods: {
     ...mapActions(["updatePerfil", "updateImagenPerfil", "agregarTarjeta"]),
@@ -177,8 +177,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Confirmar",
-      }).then(async (result) => {
+        confirmButtonText: "Confirmar"
+      }).then(async result => {
         if (result.value) {
           const resp = await this.updatePerfil(this.perfil);
           if (resp.ok && this.imagenValue) {
@@ -186,14 +186,14 @@ export default {
             if (imagen_resp.ok) {
               this.$swal({
                 title: "¡Perfil actualizado con Éxito!",
-                icon: "success",
+                icon: "success"
               });
             }
           } else {
             if (resp.ok)
               this.$swal({
                 title: "¡Perfil actualizado con Éxito!",
-                icon: "success",
+                icon: "success"
               });
           }
         }
@@ -206,20 +206,20 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Confirmar",
-      }).then(async (result) => {
+        confirmButtonText: "Confirmar"
+      }).then(async result => {
         if (result.value) {
           const resp = await this.agregarTarjeta(this.tarjeta);
           if (resp) {
             this.$swal({
               title: "Tarjeta agreada con Éxito!",
-              icon: "success",
+              icon: "success"
             });
           } else {
             if (resp.ok)
               this.$swal({
                 title: "¡Error al guardar la tarjeta!",
-                icon: "error",
+                icon: "error"
               });
           }
         }
@@ -233,20 +233,20 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Confirmar",
-      }).then(async (result) => {
+        confirmButtonText: "Confirmar"
+      }).then(async result => {
         if (result.value) {
           const resp = await this.eliminarTarjeta(tarjeta._id);
           if (resp) {
             this.$swal({
               title: "Tarjeta eliminada con Éxito!",
-              icon: "success",
+              icon: "success"
             });
           } else {
             if (resp.ok)
               this.$swal({
                 title: "¡Error al eliminar la tarjeta!",
-                icon: "error",
+                icon: "error"
               });
           }
         }
@@ -260,15 +260,15 @@ export default {
     },
     validateForm(scope) {
       return this.$validator.validateAll(scope);
-    },
+    }
   },
   computed: {
-    targetas() {
-      return this.targetasGetter();
-    },
+    tarjetas() {
+      return this.tarjetasGetter();
+    }
   },
   created() {
     this.perfil = this.usuarioGetter();
-  },
+  }
 };
 </script>
