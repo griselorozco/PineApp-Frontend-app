@@ -35,6 +35,7 @@
 
 <script>
   export default {
+    // eslint-disable-next-line vue/require-prop-types
     props: ['follow'],
     methods: {
       following (user) {

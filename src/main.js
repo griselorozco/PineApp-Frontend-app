@@ -40,6 +40,7 @@ export const EventBus = new Vue()
 
 router.beforeEach(async (to, from, next) => {
   const rutaProtegida = await to.matched.some(record => record.meta.requiere_auth)
+  /* const logueado = localStorage.getItem('logueado') */
 
   if (rutaProtegida && store.state.token === '') {
     next({ name: 'Login' })

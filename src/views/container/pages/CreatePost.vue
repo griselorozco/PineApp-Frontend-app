@@ -13,8 +13,10 @@
           class="px-5 py-3"
         >
           <v-form
+
             ref="form"
             v-model="valid"
+            enctype="multipart/form-data"
             lazy-validation
           >
             <v-col
@@ -25,6 +27,8 @@
               <input
                 ref="file"
                 type="file"
+
+                accept="image/*"
                 class="d-none"
                 @change="onChange"
               >
@@ -39,6 +43,7 @@
                 <v-img
                   v-if="image"
                   :src="image"
+
                   height="100%"
                   width="100%"
                 />
@@ -56,7 +61,7 @@
               </div>
             </v-col>
             <v-text-field
-              v-model="post.title"
+              v-model="publicacion.titulo"
               :counter="20"
               label="Titulo"
               required
@@ -64,20 +69,33 @@
             />
 
             <v-textarea
-              v-model="post.description"
+              v-model="publicacion.descripcion"
               label="Descripción"
               required
               :rules="[v => !!v || 'Este campo es obligatorio']"
             />
 
             <v-btn
+              v-if="opcion==1"
               :disabled="!valid"
               color="secondary"
               class="mr-4"
+              type="submit"
               small
-              @click="validate"
+              @click.prevent="crearPublicacion()"
             >
               Cargar
+            </v-btn>
+            <v-btn
+              v-else
+              :disabled="!valid"
+              color="secondary"
+              class="mr-4"
+              type="submit"
+              small
+              @click.prevent="actualizarPublicacion()"
+            >
+              Editar
             </v-btn>
 
             <v-btn
@@ -118,13 +136,13 @@
 </template>
 
 <script>
+  import { createPublicacion, editPublicacion, updatePublicacion } from '@/api/modules'
+
   export default {
+    name: 'PagesPublicacion',
     data: () => ({
+      publicacion: {},
       valid: true,
-      post: {
-        title: '',
-        description: '',
-      },
       titulo: '',
       opcion: 0,
       image: null,
@@ -135,19 +153,97 @@
     },
 
     methods: {
-      inicializar () {
+      async crearPublicacion () {
+        if (this.$refs.form.validate()) {
+          this.$swal({
+            title: '¿Estás seguro de que deseas crear esta publicación?',
+            text: 'Su publicación será publicada en su perfil',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+          }).then(async (result) => {
+            if (result.value) {
+              console.log(this.publicacion.image)
+              const formData = new FormData()
+              formData.append('image', this.publicacion.image)
+              formData.append('titulo', this.publicacion.titulo)
+              formData.append('descripcion', this.publicacion.descripcion)
+              const serviceResponse = await createPublicacion(formData)
+              if (serviceResponse.ok === true) {
+                this.$swal(
+                  '¡Publicación creada con éxito!',
+                  'success',
+                )
+                this.$router.push('/app')
+              } else {
+                console.log(serviceResponse)
+                this.$swal({
+                  title: '¡ERROR!',
+                  html: serviceResponse.mensaje.text,
+                  icon: 'error',
+                })
+              }
+            }
+          })
+        } else {
+          this.$swal(
+            '¡ERROR!',
+            'Faltan campos por llenar',
+            'error',
+          )
+        }
+      },
+      async inicializar () {
         this.opcion = this.$route.params.opcion
         if (this.opcion === 1) {
           this.titulo = 'Crea tu publicación'
         } else {
           this.titulo = 'Edita tu publicación'
+
+          const serviceResponse = await editPublicacion(this.$route.params.id)
+
+          if (serviceResponse.ok === true) {
+            console.log(serviceResponse.publicacion)
+
+            this.publicacion = { titulo: serviceResponse.publicacion.titulo, descripcion: serviceResponse.publicacion.descripcion }
+          } else {
+            console.log(serviceResponse)
+            this.$swal({
+              title: '¡ERROR!',
+              html: serviceResponse.mensaje.text,
+              icon: 'error',
+            })
+          }
         }
       },
+
+      async actualizarPublicacion () {
+        const serviceResponse = await updatePublicacion(this.$route.params.id, this.publicacion)
+
+        if (serviceResponse.ok === true) {
+          console.log(serviceResponse.publicacion)
+          this.$swal(
+            '¡Publicación actualizada con éxito!',
+            'success',
+          )
+        } else {
+          console.log(serviceResponse)
+          this.$swal({
+            title: '¡ERROR!',
+            html: serviceResponse.mensaje.text,
+            icon: 'error',
+          })
+        }
+      },
+
       onChange (val) {
         const value = val.target.files[0]
 
         if (!value) return (this.image = null)
-
+        this.publicacion.image = value
         this.image = URL.createObjectURL(value)
       },
       validate () {
@@ -155,7 +251,7 @@
       },
       reset () {
         this.$refs.form.reset()
-        this.imageURL = ''
+        this.image = ''
       },
       resetValidation () {
         this.$refs.form.resetValidation()
