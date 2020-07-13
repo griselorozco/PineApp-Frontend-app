@@ -2,15 +2,16 @@
   <v-container fluid>
     <v-list>
       <follow-item
-        v-for="(follower, index) in seguidores"
+        v-for="(item, index) in seguidores"
         :key="index"
-        :follow="follower"
+        :follow="item"
       />
     </v-list>
   </v-container>
 </template>
 
 <script>
+/* eslint-disable */
 import { mapGetters } from "vuex";
 import FollowItem from "./shared/FollowItem";
 export default {
