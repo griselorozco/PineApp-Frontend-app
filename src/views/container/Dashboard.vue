@@ -124,7 +124,23 @@
               <span class="body-1 text-left mb-3 font-weight-light grey--text">De {{ publi.perfil_id.nick }}</span>
 
               <div
-                v-if="perfil._id !== publi.perfil_id._id"
+                v-if="perfil._id === publi.perfil_id._id"
+                class="text-right mt-n8"
+              >
+                <v-btn
+                  class="mt-n3"
+                  color="black"
+                  large
+                  icon
+                  fab
+                  @click="eliminar_publicacion(publi)"
+                >
+                  <v-icon>mdi-trash-can-outline</v-icon>
+                </v-btn>
+              </div>
+
+              <div
+                v-if="perfil._id !== publi.perfil_id._id && verificar_seguir(publi.perfil_id._id) === false"
                 class="text-right mt-n8"
               >
                 <v-btn
@@ -139,7 +155,7 @@
                 </v-btn>
               </div>
               <div
-                v-else
+                v-if="perfil._id !== publi.perfil_id._id && verificar_seguir(publi.perfil_id._id) === true"
                 class="text-right mt-n8"
               >
                 <v-btn
@@ -334,8 +350,8 @@
 
 <script>
   /* eslint-disable */
-  import { getPublicaciones, like, getPublicacionesSeguidores, seguir, getPublicacionesNoSeguidores } from '@/api/modules'
-
+  import { getPublicaciones, like, getPublicacionesSeguidores, seguir, getPublicacionesNoSeguidores, getUserById } from '@/api/modules'
+  import { mapActions } from 'vuex'
   export default {
     name: 'DashboardDashboard',
     data () {
@@ -374,6 +390,7 @@
     },
 
     methods: {
+      ...mapActions(['leer_token']),
       crearPublicacion () {
         this.$router.push({
           name: 'Create Post',
@@ -383,6 +400,18 @@
         })
       },
 
+      verificar_seguir (publicacion_usuario_id) {
+        var check = false
+        for (let i = 0; i < this.perfil.siguiendo.length; i++) {
+          if (this.perfil.siguiendo[i] === publicacion_usuario_id) {
+            return true
+          } else {
+            check = false
+          }
+        }
+        return check
+      },
+ 
       async darLike (publicacionId) {
         const publicacion = await like(publicacionId)
 
@@ -445,6 +474,21 @@
           })
         }
       },
+      eliminar_publicacion (publi) {
+        this.$swal({
+            title: '¿Estás seguro de que deseas eliminar tu publicación?',
+            text: 'Esta acción tiene un efecto permanente',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+          }).then(async (result) => {
+            if (result.value) {
+            }
+          })
+      },
       async seguirPerfil(perfilId){
            this.$swal({
             title: '¿Estás seguro de que deseas seguir este usuario?',
@@ -460,11 +504,25 @@
               const serviceResponse = await seguir(perfilId)
               if (serviceResponse.ok === true) {
                   console.log(serviceResponse)
-                this.$swal({
-                  text: '¡Ahora sigues al usuario ' +serviceResponse.perfilSiguiendo.nick+ ' !',
-                  icon: 'success'
-                })
-       
+                const resp = await getUserById(this.perfil._id)
+                if (resp.ok === true) {
+                  this.$swal({
+                    text: '¡Ahora sigues al usuario ' +serviceResponse.perfilSiguiendo.nick+ ' !',
+                    icon: 'success'
+                  })
+                  localStorage.setItem("perfil", JSON.stringify(resp.perfil));
+                  this.perfil = JSON.parse(localStorage.getItem('perfil'))
+                  this.leer_token()
+                  this.publicacionesAll()
+                  this.publicacionSeguidores()
+                } else {
+                  console.log(serviceResponse)
+                  this.$swal({
+                    title: '¡ERROR!',
+                    html: serviceResponse.mensaje.text,
+                    icon: 'error',
+                  })
+                }
               } else {
                 console.log(serviceResponse)
                 this.$swal({
@@ -491,12 +549,25 @@
               const serviceResponse = await seguir(perfilId)
               if (serviceResponse.ok === true) {
                  console.log(serviceResponse)
-                this.$swal({
-                   text: '¡Dejaste de seguir a ' +serviceResponse.perfilSiguiendo.nick+ ' !',
-                   icon: 'success'
-                 
-              })
-             
+              const resp = await getUserById(this.perfil._id)
+                if (resp.ok === true) {
+                  this.$swal({
+                    text: `¡Dejaste de seguir a ${serviceResponse.perfilSiguiendo.nick} !`,
+                    icon: 'success'
+                  })
+                  localStorage.setItem("perfil", JSON.stringify(resp.perfil));
+                  this.perfil = JSON.parse(localStorage.getItem('perfil'))
+                  this.leer_token()
+                  this.publicacionesAll()
+                  this.publicacionSeguidores()
+                } else {
+                  console.log(serviceResponse)
+                  this.$swal({
+                    title: '¡ERROR!',
+                    html: serviceResponse.mensaje.text,
+                    icon: 'error',
+                  })
+                }
               } else {
                 console.log(serviceResponse)
                 this.$swal({
