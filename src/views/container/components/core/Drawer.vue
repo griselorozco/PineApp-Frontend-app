@@ -91,6 +91,8 @@
     },
 
     data: () => ({
+      perfil:'',
+       imagenUrl: 'http://localhost:3004/public/upload/',
       items: [
         {
           icon: 'mdi-home',
@@ -192,6 +194,10 @@
       '$vuetify.breakpoint.smAndDown' (val) {
         this.$emit('update:expandOnHover', !val)
       },
+    },
+
+    created() {
+       this.perfil = JSON.parse(localStorage.getItem('perfil'))
     },
 
     methods: {

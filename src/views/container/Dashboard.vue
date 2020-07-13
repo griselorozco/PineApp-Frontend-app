@@ -133,7 +133,7 @@
                   large
                   icon
                   fab
-                  @click="eliminar_publicacion(publi)"
+                  @click="eliminar_publicacion(publi._id)"
                 >
                   <v-icon>mdi-trash-can-outline</v-icon>
                 </v-btn>
@@ -350,7 +350,7 @@
 
 <script>
   /* eslint-disable */
-  import { getPublicaciones, like, getPublicacionesSeguidores, seguir, getPublicacionesNoSeguidores, getUserById } from '@/api/modules'
+  import { getPublicaciones, like, getPublicacionesSeguidores, seguir, getPublicacionesNoSeguidores, getUserById, deletePublicacion } from '@/api/modules'
   import { mapActions } from 'vuex'
   export default {
     name: 'DashboardDashboard',
@@ -474,7 +474,7 @@
           })
         }
       },
-      eliminar_publicacion (publi) {
+      async eliminar_publicacion (publi) {
         this.$swal({
             title: '¿Estás seguro de que deseas eliminar tu publicación?',
             text: 'Esta acción tiene un efecto permanente',
@@ -486,6 +486,25 @@
             cancelButtonText: 'Cancelar',
           }).then(async (result) => {
             if (result.value) {
+
+              const serviceResponse = await deletePublicacion(publi)
+            if (serviceResponse.ok === true) {
+              console.log(serviceResponse)
+               const index = this.publicaciones.publicaciones.findIndex(item => item._id === publi)
+              this.publicaciones.publicaciones.splice(index, 1)
+               this.$swal({
+                    text: '¡Su pubicación ha sido eliminada con exito!',
+                    icon: 'success'
+                  })
+            } else {
+              console.log(serviceResponse)
+              this.$swal({
+                title: '¡ERROR!',
+                html: serviceResponse.mensaje.text,
+                icon: 'error',
+              })
+            }
+
             }
           })
       },
