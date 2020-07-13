@@ -33,15 +33,9 @@
                     class="ml-4 mt-0"
                     row
                   >
-                    <v-radio
-                      label="4360-4869-4207-9986"
-                      value="radio-1"
-                    />
-                    <v-icon>mdi-card</v-icon>
-
-                    <v-radio
-                      label="4801-5987-9541-1830"
-                      value="radio-2"
+                    <v-radio v-for="(item, index) in perfil.tarjetas" :key="index"
+                      :label="item.codigo"
+                      :value="index"
                     />
                     <v-icon>mdi-card</v-icon>
                   </v-radio-group>
@@ -66,12 +60,19 @@
 </template>
 
 <script>
-  export default {
-    data: () => ({
 
+  import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
+  import { pagar } from '@/api/modules'
+  export default {
+
+    data: () => ({
+      perfil:''
     }),
+    created() {
+         this.perfil = JSON.parse(localStorage.getItem('perfil'))
+    },
     methods: {
-      procesarPago: function () {
+     async procesarPago() {
         this.$swal({
           title: '¿Estás seguro que quieres procesar tu pago?',
           text: 'Esta acción no tiene vuelta atrás',
@@ -80,13 +81,29 @@
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Confirmar',
-        }).then((result) => {
+        }).then(async (result) => {
           if (result.value) {
-            this.$swal(
-              '¡Pago procesado con Éxito!',
-              'El pago llegará a su cuenta dentro las próximas 48 horas',
-              'success',
-            )
+
+            const serviceResponse = await pagar()
+
+            if (serviceResponse.ok === true) {
+              
+              this.$swal({
+                title:'¡Pago procesado con Éxito!',
+                text:'El pago llegará a su cuenta dentro las próximas 48 horas',
+                icon:'success',
+              })
+            } else {
+              console.log(serviceResponse)
+              this.$swal({
+                title: '¡ERROR!',
+                html: serviceResponse.mensaje.text,
+                icon: 'error',
+              })
+            }
+
+
+            
           }
         })
       },

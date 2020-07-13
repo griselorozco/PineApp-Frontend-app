@@ -22,6 +22,8 @@ export const saveCard = body => apiHttp("PUT", `${agregarTarjeta}`, body);
 
 export const getDinero = () => apiHttp("GET", `${dinero}`);
 
+export const pagar = () => apiHttp("PUT", `${dinero}`);
+
 export const removeCard = id => apiHttp("DELETE", `${eliminarTarjeta}/${id}`);
 
 export const getUserById = id => apiHttp("GET", `${userSave}/${id}`);

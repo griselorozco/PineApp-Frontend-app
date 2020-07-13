@@ -28,6 +28,13 @@
           <v-list-item-title>Perfil</v-list-item-title>
         </app-bar-item>
 
+
+        
+        <template >
+          <app-bar-item>
+            <v-list-item-title  v-text="'Monto: ' + dinero + ' $'"/>
+          </app-bar-item>
+        </template>
         <template v-for="(p, i) in profile">
           <v-divider v-if="p.divider" :key="`divider-${i}`" class="mb-2 mt-2" />
 
@@ -45,7 +52,7 @@
 import { VHover, VListItem } from "vuetify/lib";
 
 // Utilities
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "DashboardCoreAppBar",
@@ -98,20 +105,27 @@ export default {
     profile: [
       { title: "Ajustes", to: "/app/ajustes" },
       { divider: true },
-      { title: "Saldo: 235 $" },
-      { divider: true },
       { title: "Cerrar Sesión", value: "logout" }
     ]
   }),
+
+  created() {
+    this.obtenerDinero()
+  },
 
   computed: {
     ...mapState(["drawer"]),
     perfil_id() {
       return this.$store.state.perfil._id;
+    },
+    dinero(){
+      return this.dineroGetter()
     }
   },
 
   methods: {
+    ...mapActions(['obtenerDinero']),
+    ...mapGetters(['dineroGetter']),
     ...mapMutations({
       setDrawer: "SET_DRAWER"
     }),

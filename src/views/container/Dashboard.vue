@@ -391,12 +391,19 @@
           for (let i = 0; i < publi.length; i++) {
             if (JSON.stringify(publi[i]._id) === JSON.stringify(publicacion.publicacion._id)) {
               publi[i].cantidadLike = publicacion.publicacion.cantidadLike
-              if (publicacion.like === true) {
-                // eslint-disable-next-line no-unused-expressions
-                publicacion.publicacion.cantidadLike
-              }
+              
             }
           }
+
+          const publicc = this.publicacionesSeguidores.publicacion
+          for (let i = 0; i < publicc.length; i++) {
+            if (JSON.stringify(publicc[i]._id) === JSON.stringify(publicacion.publicacion._id)) {
+              publicc[i].cantidadLike = publicacion.publicacion.cantidadLike
+              
+            }
+          }
+
+
         } else {
           console.log(publicacion)
           this.$swal({
