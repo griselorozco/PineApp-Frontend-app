@@ -143,8 +143,8 @@ export default {
     ]),
     ...mapGetters(["usuarioGetter", "tarjetasGetter"]),
     async onChange(val) {
-      let img = val.target.files[0];
-      this.imagenValue = URL.createObjectURL(img);
+      this.perfil.imagen = val.target.files[0];
+      this.imagenValue = URL.createObjectURL(this.perfil.imagen);
     },
     async editarPerfil() {
       this.$swal({
@@ -231,7 +231,7 @@ export default {
     },
     async editarImagen() {
       let formData = new FormData();
-      formData.append("image", this.imagenValue);
+      formData.append("image", this.perfil.imagen);
       const resp = await this.updateImagenPerfil(formData);
       return resp;
     },
