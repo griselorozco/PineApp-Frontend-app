@@ -8,7 +8,8 @@ import {
   seguir,
   agregarTarjeta,
   eliminarTarjeta,
-  dinero
+  dinero,
+  obtenerFollows
 } from "../config/apiRoute.js";
 
 export const createUser = body => apiHttp("POST", `${userSave}`, body);
@@ -33,6 +34,8 @@ export const getUsersAll = () => apiHttp("GET", `${userSave}`);
 export const getUsers = () => apiHttp("GET", `${userPath}`);
 
 export const seguirPerfil = id => apiHttp("GET", `${seguir}/${id}`);
+
+export const getFollows = id => apiHttp("GET", `${obtenerFollows}/${id}`);
 
 export const loginApi = body => {
   return apiHttp("POST", `${loginPath}`, body);
