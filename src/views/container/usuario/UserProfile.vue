@@ -29,9 +29,9 @@
               class="mr-0"
               @click="onSeguir(perfil._id)"
             >
-              <v-icon>
-                {{ seguir ? "mdi-account-multiple-plus" : "mdi-account-minus" }}
-              </v-icon>
+              <v-icon>{{
+                seguir ? "mdi-account-multiple-plus" : "mdi-account-minus"
+              }}</v-icon>
               {{ seguir ? " Seguir" : " Dejar de seguir" }}
             </v-btn>
           </v-card-text>
@@ -97,10 +97,8 @@ export default {
       "seguidosGetter"
     ]),
     onSeguir(id) {
-      console.log("1", this.seguirGetter());
       const resp = this.seguirPerfil(id);
       console.log(resp);
-      console.log("2", this.seguirGetter());
     }
   },
   computed: {
@@ -114,16 +112,18 @@ export default {
       return this.perfilGetter();
     },
     seguir() {
-      console.log("c", this.seguirGetter());
       return this.seguirGetter();
     },
     dinero() {
       return this.dineroGetter();
     }
   },
-  created() {
-    this.getUserByIdAction(this.$route.params.id);
-    this.obtenerDinero();
+  async created() {
+    await this.getUserByIdAction(this.$route.params.id);
+    await this.obtenerDinero();
+    this.perfil.seguidores.forEach(element => {
+      if (element._id == this.auth._id) this.toFollow = false;
+    });
   }
 };
 </script>

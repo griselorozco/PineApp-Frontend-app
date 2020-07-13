@@ -181,7 +181,7 @@ export default new Vuex.Store({
     async seguirPerfil({ commit }, payload) {
       const serviceResponse = await seguirPerfil(payload);
       console.log(serviceResponse);
-      if (serviceResponse.ok) {
+      if (serviceResponse) {
         commit("set_seguir", serviceResponse.seguir);
         return serviceResponse;
       } else {
@@ -229,6 +229,10 @@ export default new Vuex.Store({
         window.getApp.$emit("SHOW_ERROR", params);
         return serviceResponse;
       }
+    },
+    async setSeguir({ commit }, val) {
+      commit("set_seguir", val);
+      return val;
     }
   }
 });
