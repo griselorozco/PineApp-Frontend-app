@@ -89,7 +89,6 @@
             {{ post.descripcion }}
           </v-card-text>
           <span class="body-1 text-left mb-3 font-weight-light grey--text">{{ post.perfil_id.nike }}</span>
-
           <div
             class="text-right mt-n8"
           >
@@ -160,28 +159,25 @@
           })
         }
       },
-       async eliminar_publicacion (publi) {
+      async eliminar_publicacion (publi) {
         this.$swal({
-            title: '¿Estás seguro de que deseas eliminar tu publicación?',
-            text: 'Esta acción tiene un efecto permanente',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Confirmar',
-            cancelButtonText: 'Cancelar',
-          }).then(async (result) => {
-            if (result.value) {
-
-              const serviceResponse = await deletePublicacion(publi)
+          title: '¿Estás seguro de que deseas eliminar tu publicación?',
+          text: 'Esta acción tiene un efecto permanente',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Confirmar',
+          cancelButtonText: 'Cancelar',
+        }).then(async (result) => {
+          if (result.value) {
+            const serviceResponse = await deletePublicacion(publi)
             if (serviceResponse.ok === true) {
               console.log(serviceResponse)
-               const index = this.publicaciones.publicaciones.findIndex(item => item._id === publi)
-              this.publicaciones.publicaciones.splice(index, 1)
-               this.$swal({
-                    text: '¡Su pubicación ha sido eliminada con exito!',
-                    icon: 'success'
-                  })
+              this.$swal({
+                text: '¡Su pubicación ha sido eliminada con exito!',
+                icon: 'success',
+              })
             } else {
               console.log(serviceResponse)
               this.$swal({
@@ -190,12 +186,9 @@
                 icon: 'error',
               })
             }
-
-            }
-          })
+          }
+        })
       },
-
     },
-
   }
 </script>

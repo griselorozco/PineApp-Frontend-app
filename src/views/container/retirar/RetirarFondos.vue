@@ -33,7 +33,9 @@
                     class="ml-4 mt-0"
                     row
                   >
-                    <v-radio v-for="(item, index) in perfil.tarjetas" :key="index"
+                    <v-radio
+                      v-for="(item, index) in perfil.tarjetas"
+                      :key="index"
                       :label="item.codigo"
                       :value="index"
                     />
@@ -61,18 +63,19 @@
 
 <script>
 
-  import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
+  import { mapMutations } from 'vuex'
   import { pagar } from '@/api/modules'
   export default {
 
     data: () => ({
-      perfil:''
+      perfil: '',
     }),
-    created() {
-         this.perfil = JSON.parse(localStorage.getItem('perfil'))
+    created () {
+      this.perfil = JSON.parse(localStorage.getItem('perfil'))
     },
     methods: {
-     async procesarPago() {
+      ...mapMutations(['set_dinero']),
+      async procesarPago () {
         this.$swal({
           title: '¿Estás seguro que quieres procesar tu pago?',
           text: 'Esta acción no tiene vuelta atrás',
@@ -83,15 +86,13 @@
           confirmButtonText: 'Confirmar',
         }).then(async (result) => {
           if (result.value) {
-
             const serviceResponse = await pagar()
-
             if (serviceResponse.ok === true) {
-              
+              this.set_dinero(0)
               this.$swal({
-                title:'¡Pago procesado con Éxito!',
-                text:'El pago llegará a su cuenta dentro las próximas 48 horas',
-                icon:'success',
+                title: '¡Pago procesado con Éxito!',
+                text: 'El pago llegará a su cuenta dentro las próximas 48 horas',
+                icon: 'success',
               })
             } else {
               console.log(serviceResponse)
@@ -101,9 +102,6 @@
                 icon: 'error',
               })
             }
-
-
-            
           }
         })
       },
