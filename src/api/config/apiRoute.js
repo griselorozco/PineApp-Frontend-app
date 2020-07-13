@@ -9,7 +9,7 @@ export const seguir = "/api/seguir";
 export const agregarTarjeta = "/api/agregar-tarjeta";
 export const eliminarTarjeta = "/api/eliminar-tarjeta";
 export const dinero = "/api/dinero";
-
+export const dineroAll = "/api/dinero-all";
 export const mostrarPublicaciones = `/api/publicacion/all`
 export const mostrarPublicacionesSeguidores = `/api/publicacion`
 export const mostrarPublicacionesNoSeguidores = `/api/publicacion-ns`
