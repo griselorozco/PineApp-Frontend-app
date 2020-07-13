@@ -11,9 +11,9 @@ import {
   seguirPerfil,
   saveCard,
   removeCard,
-  getDinero,
-  getFollows
+  getDinero
 } from "@/api/modules";
+import { getFollows } from "./api/modules/user";
 
 const URL_IMG = "http://localhost:3004/public/upload";
 

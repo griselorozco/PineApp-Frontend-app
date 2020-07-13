@@ -3,7 +3,12 @@
   <v-container id="user-profile" fluid tag="section">
     <v-row justify="center">
       <v-col cols="12" md="6">
-        <base-material-card color="secondary" inline title="Edita tu perfil" class="px-5 py-3">
+        <base-material-card
+          color="secondary"
+          inline
+          title="Edita tu perfil"
+          class="px-5 py-3"
+        >
           <v-col cols="auto" class="text-center">
             <input ref="file" type="file" class="d-none" @change="onChange" />
             <v-card
@@ -18,7 +23,9 @@
               <!-- <v-icon v-else class="mx-auto" size="96">mdi-account</v-icon> -->
             </v-card>
 
-            <div class="font-weight-bold grey--text">Cambia tu imagen de perfil</div>
+            <div class="font-weight-bold grey--text">
+              Cambia tu imagen de perfil
+            </div>
           </v-col>
           <v-form class="mt-5">
             <v-text-field label="Nombre" v-model="perfil.nombre" />
@@ -29,9 +36,15 @@
 
             <!-- <v-text-field label="Email" v-model="perfil.correo" /> -->
 
-            <v-textarea label="Acerca de ti" counter v-model="perfil.acerca_de_ti" />
+            <v-textarea
+              label="Acerca de ti"
+              counter
+              v-model="perfil.acerca_de_ti"
+            />
             <v-card-actions class="justify-center">
-              <v-btn color="success" min-width="100" @click="editarPerfil">Guardar datos</v-btn>
+              <v-btn color="success" min-width="100" @click="editarPerfil"
+                >Guardar datos</v-btn
+              >
             </v-card-actions>
             <br />
             <v-divider />
@@ -45,15 +58,53 @@
               v-model="tarjeta.tipo"
             />
 
-            <v-text-field label="Fecha de expiración" v-model="tarjeta.fechaExpiracion" />
+            <v-dialog
+              ref="dialog"
+              v-model="modal"
+              :return-value.sync="tarjeta.fechaExpiracion"
+              persistent
+              width="290px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="tarjeta.fechaExpiracion"
+                  label="Fecha de expiración"
+                  prepend-icon="event"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="tarjeta.fechaExpiracion"
+                color="green lighten-1"
+                scrollable
+              >
+                <v-spacer></v-spacer>
+                <v-btn text color="primary" @click="modal = false"
+                  >Cancelar</v-btn
+                >
+                <v-btn
+                  text
+                  color="primary"
+                  @click="$refs.dialog.save(tarjeta.fechaExpiracion)"
+                  >Aceptar</v-btn
+                >
+              </v-date-picker>
+            </v-dialog>
 
-            <v-text-field label="Codigo de seguridad" v-model="tarjeta.codigo" />
+            <v-text-field
+              label="Codigo de seguridad"
+              v-model="tarjeta.codigo"
+            />
 
             <v-img class src="@/assets/tarjetas.png" height="36%" />
 
             <!-- <v-text-field label="Dirección de facturación" /> -->
             <v-card-actions class="justify-center">
-              <v-btn color="success" min-width="100" @click="saveCard">Guardar tarjeta</v-btn>
+              <v-btn color="success" min-width="100" @click="saveCard"
+                >Guardar tarjeta</v-btn
+              >
             </v-card-actions>
           </v-form>
 
@@ -74,7 +125,13 @@
             disable-pagination
           >
             <template v-slot:item.actions="{ item }">
-              <v-btn color="red" fab class="px-1 ml-1" x-small @click="removeCard(item)">
+              <v-btn
+                color="red"
+                fab
+                class="px-1 ml-1"
+                x-small
+                @click="removeCard(item)"
+              >
                 <v-icon small v-text="'mdi-delete'" />
               </v-btn>
             </template>
@@ -106,6 +163,7 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   data: () => ({
+    modal: false,
     tarjeta: {},
     imagenValue: null,
     tipos_tarjetas: ["Visa", "Master Card", "American Express", "Diners Club"],
@@ -177,30 +235,38 @@ export default {
       });
     },
     async saveCard() {
-      this.$swal({
-        title: `¿Estás seguro que quieres guardar la tarjeta?`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Confirmar"
-      }).then(async result => {
-        if (result.value) {
-          const resp = await this.agregarTarjeta(this.tarjeta);
-          if (resp) {
-            this.$swal({
-              title: "Tarjeta agreada con Éxito!",
-              icon: "success"
-            });
-          } else {
-            if (resp.ok)
+      console.log(this.tarjeta);
+      if (!this.validateTarjeta()) {
+        this.$swal({
+          title: `¿Estás seguro que quieres guardar la tarjeta?`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Confirmar"
+        }).then(async result => {
+          if (result.value) {
+            const resp = await this.agregarTarjeta(this.tarjeta);
+            if (resp) {
               this.$swal({
-                title: "¡Error al guardar la tarjeta!",
-                icon: "error"
+                title: "Tarjeta agreada con Éxito!",
+                icon: "success"
               });
+            } else {
+              if (resp.ok)
+                this.$swal({
+                  title: "¡Error al guardar la tarjeta!",
+                  icon: "error"
+                });
+            }
           }
-        }
-      });
+        });
+      } else {
+        this.$swal({
+          title: "¡Debe completar los campos!",
+          icon: "error"
+        });
+      }
     },
     async removeCard(tarjeta) {
       this.$swal({
@@ -237,6 +303,20 @@ export default {
     },
     validateForm(scope) {
       return this.$validator.validateAll(scope);
+    },
+    validateTarjeta() {
+      if (
+        this.tarjeta.nombre != "" ||
+        this.tarjeta.codigo != "" ||
+        this.tarjeta.fechaExpiracion != "" ||
+        this.tarjeta.tipo != "" ||
+        this.tarjeta.nombre ||
+        this.tarjeta.codigo ||
+        this.tarjeta.fechaExpiracion ||
+        this.tarjeta.tipo
+      )
+        return true;
+      else return false;
     }
   },
   computed: {
