@@ -91,8 +91,6 @@
     },
 
     data: () => ({
-      perfil:'',
-       imagenUrl: 'http://localhost:3004/public/upload/',
       items: [
         {
           icon: 'mdi-home',
@@ -195,11 +193,6 @@
         this.$emit('update:expandOnHover', !val)
       },
     },
-
-    created() {
-       this.perfil = JSON.parse(localStorage.getItem('perfil'))
-    },
-
     methods: {
       mapItem (item) {
         return {
