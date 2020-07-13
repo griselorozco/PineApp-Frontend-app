@@ -235,38 +235,39 @@ export default {
       });
     },
     async saveCard() {
-      console.log(this.tarjeta);
-      if (!this.validateTarjeta()) {
-        this.$swal({
-          title: `¿Estás seguro que quieres guardar la tarjeta?`,
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Confirmar"
-        }).then(async result => {
-          if (result.value) {
-            const resp = await this.agregarTarjeta(this.tarjeta);
-            if (resp) {
+      // console.log(this.tarjeta);
+      // if (!this.validateTarjeta()) {
+      this.$swal({
+        title: `¿Estás seguro que quieres guardar la tarjeta?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Confirmar"
+      }).then(async result => {
+        if (result.value) {
+          const resp = await this.agregarTarjeta(this.tarjeta);
+          if (resp) {
+            this.$swal({
+              title: "Tarjeta agreada con Éxito!",
+              icon: "success"
+            });
+            this.tarjeta = {};
+          } else {
+            if (resp.ok)
               this.$swal({
-                title: "Tarjeta agreada con Éxito!",
-                icon: "success"
+                title: "¡Error al guardar la tarjeta!",
+                icon: "error"
               });
-            } else {
-              if (resp.ok)
-                this.$swal({
-                  title: "¡Error al guardar la tarjeta!",
-                  icon: "error"
-                });
-            }
           }
-        });
-      } else {
-        this.$swal({
-          title: "¡Debe completar los campos!",
-          icon: "error"
-        });
-      }
+        }
+      });
+      // } else {
+      //   this.$swal({
+      //     title: "¡Debe completar los campos!",
+      //     icon: "error"
+      //   });
+      // }
     },
     async removeCard(tarjeta) {
       this.$swal({

@@ -58,6 +58,11 @@ export default new Vuex.Store({
         state.logueado = true;
         state.token = payload.token;
         state.usuario = payload.user;
+        if (state.usuario)
+          state.usuario.imagen =
+            !payload.perfil || !payload.perfil.imagen
+              ? "https://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
+              : `${URL_IMG}/${payload.perfil.imagen}`;
         state.perfil = payload.perfil;
         state.rol = payload.rol;
       }
@@ -65,9 +70,10 @@ export default new Vuex.Store({
     set_usuario(state, payload) {
       state.usuario = payload.perfil;
       if (payload.usuario) state.usuario.correo = payload.usuario.correo;
-      state.usuario.imagen = !payload.perfil.imagen
-        ? "https://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
-        : `${URL_IMG}/${payload.perfil.imagen}`;
+      state.usuario.imagen =
+        !payload.perfil.imagen || !payload.perfil
+          ? "https://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
+          : `${URL_IMG}/${payload.perfil.imagen}`;
     },
     set_seguir(state, payload) {
       state.seguir = payload;
@@ -104,12 +110,11 @@ export default new Vuex.Store({
   },
   actions: {
     async login_action({ commit }, payload) {
-      console.log(payload);
       const serviceResponse = await loginApi(payload);
       console.log(serviceResponse);
       if (serviceResponse.ok) {
         commit("obtener_usuario", serviceResponse);
-        commit("avatar", serviceResponse);
+        commit("set_usuario", serviceResponse);
         localStorage.setItem("token", serviceResponse.token);
         localStorage.setItem("rol", JSON.stringify(serviceResponse.rol));
         localStorage.setItem("perfil", JSON.stringify(serviceResponse.perfil));
