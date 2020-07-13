@@ -3,12 +3,7 @@
   <v-container id="user-profile" fluid tag="section">
     <v-row justify="center">
       <v-col cols="12" md="6">
-        <base-material-card
-          color="secondary"
-          inline
-          title="Edita tu perfil"
-          class="px-5 py-3"
-        >
+        <base-material-card color="secondary" inline title="Edita tu perfil" class="px-5 py-3">
           <v-col cols="auto" class="text-center">
             <input ref="file" type="file" class="d-none" @change="onChange" />
             <v-card
@@ -19,13 +14,11 @@
               width="106"
               @click="$refs.file.click()"
             >
-              <v-img :src="perfil.imagen" height="100%" width="100%" />
+              <img :src="perfil.imagen" height="100%" width="100%" />
               <!-- <v-icon v-else class="mx-auto" size="96">mdi-account</v-icon> -->
             </v-card>
 
-            <div class="font-weight-bold grey--text">
-              Cambia tu imagen de perfil
-            </div>
+            <div class="font-weight-bold grey--text">Cambia tu imagen de perfil</div>
           </v-col>
           <v-form class="mt-5">
             <v-text-field label="Nombre" v-model="perfil.nombre" />
@@ -34,17 +27,11 @@
 
             <v-text-field label="Nombre de usuario" v-model="perfil.nick" />
 
-            <v-text-field label="Email" v-model="perfil.correo" />
+            <!-- <v-text-field label="Email" v-model="perfil.correo" /> -->
 
-            <v-textarea
-              label="Acerca de ti"
-              counter
-              v-model="perfil.acerca_de_ti"
-            />
+            <v-textarea label="Acerca de ti" counter v-model="perfil.acerca_de_ti" />
             <v-card-actions class="justify-center">
-              <v-btn color="success" min-width="100" @click="editarPerfil"
-                >Guardar datos</v-btn
-              >
+              <v-btn color="success" min-width="100" @click="editarPerfil">Guardar datos</v-btn>
             </v-card-actions>
             <br />
             <v-divider />
@@ -58,23 +45,15 @@
               v-model="tarjeta.tipo"
             />
 
-            <v-text-field
-              label="Fecha de expiración"
-              v-model="tarjeta.fechaExpiracion"
-            />
+            <v-text-field label="Fecha de expiración" v-model="tarjeta.fechaExpiracion" />
 
-            <v-text-field
-              label="Codigo de seguridad"
-              v-model="tarjeta.codigo"
-            />
+            <v-text-field label="Codigo de seguridad" v-model="tarjeta.codigo" />
 
             <v-img class src="@/assets/tarjetas.png" height="36%" />
 
             <!-- <v-text-field label="Dirección de facturación" /> -->
             <v-card-actions class="justify-center">
-              <v-btn color="success" min-width="100" @click="saveCard"
-                >Guardar tarjeta</v-btn
-              >
+              <v-btn color="success" min-width="100" @click="saveCard">Guardar tarjeta</v-btn>
             </v-card-actions>
           </v-form>
 
@@ -95,13 +74,7 @@
             disable-pagination
           >
             <template v-slot:item.actions="{ item }">
-              <v-btn
-                color="red"
-                fab
-                class="px-1 ml-1"
-                x-small
-                @click="removeCard(item)"
-              >
+              <v-btn color="red" fab class="px-1 ml-1" x-small @click="removeCard(item)">
                 <v-icon small v-text="'mdi-delete'" />
               </v-btn>
             </template>
@@ -162,8 +135,13 @@ export default {
     ]
   }),
   methods: {
-    ...mapActions(["updatePerfil", "updateImagenPerfil", "agregarTarjeta"]),
-    ...mapGetters(["usuarioGetter", "tarjetasGetter", "eliminarTarjeta"]),
+    ...mapActions([
+      "updatePerfil",
+      "updateImagenPerfil",
+      "agregarTarjeta",
+      "eliminarTarjeta"
+    ]),
+    ...mapGetters(["usuarioGetter", "tarjetasGetter"]),
     async onChange(val) {
       this.imagenValue = val.target.files[0];
       console.log(this.imagenValue);
