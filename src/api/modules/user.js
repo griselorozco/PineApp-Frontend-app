@@ -28,6 +28,8 @@ export const removeCard = id => apiHttp("DELETE", `${eliminarTarjeta}/${id}`);
 
 export const getUserById = id => apiHttp("GET", `${userSave}/${id}`);
 
+export const getUsersAll = () => apiHttp("GET", `${userSave}`);
+
 export const getUsers = () => apiHttp("GET", `${userPath}`);
 
 export const seguirPerfil = id => apiHttp("GET", `${seguir}/${id}`);
