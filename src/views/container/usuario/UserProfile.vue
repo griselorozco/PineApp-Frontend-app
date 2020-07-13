@@ -7,12 +7,10 @@
           <v-card-text class="text-center">
             <h6 class="display-1 mb-1 grey--text">{{ perfil.nick }}</h6>
 
-            <h4 class="display-2 font-weight-light mb-3 black--text">
-              {{ perfil.nombre }} {{ perfil.apellido }}
-            </h4>
-            <p class="font-weight-light grey--text">
-              {{ perfil.acerca_de_ti }}
-            </p>
+            <h4
+              class="display-2 font-weight-light mb-3 black--text"
+            >{{ perfil.nombre }} {{ perfil.apellido }}</h4>
+            <p class="font-weight-light grey--text">{{ perfil.acerca_de_ti }}</p>
             <v-btn
               v-if="URL_ID === auth._id"
               color="success"
@@ -29,9 +27,11 @@
               class="mr-0"
               @click="onSeguir(perfil._id)"
             >
-              <v-icon>{{
+              <v-icon>
+                {{
                 seguir ? "mdi-account-multiple-plus" : "mdi-account-minus"
-              }}</v-icon>
+                }}
+              </v-icon>
               {{ seguir ? " Seguir" : " Dejar de seguir" }}
             </v-btn>
           </v-card-text>
@@ -43,9 +43,7 @@
             <h4 class="display-2 font-weight-light mb-3 black--text">Nivel de la cuenta</h4>
             <p class="font-weight-light grey--text">{{perfil.nivel}}</p>
 
-            <h4 class="display-1 font-weight-light mb-3 black--text">
-              Saldo de la cuenta
-            </h4>
+            <h4 class="display-1 font-weight-light mb-3 black--text">Saldo de la cuenta</h4>
 
             <p class="font-weight-light grey--text">{{ dinero }} $</p>
           </v-card-text>
@@ -94,7 +92,8 @@ export default {
       "perfilGetter",
       "seguirGetter",
       "dineroGetter",
-      "seguidosGetter"
+      "seguidosGetter",
+      "obtenerFollows"
     ]),
     onSeguir(id) {
       const resp = this.seguirPerfil(id);
@@ -121,9 +120,6 @@ export default {
   async created() {
     await this.getUserByIdAction(this.$route.params.id);
     await this.obtenerDinero();
-    this.perfil.seguidores.forEach(element => {
-      if (element._id == this.auth._id) this.toFollow = false;
-    });
   }
 };
 </script>

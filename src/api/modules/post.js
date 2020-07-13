@@ -38,7 +38,7 @@ export const destroyComentario = (publicacionId, comentarioId) =>
 
   export const getPublicacion = (publicacionId) =>
   apiHttp('GET', `${obtenerPublicacion}/${publicacionId}`)
-  
+
   export const deletePublicacion = (publicacionId) =>
   apiHttp('DELETE', `${obtenerPublicacion}/${publicacionId}`)
 

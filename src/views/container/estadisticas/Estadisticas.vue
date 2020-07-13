@@ -52,16 +52,16 @@
           >
             <tbody>
               <tr
-                v-for="(item, i) in usuarios_mas_seguidores"
+                v-for="(item, i) in mas_seguidores"
                 :key="i"
               >
                 <td v-text="i+1" />
-                <td v-text="item.perfil_id.nick" />
-                <td v-if="item.perfil_id.seguidores.length <= 1">
-                  {{ item.perfil_id.seguidores.length }} Seguidor
+                <td v-text="item.nick" />
+                <td v-if="item.seguidores.length === 1">
+                  {{ item.seguidores.length }} Seguidor
                 </td>
                 <td v-else>
-                  {{ item.perfil_id.seguidores.length }} Seguidores
+                  {{ item.seguidores.length }} Seguidores
                 </td>
               </tr>
             </tbody>
@@ -73,20 +73,20 @@
 </template>
 
 <script>
-  import { getDineroAll } from '../../../api/modules'
+  import { getDineroAll, getUsersAll } from '../../../api/modules'
   export default {
     data: () => ({
       usuarios_mas_ingresos: [],
-      usuarios_mas_seguidores: [],
+      mas_seguidores: [],
     }),
-    mounted () {
+    created () {
       this.loadData()
     },
     methods: {
       async loadData () {
         const serviceResponse = await getDineroAll()
         if (serviceResponse.ok === true) {
-          this.usuarios_mas_ingresos = serviceResponse.dinero
+          this.usuarios_mas_ingresos = serviceResponse.diezprimero
         } else {
           console.log(serviceResponse)
           this.$swal({
@@ -95,15 +95,26 @@
             icon: 'error',
           })
         }
-        this.usuarios_mas_seguidores = this.usuarios_mas_ingresos.sort(function (a, b) {
-          if (a.perfil_id.seguidores.length > b.perfil_id.seguidores.length) {
-            return -1
-          }
-          if (a.perfil_id.seguidores.length < b.perfil_id.seguidores.length) {
-            return 1
-          }
-          return 0
-        })
+
+        const serviceResponse2 = await getUsersAll()
+        if (serviceResponse2.ok === true) {
+          this.mas_seguidores = serviceResponse2.usuarios.sort(function (a, b) {
+            if (a.seguidores.length > b.seguidores.length) {
+              return -1
+            }
+            if (a.seguidores.length < b.seguidores.length) {
+              return 1
+            }
+            return 0
+          })
+        } else {
+          console.log(serviceResponse2)
+          this.$swal({
+            title: '¡ERROR!',
+            html: serviceResponse2.mensaje.text,
+            icon: 'error',
+          })
+        }
       },
     },
   }

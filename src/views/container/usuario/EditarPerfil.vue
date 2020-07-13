@@ -14,7 +14,7 @@
               width="106"
               @click="$refs.file.click()"
             >
-              <img :src="perfil.imagen" height="100%" width="100%" />
+              <img :src="imagenValue" height="100%" width="100%" />
               <!-- <v-icon v-else class="mx-auto" size="96">mdi-account</v-icon> -->
             </v-card>
 
@@ -143,10 +143,8 @@ export default {
     ]),
     ...mapGetters(["usuarioGetter", "tarjetasGetter"]),
     async onChange(val) {
-      this.imagenValue = val.target.files[0];
-      console.log(this.imagenValue);
-      this.perfil.imagen = URL.createObjectURL(this.imagenValue);
-      console.log(this.perfil.imagen);
+      this.perfil.imagen = val.target.files[0];
+      this.imagenValue = URL.createObjectURL(this.perfil.imagen);
     },
     async editarPerfil() {
       this.$swal({
@@ -233,7 +231,7 @@ export default {
     },
     async editarImagen() {
       let formData = new FormData();
-      formData.append("image", this.imagenValue);
+      formData.append("image", this.perfil.imagen);
       const resp = await this.updateImagenPerfil(formData);
       return resp;
     },
@@ -248,6 +246,7 @@ export default {
   },
   created() {
     this.perfil = this.usuarioGetter();
+    this.imagenValue = this.perfil.imagen;
   }
 };
 </script>

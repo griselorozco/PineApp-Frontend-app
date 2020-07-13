@@ -11,7 +11,8 @@ import {
   seguirPerfil,
   saveCard,
   removeCard,
-  getDinero
+  getDinero,
+  getFollows
 } from "@/api/modules";
 
 const URL_IMG = "http://localhost:3004/public/upload";
@@ -148,8 +149,8 @@ export default new Vuex.Store({
       console.log(serviceResponse);
       if (serviceResponse.ok) {
         commit("set_usuario", serviceResponse);
-        commit("set_seguidos", serviceResponse.perfil.siguiendo);
-        commit("set_seguidores", serviceResponse.perfil.seguidores);
+        // commit("set_seguidos", serviceResponse.perfil.siguiendo);
+        // commit("set_seguidores", serviceResponse.perfil.seguidores);
         commit("set_tarjetas", serviceResponse.perfil.tarjetas);
       } else {
         const params = { text: serviceResponse.message };
@@ -232,9 +233,18 @@ export default new Vuex.Store({
         return serviceResponse;
       }
     },
-    async setSeguir({ commit }, val) {
-      commit("set_seguir", val);
-      return val;
+    async obtenerFollows({ commit }, id) {
+      const serviceResponse = await getFollows(id);
+      console.log(serviceResponse);
+      if (serviceResponse.ok) {
+        commit("set_seguidos", serviceResponse.perfil.siguiendo);
+        commit("set_seguidores", serviceResponse.perfil.seguidores);
+        return serviceResponse;
+      } else {
+        const params = { text: serviceResponse.message };
+        window.getApp.$emit("SHOW_ERROR", params);
+        return serviceResponse;
+      }
     }
   }
 });
