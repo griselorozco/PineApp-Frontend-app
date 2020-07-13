@@ -89,7 +89,9 @@
         default: false,
       },
     },
-
+created(){
+console.log("probando storage", JSON.parse(localStorage.getItem('perfil')).nombre);
+},
     data: () => ({
       items: [
         {
@@ -177,7 +179,7 @@
         return {
           avatar: true,
           group: '',
-          title: 'Grisel Orozco',
+          title: JSON.parse(localStorage.getItem('perfil')).nombre +" "+ JSON.parse(localStorage.getItem('perfil')).apellido,
           children: [
             {
               to: 'app/user',
@@ -200,7 +202,7 @@
           children: item.children ? item.children.map(this.mapItem) : undefined,
           title: this.$t(item.title),
         }
-      },
+      }
     },
   }
 </script>

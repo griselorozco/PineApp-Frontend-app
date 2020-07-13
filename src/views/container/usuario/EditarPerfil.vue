@@ -27,7 +27,7 @@
 
             <v-text-field label="Nombre de usuario" v-model="perfil.nick" />
 
-            <!-- <v-text-field label="Email" v-model="perfil.correo" /> -->
+            <v-text-field label="Email" v-model="perfil.correo" />
 
             <v-textarea label="Acerca de ti" counter v-model="perfil.acerca_de_ti" />
             <v-card-actions class="justify-center">
@@ -37,7 +37,7 @@
             <v-divider />
             <br />
             <p class="font-weight-bold">Información Privada</p>
-            <v-text-field label="Nombre" v-model="tarjeta.nombre" />
+            <v-text-field label="Número" v-model="tarjeta.nombre" />
 
             <v-select
               :items="tipos_tarjetas"
