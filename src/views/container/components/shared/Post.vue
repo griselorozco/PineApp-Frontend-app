@@ -90,51 +90,19 @@
           </v-card-text>
           <span class="body-1 text-left mb-3 font-weight-light grey--text">{{ post.perfil_id.nike }}</span>
 
-          <div class="text-right mt-n8">
-            <v-bottom-sheet
-              v-model="sheet"
-              inset
+          <div
+            class="text-right mt-n8"
+          >
+            <v-btn
+              class="mt-n3"
+              color="black"
+              large
+              icon
+              fab
+              @click="eliminar_publicacion(post)"
             >
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  icon
-                  v-on="on"
-                >
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </template>
-              <v-sheet
-                class="text-center"
-                height="200px"
-              >
-                <v-btn
-                  class="mt-6"
-                  text
-                  color="error"
-                  @click="sheet = !sheet"
-                >
-                  Cerrar
-                </v-btn>
-                <div class="my-3">
-                  <v-list>
-                    <v-list-item
-                      v-for="tile in tiles"
-                      :key="tile.title"
-                      @click="sheet = false"
-                    >
-                      <v-list-item-avatar>
-                        <v-avatar
-                          tile
-                        >
-                          <v-icon>{{ tile.icon }}</v-icon>
-                        </v-avatar>
-                      </v-list-item-avatar>
-                      <v-list-item-title>{{ tile.title }}</v-list-item-title>
-                    </v-list-item>
-                  </v-list>
-                </div>
-              </v-sheet>
-            </v-bottom-sheet>
+              <v-icon>mdi-trash-can-outline</v-icon>
+            </v-btn>
           </div>
 
           <template v-slot:actions>
@@ -191,6 +159,21 @@
             icon: 'error',
           })
         }
+      },
+      eliminar_publicacion (publi) {
+        this.$swal({
+          title: '¿Estás seguro de que deseas eliminar tu publicación?',
+          text: 'Esta acción tiene un efecto permanente',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Confirmar',
+          cancelButtonText: 'Cancelar',
+        }).then(async (result) => {
+          if (result.value) {
+          }
+        })
       },
 
     },
