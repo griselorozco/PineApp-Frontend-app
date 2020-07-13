@@ -46,6 +46,8 @@ router.beforeEach(async (to, from, next) => {
 
   if (rutaProtegida && store.state.token === '') {
     next({ name: 'Login' })
+  } else if (!rutaProtegida && store.state.token !== '') {
+    next('/app')
   } else {
     next()
   }
