@@ -87,12 +87,12 @@ export default new Vuex.Store({
     set_tarjetas(state, payload) {
       state.tarjetas = payload;
     },
-    add_tarjeta(state, payload) {
-      state.tarjetas.push(payload);
+    add_seguidores(state) {
+      state.seguidores.push(state.perfil);
     },
-    remove_tarjeta(state, id) {
-      let index = state.tarjetas.findIndex(index => index._id == id);
-      state.tarjetas.splice(index, 1);
+    remove_seguidores(state, id) {
+      let index = state.seguidores.findIndex(index => index._id == id);
+      state.seguidores.splice(index, 1);
     },
     set_dinero(state, payload) {
       state.dinero = payload;
@@ -144,6 +144,7 @@ export default new Vuex.Store({
           token: token
         };
         commit("obtener_usuario", payload);
+        // commit("set_usuario", payload);
       } else {
         commit("obtener_usuario", "");
         router.push({ name: "Login" });
@@ -191,6 +192,11 @@ export default new Vuex.Store({
       console.log(serviceResponse);
       if (serviceResponse) {
         commit("set_seguir", serviceResponse.seguir);
+        if (serviceResponse.seguir) {
+          commit("add_seguidores");
+        } else {
+          commit("remove_seguidores", payload);
+        }
         return serviceResponse;
       } else {
         const params = { text: serviceResponse.message };
