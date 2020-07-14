@@ -24,17 +24,15 @@
             </v-btn>
             <v-btn
               v-else
-              :color="!seguir ? 'warning' : 'error'"
+              :color="seguir ? 'warning' : 'error'"
               rounded
               class="mr-0"
               @click="onSeguir(perfil._id)"
             >
               <v-icon>
-                {{
-                  !seguir ? "mdi-account-multiple-plus" : "mdi-account-minus"
-                }}
+                {{ seguir ? "mdi-account-multiple-plus" : "mdi-account-minus" }}
               </v-icon>
-              {{ !seguir ? " Seguir" : " Dejar de seguir" }}
+              {{ seguir ? " Seguir" : " Dejar de seguir" }}
             </v-btn>
           </v-card-text>
         </base-material-card>
@@ -93,14 +91,18 @@ export default {
     components: ["Posts", "Followers", "Followeds"]
   }),
   methods: {
-    ...mapActions(["getUserByIdAction", "seguirPerfil", "obtenerDinero"]),
+    ...mapActions([
+      "getUserByIdAction",
+      "seguirPerfil",
+      "obtenerDinero",
+      "obtenerFollows"
+    ]),
     ...mapGetters([
       "usuarioGetter",
       "perfilGetter",
-      "seguirGetter",
+      "seguidoresGetter",
       "dineroGetter",
-      "seguidosGetter",
-      "obtenerFollows"
+      "seguidosGetter"
     ]),
     async onSeguir(id) {
       const resp = await this.seguirPerfil(id);
@@ -125,7 +127,10 @@ export default {
   async created() {
     await this.getUserByIdAction(this.$route.params.id);
     await this.obtenerDinero();
-    this.seguir = this.seguirGetter();
+    await this.obtenerFollows(this.URL_ID);
+    this.seguidoresGetter().forEach(e => {
+      if (e._id === this.URL_ID) this.seguir = true;
+    });
   }
 };
 </script>
