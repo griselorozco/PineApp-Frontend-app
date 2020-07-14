@@ -164,10 +164,22 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data: () => ({
     modal: false,
-    tarjeta: {},
+    tarjeta: {
+      nombre:"",
+      codigo:"",
+      tipo:"",
+      fechaExpiracion:null
+    },
     imagenValue: null,
     tipos_tarjetas: ["Visa", "Master Card", "American Express", "Diners Club"],
-    perfil: {},
+    perfil: {
+      nombre:"",
+      apellido:"",
+      nick: "",
+      correo:"",
+      acerca_de_ti:""
+
+    },
     headers: [
       {
         text: "Codigo",
@@ -205,6 +217,10 @@ export default {
       this.imagenValue = URL.createObjectURL(this.perfil.imagen);
     },
     async editarPerfil() {
+
+      if(this.validarPerfil()){
+
+
       this.$swal({
         title: `¿Estás seguro que quieres actualizar tus datos?`,
         text: "Esta acción no tiene vuelta atrás",
@@ -233,10 +249,17 @@ export default {
           }
         }
       });
+      }
+      else{
+        this.$swal({
+          title: "¡Debe completar los campos!",
+          icon: "error"
+        });
+      }
     },
     async saveCard() {
       console.log(this.tarjeta);
-      if (!this.validateTarjeta()) {
+      if (this.validateTarjeta()) {
         this.$swal({
           title: `¿Estás seguro que quieres guardar la tarjeta?`,
           icon: "warning",
@@ -253,7 +276,6 @@ export default {
                 icon: "success"
               });
             } else {
-              if (resp.ok)
                 this.$swal({
                   title: "¡Error al guardar la tarjeta!",
                   icon: "error"
@@ -305,18 +327,31 @@ export default {
       return this.$validator.validateAll(scope);
     },
     validateTarjeta() {
+      
       if (
-        this.tarjeta.nombre != "" ||
-        this.tarjeta.codigo != "" ||
-        this.tarjeta.fechaExpiracion != "" ||
-        this.tarjeta.tipo != "" ||
-        this.tarjeta.nombre ||
-        this.tarjeta.codigo ||
-        this.tarjeta.fechaExpiracion ||
-        this.tarjeta.tipo
+        this.tarjeta.nombre == "" ||
+        this.tarjeta.codigo == "" ||
+        this.tarjeta.fechaExpiracion == null ||
+        this.tarjeta.tipo == "" /*||
+        !this.tarjeta.nombre ||
+        !this.tarjeta.codigo ||
+        !this.tarjeta.fechaExpiracion ||
+        !this.tarjeta.tipo*/
       )
-        return true;
-      else return false;
+        return false;
+      else return true;
+    },
+        validarPerfil() {
+
+      if (
+        this.perfil.nombre == "" ||
+        this.perfil.apellido == "" ||
+        this.perfil.correo == "" ||
+        this.perfil.nick == "" ||
+        this.perfil.acerca_de_ti == ""
+      )
+        return false;
+      else return true;
     }
   },
   computed: {

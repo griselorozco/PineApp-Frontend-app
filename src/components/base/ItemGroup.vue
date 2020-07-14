@@ -99,7 +99,7 @@
         return this.genGroup(this.item.children)
       },
       avatar () {
-        return this.usuarioGetter()
+        return this.perfilGetter()
       },
     },
 
@@ -118,7 +118,7 @@
             return group
           }).join('|')
       },
-      ...mapGetters(["usuarioGetter"])
+      ...mapGetters(["perfilGetter"])
     },
   }
 </script>
