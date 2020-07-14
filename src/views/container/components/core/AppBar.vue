@@ -151,7 +151,7 @@
     computed: {
       ...mapState(['drawer']),
       perfil_id () {
-        return this.$store.state.perfil._id
+        return JSON.parse(localStorage.getItem('perfil'))._id
       },
       dinero () {
         return this.dineroGetter()

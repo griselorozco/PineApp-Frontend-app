@@ -64,8 +64,14 @@
     </v-tabs>
 
     <v-tabs-items v-model="tab">
-      <v-tab-item v-for="component in components" :key="component">
-        <component :is="component" />
+      <v-tab-item>
+          <Posts :perfilId="this.$route.params.id" />
+      </v-tab-item>
+      <v-tab-item>
+          <Followers />
+      </v-tab-item>
+      <v-tab-item>
+          <Followeds />
       </v-tab-item>
     </v-tabs-items>
   </v-container>

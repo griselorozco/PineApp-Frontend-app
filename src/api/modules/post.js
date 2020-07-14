@@ -44,3 +44,6 @@ export const destroyComentario = (publicacionId, comentarioId) =>
 
   export const seguir = (perfilId) =>
   apiHttp('GET', `${seguirPerfil}/${perfilId}`)
+
+export const getPublicacionPorUsuario = (perfilId) =>
+  apiHttp('GET', `${obtenerPublicacionesUsuario}/${perfilId}`)

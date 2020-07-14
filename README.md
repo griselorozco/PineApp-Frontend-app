@@ -1,36 +1,32 @@
 ## Getting Started
-- Install Nodejs from [Nodejs Official Page](https://nodejs.org/en/)
-- Open your terminal
-- Navigate to the project
-- Run `npm install` or `yarn install` if you use [Yarn](https://yarnpkg.com/en/)
-- Run `npm run dev` or `yarn serve` to start a local development server
-- A new tab will be opened in your browser
+- Instalar Nodejs desde [Nodejs Official Page](https://nodejs.org/en/)
+- Abre tu terminal
+- Navega hacia el proyecto
+- Ejecuta `npm install` o `yarn install` si usas yarn [Yarn](https://yarnpkg.com/en/)
+- Ejecuta `npm run dev` o `yarn serve` para iniciar un servidor de desarrollo local
+- Se abrira un nuevo tab en tu navegador
 
-You can also run additional npm tasks such as
-- `npm run build` to build your app for production
-- `npm run lint` to run linting.
+Tambien puedes ejecutar tareas adiciones de npm como:
+- `npm run build` Para construir la app para produccion
+- `npm run lint` Para ejecutar el link.
 
 ## Vuetify
-Vuetify is developed exactly according to Material Design spec. Every component is hand crafted to bring you the best possible UI tools to your next great app. The development doesn't stop at the core components outlined in Google's spec. Through the support of community members and sponsors, additional components will be designed and made available for everyone to enjoy.
+Vuetify es un framework que combina la potencia del popular VueJs con la estética de Material Design. Permite acelerar el desarrollo de aplicaciones web complejas, incorporando una gran cantidad de componentes "listos para usar"
 
 
 ## Vuex
 
-Vuex is a state management pattern + library for Vue.js applications. It serves as a centralized store for all the components in an application, with rules ensuring that the state can only be mutated in a predictable fashion. It also integrates with Vue's official [devtools](https://github.com/vuejs/vue-devtools) extension to provide advanced features such as zero-config time-travel debugging and state snapshot export / import.
+Vuex es un patrón de gestión de estado + biblioteca para aplicaciones Vue.js. Sirve como una tienda centralizada para todos los componentes de una aplicación, con reglas que aseguran que el estado solo pueda mutarse de manera predecible. También se integra con la extensión oficial  [devtools](https://github.com/vuejs/vue-devtools) de Vue para proporcionar funciones avanzadas como la depuración de viaje en el tiempo de configuración cero y la exportación / importación de instantáneas de estado.
 
 ## Vue-cli
 
-We used the latest 3.x [Vue CLI](https://github.com/vuejs/vue-cli) which aims to reduce project configuration
-to as little as possible. Almost everything is inside `package.json` + some other related files such as
-`.babel.config.js`, `.eslintrc.js` and `.postcssrc.js`.
+Usamos la ultima version de 3.x [Vue CLI](https://github.com/vuejs/vue-cli)
 
 
 Vuetify | Vue | HTML |
 | --- | --- | --- |
 
 ## Browser Support
-
-At present, we officially aim to support the last two versions of the following browsers:
 
 <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/chrome.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/firefox.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/edge.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/safari.png" width="64" height="64"> <img src="https://s3.amazonaws.com/creativetim_bucket/github/browser/opera.png" width="64" height="64">
 

@@ -11,7 +11,7 @@ const messages = {
     ...require('@/locales/en.json'),
     $vuetify: en,
   },
-  ar: {
+  es: {
     ...require('@/locales/es.json'),
     $vuetify: es,
   },

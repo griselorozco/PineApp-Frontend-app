@@ -1,15 +1,6 @@
 // =========================================================
-// * Vuetify Material Dashboard PRO - v2.0.0
+// * PineApp - v1.0.0
 // =========================================================
-//
-// * Product Page: https://www.creative-tim.com/product/vuetify-material-dashboard-pro
-// * Copyright 2019 Creative Tim (https://www.creative-tim.com)
-//
-// * Coded by Creative Tim
-//
-// =========================================================
-//
-// * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 /* eslint-disable */
 import Vue from "vue";
 import App from "./App.vue";

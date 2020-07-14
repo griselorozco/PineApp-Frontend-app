@@ -3,6 +3,7 @@
   <v-container fluid>
     <v-list>
       <follow-item v-for="(item, index) in siguiendo" :key="index" :follow="item" />
+      <span v-if="siguiendo.length === 0"> No posee Seguidores </span>
     </v-list>
   </v-container>
 </template>
