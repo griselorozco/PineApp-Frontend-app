@@ -45,9 +45,8 @@
 
 <script>
   // Utilities
-  import {mapActions, mapGetters}from "vuex"
+  import { mapState, mapGetters } from 'vuex'
   import kebabCase from 'lodash/kebabCase'
-  import { mapState } from 'vuex'
 
   export default {
     name: 'ItemGroup',
@@ -64,7 +63,7 @@
           children: [],
         }),
       },
-      img:null,
+      img: null,
       subGroup: {
         type: Boolean,
         default: false,
@@ -118,7 +117,7 @@
             return group
           }).join('|')
       },
-      ...mapGetters(["perfilGetter"])
+      ...mapGetters(['perfilGetter']),
     },
   }
 </script>

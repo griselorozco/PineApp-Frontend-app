@@ -89,9 +89,6 @@
         default: false,
       },
     },
-created(){
-console.log("probando storage", JSON.parse(localStorage.getItem('perfil')).nombre);
-},
     data: () => ({
       items: [
         {
@@ -161,7 +158,6 @@ console.log("probando storage", JSON.parse(localStorage.getItem('perfil')).nombr
         },
       ],
     }),
-
     computed: {
       ...mapState(['barColor', 'barImage']),
       drawer: {
@@ -179,7 +175,7 @@ console.log("probando storage", JSON.parse(localStorage.getItem('perfil')).nombr
         return {
           avatar: true,
           group: '',
-          title: JSON.parse(localStorage.getItem('perfil')).nombre +" "+ JSON.parse(localStorage.getItem('perfil')).apellido,
+          title: JSON.parse(localStorage.getItem('perfil')).nombre + ' ' + JSON.parse(localStorage.getItem('perfil')).apellido,
           children: [
             {
               to: 'app/user',
@@ -195,6 +191,9 @@ console.log("probando storage", JSON.parse(localStorage.getItem('perfil')).nombr
         this.$emit('update:expandOnHover', !val)
       },
     },
+    created () {
+      console.log('probando storage', JSON.parse(localStorage.getItem('perfil')).nombre)
+    },
     methods: {
       mapItem (item) {
         return {
@@ -202,7 +201,7 @@ console.log("probando storage", JSON.parse(localStorage.getItem('perfil')).nombr
           children: item.children ? item.children.map(this.mapItem) : undefined,
           title: this.$t(item.title),
         }
-      }
+      },
     },
   }
 </script>

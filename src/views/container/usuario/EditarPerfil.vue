@@ -160,6 +160,7 @@
 <script>
 /* eslint-disable */
 import { mapActions, mapGetters } from "vuex";
+import { getUserById } from '@/api/modules'
 
 export default {
   data: () => ({
@@ -202,19 +203,47 @@ export default {
     items: [
       { id: 1, number: "4360-4869-4207-9986" },
       { id: 2, number: "4801-5987-9541-1830" }
-    ]
+    ],
+    imagen_check: null,
+    id:'',
   }),
+  computed: {
+    tarjetas() {
+      return this.tarjetasGetter();
+    }
+  },
+  created() {
+    this.id = this.perfilGetter();
+    this.load()
+  },
   methods: {
     ...mapActions([
       "updatePerfil",
       "updateImagenPerfil",
       "agregarTarjeta",
-      "eliminarTarjeta"
+      "eliminarTarjeta",
+      "leer_token"
     ]),
-    ...mapGetters(["usuarioGetter", "tarjetasGetter"]),
+    ...mapGetters(["perfilGetter", "tarjetasGetter"]),
+    async load() {
+      const resp = await getUserById(this.id._id)
+      if (resp.ok === true) {
+        this.perfil = resp.perfil
+         this.perfil.correo = resp.usuario.correo
+         this.imagenValue = !this.perfil.imagen ? "https://s3.amazonaws.com/37assets/svn/765-default-avatar.png": 'http://localhost:3004/public/upload/' + this.perfil.imagen;
+      } else {
+        console.log(resp)
+        this.$swal({
+          title: '¡ERROR!',
+          html: resp.mensaje.text,
+          icon: 'error',
+        })
+      }
+    },
     async onChange(val) {
       this.perfil.imagen = val.target.files[0];
       this.imagenValue = URL.createObjectURL(this.perfil.imagen);
+      this.imagen_check = true
     },
     async editarPerfil() {
 
@@ -228,24 +257,49 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Confirmar"
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar"
       }).then(async result => {
         if (result.value) {
-          const resp = await this.updatePerfil(this.perfil);
-          if (resp.ok && this.imagenValue) {
+          if (this.imagenValue && this.imagen_check) {
             const imagen_resp = await this.editarImagen();
             if (imagen_resp.ok) {
               this.$swal({
                 title: "¡Perfil actualizado con Éxito!",
                 icon: "success"
               });
+              /* location.reload(); */
             }
+          }
+
+          const resp = await this.updatePerfil(this.perfil);
+          console.log(this.perfil._id)
+          if (resp.ok) {
+              const resp = await getUserById(this.perfil._id)
+                if (resp.ok === true) {
+                  this.$swal({
+                    title: "¡Perfil actualizado con Éxito!",
+                    icon: "success"
+                  });
+                  localStorage.setItem("perfil", JSON.stringify(resp.perfil));
+                  /* this.perfil = JSON.parse(localStorage.getItem('perfil')) */
+                  this.leer_token()
+                  location.reload()
+                } else {
+                  console.log(resp)
+                  this.$swal({
+                    title: '¡ERROR!',
+                    html: resp.mensaje.text,
+                    icon: 'error',
+                  })
+                }
           } else {
-            if (resp.ok)
-              this.$swal({
-                title: "¡Perfil actualizado con Éxito!",
-                icon: "success"
-              });
+            console.log(resp)
+            this.$swal({
+              title: '¡ERROR!',
+              html: resp.mensaje.text,
+              icon: 'error',
+            })
           }
         }
       });
@@ -266,7 +320,8 @@ export default {
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
-          confirmButtonText: "Confirmar"
+          confirmButtonText: "Confirmar",
+          cancelButtonText: "Cancelar"
         }).then(async result => {
           if (result.value) {
             const resp = await this.agregarTarjeta(this.tarjeta);
@@ -299,7 +354,8 @@ export default {
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Confirmar"
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar"
       }).then(async result => {
         if (result.value) {
           const resp = await this.eliminarTarjeta(tarjeta._id);
@@ -355,14 +411,5 @@ export default {
       else return true;
     }
   },
-  computed: {
-    tarjetas() {
-      return this.tarjetasGetter();
-    }
-  },
-  created() {
-    this.perfil = this.usuarioGetter();
-    this.imagenValue = this.perfil.imagen;
-  }
 };
 </script>

@@ -64,6 +64,12 @@ export default new Vuex.Store({
               ? "https://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
               : `${URL_IMG}/${payload.perfil.imagen}`;
         state.perfil = payload.perfil;
+        if (state.perfil) {
+          state.perfil.imagen =
+            !payload.perfil || !payload.perfil.imagen
+              ? "https://s3.amazonaws.com/37assets/svn/765-default-avatar.png"
+              : `${URL_IMG}/${payload.perfil.imagen}`;
+        }
         state.rol = payload.rol;
       }
     },
@@ -114,7 +120,6 @@ export default new Vuex.Store({
       console.log(serviceResponse);
       if (serviceResponse.ok) {
         commit("obtener_usuario", serviceResponse);
-        commit("set_usuario", serviceResponse);
         localStorage.setItem("token", serviceResponse.token);
         localStorage.setItem("rol", JSON.stringify(serviceResponse.rol));
         localStorage.setItem("perfil", JSON.stringify(serviceResponse.perfil));
