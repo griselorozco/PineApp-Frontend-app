@@ -1,4 +1,4 @@
-## Getting Started
+## Cómo iniciar
 - Instalar Nodejs desde [Nodejs Official Page](https://nodejs.org/en/)
 - Abre tu terminal
 - Navega hacia el proyecto

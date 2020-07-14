@@ -50,7 +50,12 @@
             <v-divider />
             <br />
             <p class="font-weight-bold">Información Privada</p>
-            <v-text-field label="Número" v-model="tarjeta.numero" />
+            <v-text-field
+             label="Número"
+              v-model="tarjeta.numero"
+              type="number"
+              :rules="numberRules"
+            />
 
             <v-select
               :items="tipos_tarjetas"
@@ -96,6 +101,8 @@
             <v-text-field
               label="Codigo de seguridad"
               v-model="tarjeta.codigo"
+              type="number"
+              :rules="numberRules"
             />
 
             <v-img class src="@/assets/tarjetas.png" height="36%" />
@@ -171,6 +178,10 @@ export default {
       tipo:"",
       fechaExpiracion:null
     },
+    numberRules: [
+      v => !!v || 'Campo requerido',
+      v => v > 0 || 'Deben ser números positivos',
+    ],
     imagenValue: null,
     tipos_tarjetas: ["Visa", "Master Card", "American Express", "Diners Club"],
     perfil: {
