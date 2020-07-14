@@ -121,7 +121,9 @@
               >
                 {{ publi.descripcion }}
               </v-card-text>
-              <span class="body-1 text-left mb-3 font-weight-light grey--text">De {{ publi.perfil_id.nick }}</span>
+              <router-link :to="`/app/user/${publi.perfil_id._id}`">
+                <span class="body-1 text-left mb-3 font-weight-light grey--text">De {{ publi.perfil_id.nick }}</span>
+              </router-link>
 
               <div
                 v-if="perfil._id === publi.perfil_id._id"

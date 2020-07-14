@@ -25,6 +25,7 @@
       async buscarPublicaciones () {
         const serviceResponse = await getPublicacionesUser()
         if (serviceResponse.ok === true) {
+          console.log(serviceResponse)
           this.posts = serviceResponse.publicacions
           console.log(this.posts)
         } else {
