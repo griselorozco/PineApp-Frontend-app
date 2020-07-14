@@ -50,7 +50,7 @@
             <v-divider />
             <br />
             <p class="font-weight-bold">Información Privada</p>
-            <v-text-field label="Número" v-model="tarjeta.nombre" />
+            <v-text-field label="Número" v-model="tarjeta.numero" />
 
             <v-select
               :items="tipos_tarjetas"
@@ -166,7 +166,7 @@ export default {
   data: () => ({
     modal: false,
     tarjeta: {
-      nombre:"",
+      numero:"",
       codigo:"",
       tipo:"",
       fechaExpiracion:null
@@ -183,12 +183,12 @@ export default {
     },
     headers: [
       {
-        text: "Codigo",
+        text: "Código",
         value: "codigo"
       },
       {
-        text: "Nombre",
-        value: "nombre"
+        text: "Número",
+        value: "numero"
       },
       {
         text: "Tipo",
@@ -325,18 +325,38 @@ export default {
         }).then(async result => {
           if (result.value) {
             const resp = await this.agregarTarjeta(this.tarjeta);
-            if (resp) {
+            if (resp.ok === true) {
+              const resp2 = await getUserById(this.perfil._id)
+                if (resp2.ok === true) {
+                  this.$swal({
+                    title: "¡Tarjeta guardad con éxito!",
+                    icon: "success"
+                  });
+                  localStorage.setItem("perfil", JSON.stringify(resp2.perfil));
+                  /* this.perfil = JSON.parse(localStorage.getItem('perfil')) */
+                  this.leer_token()
+                  this.tarjeta= {
+                    numero:"",
+                    codigo:"",
+                    tipo:"",
+                    fechaExpiracion:null
+                  }
+                } else {
+                  console.log(resp2)
+                  this.$swal({
+                    title: '¡ERROR!',
+                    html: resp2.mensaje.text,
+                    icon: 'error',
+                  })
+                }
+            } else {
+              console.log(resp)
               this.$swal({
-                title: "¡Error al guardar la tarjeta!",
-                icon: "error"
-              });
-            
-                this.$swal({
-                  title: "¡Error al guardar la tarjeta!",
-                  icon: "error"
-                });
-            
-          }
+                title: '¡ERROR!',
+                html: resp.mensaje.text,
+                icon: 'error',
+              })
+            }
         }
       });
        } else {
@@ -359,17 +379,31 @@ export default {
       }).then(async result => {
         if (result.value) {
           const resp = await this.eliminarTarjeta(tarjeta._id);
-          if (resp) {
-            this.$swal({
-              title: "Tarjeta eliminada con Éxito!",
-              icon: "success"
-            });
+          if (resp.ok === true) {
+            const resp2 = await getUserById(this.perfil._id)
+            if (resp2.ok === true) {
+                  this.$swal({
+                    title: "Tarjeta eliminada con Éxito!",
+                    icon: "success"
+                  });
+                  localStorage.setItem("perfil", JSON.stringify(resp2.perfil));
+                  /* this.perfil = JSON.parse(localStorage.getItem('perfil')) */
+                  this.leer_token()
+                } else {
+                  console.log(resp2)
+                  this.$swal({
+                    title: '¡ERROR!',
+                    html: resp2.mensaje.text,
+                    icon: 'error',
+                  })
+                }
           } else {
-            if (resp.ok)
+            console.log(resp)
               this.$swal({
-                title: "¡Error al eliminar la tarjeta!",
-                icon: "error"
-              });
+                title: '¡ERROR!',
+                html: resp.mensaje.text,
+                icon: 'error',
+              })
           }
         }
       });

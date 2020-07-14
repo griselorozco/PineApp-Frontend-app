@@ -151,11 +151,11 @@
           title: 'Ajustes',
           to: '/app/ajustes',
         },
-        {
+        /* {
           icon: 'mdi-exit-to-app',
           title: 'Cerrar Sesión',
           to: '/',
-        },
+        }, */
       ],
     }),
     computed: {
@@ -178,7 +178,7 @@
           title: JSON.parse(localStorage.getItem('perfil')).nombre + ' ' + JSON.parse(localStorage.getItem('perfil')).apellido,
           children: [
             {
-              to: 'app/user',
+              to: `app/user/${JSON.parse(localStorage.getItem('perfil'))._id}`,
               title: 'Perfil',
             },
           ],

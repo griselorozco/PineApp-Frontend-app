@@ -32,14 +32,14 @@
                     column
                     class="ml-4 mt-0"
                     row
+                    prepend-icon="mdi-credit-card"
                   >
                     <v-radio
                       v-for="(item, index) in perfil.tarjetas"
                       :key="index"
-                      :label="item.codigo"
+                      :label="item.numero"
                       :value="index"
                     />
-                    <v-icon>mdi-card</v-icon>
                   </v-radio-group>
                 </v-col>
               </v-row>
@@ -79,11 +79,12 @@
         this.$swal({
           title: '¿Estás seguro que quieres procesar tu pago?',
           text: 'Esta acción no tiene vuelta atrás',
-          type: 'warning',
+          icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Confirmar',
+          cancelButtonText: 'Cancelar',
         }).then(async (result) => {
           if (result.value) {
             const serviceResponse = await pagar()
